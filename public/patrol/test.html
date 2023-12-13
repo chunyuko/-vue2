@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <!-- 引入vue -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <!-- 引入http-vue-loader -->
+    <script src="https://unpkg.com/http-vue-loader"></script>
+    <!-- 这里使用了element ui框架 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <title></title>
+  </head>
+
+  <body>
+    <div id="app">
+      <h1>hhhhhhhhhhhhhh</h1>
+      <pagecontents :bar-object="titleObj" :data-list="dataList121"></pagecontents>
+    </div>
+    <script>
+      Vue.use(httpVueLoader)
+      new Vue({
+        el: '#app',
+        data: {
+          msg: '大家好，欢迎大家学习Vue.js',
+          titleObj: {
+            sno: 1,
+            title: '法律条文',
+          },
+          dataList121: [
+            {
+              sno: '1',
+              title: 'fdshkjfhkjsdahfk',
+            },
+            {
+              sno: '2',
+              title: 'werwerwerwerwerwerw',
+            },
+          ],
+        },
+        components: {
+          pagecontents: httpVueLoader('pagecontents.vue'),
+        },
+      })
+    </script>
+  </body>
+
+  <!-- </body> -->
+</html>

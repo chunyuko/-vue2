@@ -1,0 +1,16 @@
+@import './theme/views/blueTheme.scss';
+
+/* icon 字体路径变量 */
+$--font-path: '~element-ui/lib/theme-chalk/fonts';
+
+/* 荆门蓝色主题 */
+@mixin bgColor() {
+  [data-theme='blueTheme'] & {
+  }
+}
+
+/* element-ui 蓝色主题 */
+.blueTheme {
+  @import './theme/elementUI/blueTheme/index.scss';
+  @import './theme/elementBase.scss';
+}

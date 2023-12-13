@@ -1,0 +1,102 @@
+// input表单相关（此为默认样式  若需调整 局部调整 不要在这里改）
+.el-input {
+  .el-input__inner {
+    // background-color: #14357b;
+    border: 0;
+    width: 20rem;
+    color: #fff;
+  }
+}
+.el-textarea__inner {
+  background-color: #14357b;
+  width: 50rem;
+  border: 0;
+}
+.el-select .el-input__inner {
+  // background-color: #14357b;
+  border: 0;
+  width: 20rem;
+  color: #fff;
+}
+
+.el-form-item__label {
+  // color: white;
+  text-align: right;
+  padding: 0 0.7rem 0 0;
+}
+.el-select-dropdown__item.hover,
+.el-select-dropdown__item:hover {
+  // background-color: #14357b;
+}
+.el-select-dropdown__list {
+  // background-color: #14357b;
+}
+.el-select-dropdown__item,
+.el-select-dropdown__wrap {
+  background-color: #fff;
+  // color: #fff;
+}
+.el-select-dropdown__item.hover {
+  background-color: #1890ff;
+  color: #fff;
+}
+.el-popper[x-placement^='bottom'] .popper__arrow::after {
+  border-bottom-color: #14357b;
+}
+.el-popper[x-placement^='bottom'] .popper__arrow {
+  border: 0rem;
+}
+.el-select-dropdown {
+  border: 0rem;
+  background-color: #fff;
+
+  .el-select-dropdown__empty {
+    color: #fff;
+  }
+}
+
+// 分页相关
+.el-pagination {
+  text-align: right;
+  margin-top: 2rem;
+  .el-pagination__total {
+    color: #fff;
+  }
+  .el-input__inner {
+    width: 10rem !important;
+    color: rgb(43, 40, 40);
+  }
+  .btn-next {
+    // background: transparent;
+    // color: #fff;
+  }
+  .btn-prev {
+    // background: transparent;
+    // color: #fff;
+  }
+}
+
+.el-pager li {
+  margin: 0 0.5rem;
+  border-radius: 0.2rem;
+  background: transparent;
+  color: #038fbb;
+}
+.el-pager li.number.active {
+  background-color: #158ffc;
+  color: #fff;
+}
+
+.el-pagination button:disabled {
+  // background: transparent;
+  // color: #fff;
+}
+.el-pagination__jump {
+  color: #080808;
+}
+.el-pagination__jump .el-input__inner {
+  width: 3.2rem !important;
+  color: #fff;
+  border: 0.2rem solid #1572cd;
+  border-radius: 0.5rem;
+}

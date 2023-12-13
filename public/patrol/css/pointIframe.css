@@ -1,0 +1,288 @@
+/* 背景、线框 */
+
+html,
+body {
+  overflow: hidden;
+  overflow: hidden;
+  color: #bed5ef;
+  height: 100%;
+  font-size: 10px;
+  /* background-color: #0c2c65; */
+}
+
+body {
+  margin: 0;
+  padding: 0rem;
+  box-sizing: border-box;
+  background-color: transparent; /* 调了透明度的 */
+}
+
+#divtb {
+  /*   $_('divtb').style.border = "#BED5EF 0px solid";
+    $_("divtb").style.height=(bh)+"px"; */
+}
+
+.taskDiv {
+  /* border: 0px;
+  border-width: 0px 0px 0px 0px; */
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.topSide {
+  /*  $('#changeColor2 tr').css("border","#BED5EF 1px dashed");*2 */
+  /* 	border:#BED5EF 1px dashed; */
+  /* background-color: red; */
+}
+
+.checkBoxTable {
+  width: 100%;
+  height: 25rem;
+  border-bottom: #57729d 0.1rem solid;
+  color: #ffffff;
+}
+
+.checkBoxTable > tbody > tr {
+  /* border-bottom: 0.1rem #57729d dashed; */ /* 表内虚线 */
+}
+
+.checkBoxTable td:nth-child(2) {
+  padding: 0rem;
+}
+
+.checkTitle_1 {
+  display: flex;
+  width: 10rem;
+  /* height:20px; */
+  padding-top: 1rem;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+.checkTitle_2 {
+  display: flex;
+  width: 10rem;
+  /* height:20px; */
+  padding-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+.checkTitle_3 {
+  display: flex;
+  width: 10rem;
+  /* height:20px; */
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+.checkTitle_4 {
+  display: flex;
+  width: 10rem;
+  /* height:60px; */
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+.checkTitle_5 {
+  display: flex;
+  width: 10rem;
+  /* height:40px; */
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+.checkTitle_6 {
+  display: flex;
+  width: 10rem;
+  /* height:40px; */
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+.checkTitle_7 {
+  display: flex;
+  width: 10rem;
+  /* height:40px; */
+  font-size: 1.2rem;
+  color: #ffffff;
+}
+
+.Device_checkbox {
+  position: relative;
+  float: left;
+  width: 17rem;
+  line-height: 2.2rem;
+  height: 2.2rem;
+  text-align: left;
+  /* border: 1px #ff0000 solid; */
+  overflow: hidden;
+  font-size: 1.2rem;
+}
+
+#changeColor1 {
+  /*  $_('changeColor1').style.backgroundColor = "#1E2748"; */
+}
+.middle_div {
+  height: 3rem;
+  /* 	background-color: yellow; */
+  display: none;
+}
+
+#changeColor1 {
+  /* $('td,th').css("color","#BED5EF"); */
+  color: #bed5ef;
+  height: 3rem;
+  display: none;
+}
+.changeColor1_div1 {
+  float: left;
+  margin-left: 0.5rem;
+  margin-top: 0.3rem;
+  /* padding-top: 0px; */
+}
+
+.changeColor1_div2,
+.changeColor1_div4,
+.changeColor1_div6 {
+  float: left;
+  margin-left: 0.5rem;
+  /* padding-top: 0px; */
+}
+
+.changeColor1_div3,
+.changeColor1_div5,
+.changeColor1_div7 {
+  float: left;
+  /* margin-left: 0px; */
+  font-size: 1.2rem;
+  color: #666666;
+  line-height: 2.4rem;
+}
+#changeColor1 > div > input {
+  height: 2rem;
+  width: 12rem;
+}
+#changeColor1 > div > img {
+  height: 2.4rem;
+  width: 2.4rem;
+}
+
+.bottom_div {
+  flex: 1;
+  /* background-color: yellow; */
+  margin-top: 0.5rem;
+}
+
+#changeColor3 {
+  /* border: 0px; */
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /*  $_('changeColor3').style.border = "#BED5EF 1px solid";*2 */
+}
+
+.bottom_treeAndtable {
+  height: 100%;
+}
+
+.bottom_treeAndtable {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.bottom_leftTree {
+  width: 30rem;
+  height: 100%;
+  border-right: #57729d 0.1rem solid;
+}
+#devicetreeifr {
+  /* height:3rem; */
+  height: 100%;
+}
+.bottom_rightTable {
+  flex: 1;
+  height: 100%;
+  margin: 0 0.5rem;
+}
+
+#taskpathifr {
+  /*  $_("taskpathifr").style.height=(bh-235)+"px"; */
+  height: 100%;
+}
+.dividingLines {
+  height: 2.3rem;
+  width: 0.5rem;
+  background-color: #50ddff;
+  float: left;
+  margin-left: 0.8rem;
+  margin-top: 0rem;
+}
+/* input[type='radio']:after {
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 1.4rem;
+  top: -0.2rem;
+  left: -0.1rem;
+  position: relative;
+  background-color: #fff;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 0.1rem solid #a7bfdb;
+} */
+
+input[type='radio']:checked:after {
+background-color: transparent !important;
+}
+
+input[type='radio']:checked + span {
+  color: #0b8be6;
+  /* background-color: #0b8be6; */
+  /* font-weight: bold; */
+}
+/* input[type='radio']:checked:after + span {
+  color: red;
+} */
+input[type='checkbox'] {
+  cursor: pointer;
+  position: relative;
+  width: 1.4rem;
+  height: 1.4rem;
+  /* font-size: 14px; */
+  /* background: #50ddff; */
+  /* background-color: #ff366f; */
+}
+
+input[type='checkbox']::after {
+  position: absolute;
+  /* top: 0.2; */
+  color: #000;
+  width: 1.4rem;
+  height: 1.4rem;
+  display: inline-block;
+  visibility: visible;
+  /* padding-left: 0px; */
+  text-align: center;
+  content: ' ';
+  border-radius: 0.3rem;
+  background-color: #0c2c65;
+  border: 0.1rem #a7bfdb solid;
+}
+
+input[type='checkbox']:checked::after {
+  content: '\2714';
+  color: #fff;
+  font-weight: 5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: #0b8be6;
+}
+
+#TrType {
+  color: red;
+}

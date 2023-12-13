@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+
+  <!--  <LINK rel=stylesheet type=text/css href="css/stylecommon.css"> -->
+  <LINK rel=stylesheet type=text/css href="css/stylewrap.css">
+  <link rel="stylesheet" href="css/fontSizeGlobalStyle.css">
+  <LINK rel=stylesheet type=text/css href="css/Queryiframe.css">
+
+  <SCRIPT type=text/javascript src="js/sys.js"></SCRIPT>
+
+
+  <SCRIPT type=text/javascript src="js/controlparam.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/select.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/radio.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/checkbox.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/calendar.js"></SCRIPT>
+
+  <SCRIPT type=text/javascript src="js/controlmain.js"></SCRIPT>
+
+  <SCRIPT type=text/javascript src="js/table.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/xmlhttp.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/obj.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/json.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="js/zh-cn.js"></SCRIPT>
+  <!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
+
+
+  <link rel="stylesheet" href="./static/element-ui/lib/theme-chalk/index.css">
+  <script src="./static/vue.min.js"></script>
+  <script src="./static/element-ui/lib/index.js"></script>
+  <SCRIPT type="text/javascript" src="js/jquery-3.6.1.min.js"></SCRIPT>
+
+  <!-- <script type="text/javascript" src="js/taskpath.js"></script> -->
+  <script type="text/javascript" src="js/Queryiframe.js"></script>
+
+</head>
+<style>
+    body{
+        width: 100%;
+        height: 100%;
+    }
+ .el-progress__text{
+    color: #fff;
+    font-size: 1.2rem !important ;
+    
+ }
+ 
+
+ .scroll_table_head {
+        width: 100%;
+        text-align: center;
+        table-layout: fixed;
+        /* border: 1px solid #57729d; */
+        margin-top: -2px;
+        font-size: 13px;
+        height: 35px;
+        border-spacing: 0;
+        color: #c2dffb;
+    }
+
+    .scroll_table_head td {
+        padding: 0;
+        height: 33px;
+        font-size: 12px;
+        /* border: 1px #1662ad solid; */
+        /* background-color: #0c2c65; */
+        border-bottom: 1px solid #0c41b1;
+        border-right: 1px solid #0c41b1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .scroll_table_head th {
+        color: #3ab7dc;
+        background: #0c41b1;
+        height: 35px;
+        font-size: 12px;
+    }
+/* 滑动条 */
+/* 滚动条所在容器 */
+#slide {
+    background-color:#073a7d;
+    /* width: 50rem; */
+    height: 26rem;
+    overflow: auto;
+
+    white-space: nowrap;
+    margin-top: 50px;
+}
+
+/* 滚动条整体 */
+#LookAt ::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+    /* background-color: #06326b; */
+}
+/* 两个滚动条交接处 -- x轴和y轴 */
+#LookAt ::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+/* 滚动条滑块 */
+#LookAt ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+    background: #3ddeec;
+}
+
+/* 滚动条轨道 */
+#LookAt ::-webkit-scrollbar-track {
+    /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+    /* border-radius: 10px;
+    background: #073a7d; */
+}
+
+/* 滚动条两端按钮 */
+#LookAt ::-webkit-scrollbar-button {
+}
+
+#TabPoint{
+    border: none;
+    border-collapse: collapse;
+}
+#TabPoint th{
+    height:35px;
+    width: 35%;
+    color: #3ab7dc;
+    background-color: #1662ad;
+    border: 1px #1662ad solid;
+    border-collapse: collapse;
+ 
+    
+}
+#TabPoint td{
+    height:35px;
+
+    background-color: #073a7d;
+    border: 1px #1662ad solid;
+    border-collapse: collapse;
+}
+
+
+
+
+
+/* 页码样式 */
+
+.pageChild{
+    display: flex;
+    margin-right:15px;
+}
+.block{
+    flex: 1;
+    text-align: right;  
+}
+
+
+
+.el-pagination__total,   /* 页码文字颜色设置 */
+.el-pagination__jump{
+    color: #fff;
+}
+
+.el-pagination .btn-next, .el-pagination .btn-prev,
+.el-pagination button:disabled,
+.el-pagination .btn-next{
+    background-color: transparent;
+}
+.el-dialog, .el-pager li{
+    background-color: transparent;
+    color: #fff;
+}
+.el-pagination .btn-next, .el-pagination .btn-prev{
+    color: #fff;
+}
+
+.el-pagination__editor.el-input .el-input__inner{
+    background-color:#409eff ;
+    color: #fff;
+    border: 0px;
+}
+
+.el-pager li.active{
+    background-color:#409eff ;
+    color: #fff;
+    border-radius: 4px;
+}
+.el-pager li.btn-quicknext, .el-pager li.btn-quickprev{
+    color: #fff;
+}
+
+.tmp{
+    flex: left;
+  white-space:nowrap;/*强制单行显示*/
+  text-overflow:ellipsis;/*超出部分省略号表示*/
+  overflow:hidden;/*超出部分隐藏*/
+  width: 110px;/*设置显示的最大宽度*/
+  vertical-align: top;
+}
+
+.tmpSta{
+    flex: left;
+  white-space:nowrap;/*强制单行显示*/
+  text-overflow:ellipsis;/*超出部分省略号表示*/
+  overflow:hidden;/*超出部分隐藏*/
+  width: 110px;/*设置显示的最大宽度*/
+  vertical-align: top;
+}
+</style>
+<body >
+
+    <div id="LookAt" class="postion_l101" style="display:none;background-color:#073a7d ;height: 40rem;;width: 95rem;left:18%;position: absolute;z-index: 2;margin-top: 50px;">
+        <!-- <iframe class="blankif" src="about:blank"></iframe> -->
+        <!-- <div id="changeColor2" class="postion_l1 size1 paramhead" style="background-color: #1662ad;">任务新建</div> -->
+        <div id="changeColor2" class="postion_l1 size1 paramhead" style="background-color: #1662ad;"><span style="padding-left: 10px;width: 98.4%;">详情查看</span></div>
+       
+     <div id="slide">
+        <table id="TabPoint" class="scroll_piotable_head" style="border: 0px red solid;color: #fff;font-size: 14px;width: 835px;margin-top: 25px;margin-left: 65px;text-align: center;">
+            <tr>
+              <th>任务开始时间</th>
+              <td id="Start_Time"></td>
+            </tr> 
+            <tr>
+                <th>任务结束时间</th>
+                <td id="End_Time"></td>
+            </tr>
+            <tr>
+                <th>报警点位数量</th>
+                <td id="AlarmDevCount"></td>
+            </tr>
+            <tr>
+                <th>报警点位</th>
+                <td id="AlarmDevList"></td>
+            </tr>
+            <tr>
+                <th>理论需要巡检的总设备数</th>
+                <td id="InspectDevCount"></td>
+            </tr>   
+            <tr>
+              <th>运行时间</th>
+              <td id="RunTime"></td>
+            </tr> 
+            <!-- <tr>
+                <th>识别失败的设备数</th>
+                <td id="ErrorCount"></td>
+            </tr>
+            <tr>
+                <th>识别失败的设备</th>
+                <td id="ErrorDev"></td>
+            </tr>
+            <tr>
+                <th>识别错误的设备数</th>
+                <td id="InspectErrorCount"></td>
+            </tr>
+            <tr>
+                <th>实际巡检的总设备数</th>
+                <td id="InspectCount"></td>
+            </tr>
+            <tr>
+                <th>用户已经处理的巡检记录数</th>
+                <td id="AlreadyDealCount"></td>
+            </tr>
+            <tr>
+                <th>用户没有处理的巡检记录数</th>
+                <td id="NoDealCount"></td>
+            </tr>
+            <tr>
+                <th>没有巡检的设备名称</th>
+                <td id="UnInspectDev"></td>
+            </tr>
+            <tr>
+                <th>巡检错误的设备名称</th>
+                <td id="ErrorInspectDev"></td>
+            </tr>
+            <tr>
+                <th>各个机器人的巡检结果数量</th>
+                <td id="CarDevNum"></td>
+            </tr>
+               -->
+           </table>
+           </div>
+           <div align=center class="yesOrNo" style="margin-left: 29rem;margin-top: 3.5rem;">
+            <!-- <input type="button" class="input-button" id="button3" value="确定" onclick=";"
+              style="cursor:pointer;" /> -->
+            <input type="button" class="input-button" id="button4" value="退出" onclick="hiddenparam();"
+              style="cursor:pointer;margin-left: 45rem;margin-top: 0.5rem;" />
+          </div>
+        </div>
+
+
+    <div id="viewset" class="postion_l101" style="display:none;flex-wrap: wrap;align-items: baseline;background-color:#073a7d ;left: 50rem;width: 35rem;margin-top: 10rem;
+    z-index: 1;">
+            <details>
+                    <summary style="padding-top: 10px;padding-left: 15px;">
+
+                            <input type="checkbox"  id="all" checked="checked"  onclick="aall()"/>
+                            <label>全选</label><br>
+                    </summary>
+                    <div style="padding-left: 45px;">
+                        <input type="checkbox" name="lover[]" id="cow1" checked="checked" value="1" onclick="setAll()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow1')" -->
+                        <label for="cow1">序号</label><br>
+                        
+                        <input type="checkbox" name="lover[]" id="cow2" checked="checked" value="1" onclick="setAll()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow2')" -->
+                        <label for="cow2">运维班</label><br>
+                        
+                        <input type="checkbox" name="lover[]" id="cow3" checked="checked" value="1" onclick="setAll()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow3')" -->
+                        <label for="cow3">变电站</label><br>
+                        
+                        <input type="checkbox" name="lover[]" id="cow4" checked="checked" value="1" onclick="setAll()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow4')" -->
+                        <label for="cow4">任务名称</label><br>
+                        
+                        <input type="checkbox" name="lover[]" id="cow5" checked="checked" value="1" onclick="setAll()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow5')" -->
+                        <label for="cow5">巡视类型</label><br>
+                        
+                        <input type="checkbox" name="lover[]" id="cow6" checked="checked" value="1" onclick="setAll()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow6')" -->
+                         <label for="cow6">巡视开始时间</label><br>
+                        
+                        <input type="checkbox" name="lover[]" id="cow7" checked="checked" value="1" onclick="setAll()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow7')" -->
+                         <label for="cow7">巡视进度</label><br>
+                        
+                        <input type="checkbox" name="lover[]" id="cow8" checked="checked" value="1" onclick="setAll()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow8')" -->
+                         <label for="cow8">巡视结束时间</label><br>
+                        
+                        <input type="checkbox" name="lover[]" id="cow9" checked="checked" value="1" onclick="setAll()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow9')" -->
+                          <label for="cow9">巡视结果</label><br>
+                          
+                        <input type="checkbox" name="lover[]" id="cow10" checked="checked" value="1" onclick="setAll()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow8')" -->
+                         <label for="cow10">操作</label>
+                        
+                        
+                    </div>
+            </details>
+            <div align=center class="yesOrNo">
+                <input type="button" class="input-button" id="button4" value="取消" onclick="hiddenparam();"
+                  style="cursor:pointer;margin-left: 100px;" />
+                <input type="button" class="input-button" id="button3" value="确定" onclick="verify();"
+                  style="cursor:pointer;" />
+                
+            </div>
+    </div>
+
+
+  <div class="underTable" style="border: 0px #1662ad solid;border-radius: 5px;">
+    <div class="topMenu" style="height:  calc(95% - 3rem);">  
+        <div style="width: 100%;height: 30px;font-size:18px;float: left;background-color:#1662ad ;border-radius: 0px;padding-top: 3px;margin-left: 0px;">
+        <div style="color: #fff;padding-left: 10px;"><b>巡检信息列表</b></div>
+          </div>
+          <table id="tableChange">
+            <tbody>
+                <tr>
+                    <td id="changeColor1" style="padding-top:10px ;padding-right: 10px;">
+                        <div  onclick="ViewSet();" style=" cursor:pointer;float:right;margin-left:10px;background-color: #049eff;color:#fff;width: 65px;height: 20px;text-align: center;line-height:20px;border-radius: 2px;"><b>显示设置</b></div>
+                        <div   onclick="toExcel();" style=" cursor:pointer;float:right;margin-left:10px;background-color: #095d9d;color:#fff;width: 60px;height: 20px;text-align: center;line-height:20px;border-radius: 2px;"><b style="padding-left: 10px;">导出</b><div><img src="img/导出.png" style="margin-top: -16px;margin-left: 7px;float:left;width: 1.2rem;height: 1.2rem;"></div></div>       
+                    </td>
+                </tr>
+
+                <tr>
+                  <td style="justify-content: center;padding-top: 5px;padding-left: 10px;"> 
+                    <div id="Divcontents" style="width: 99.3%; height:545px;border: 1px #0c41b1 solid;">                   
+                      <table id='DataTable' class="scroll_table_head" style="border-collapse: collapse;">
+                       <thead>
+                          <TR id="tableHead" style="background-color: #1662ad;border: 0.1rem #0c41b1 solid;">
+                            <th width="3%" style="border: 0px red solid;">选择</th>
+                            <th name="cow1"  width="3%" style="border: 0px red solid;">序号</th>
+                            <th name="cow2"  width="8%" style="border: 0px red solid;">运维班</th>
+                            <th name="cow3"  width="8%" style="border: 0px red solid;">变电站</th>
+                            <th name="cow4"  width="8%" style="border: 0px red solid;">任务名称</th>
+                            <th name="cow5"  width="8%" style="border: 0px red solid;">巡视类型</th>
+                            <th name="cow6"  width="13%" style="border: 0px red solid;">巡视开始时间</th>
+                            <th name="cow7"  width="16%" style="border: 0px red solid;">巡视进度</th>
+                            <th name="cow8"  width="13%" style="border: 0px red solid;">巡视结束时间</th>
+                            <th name="cow9"  width="28%" style="border: 0px red solid;">巡视结果</th>
+                            <th name="cow10" width="10%" style="border: 0px red solid;">操作</th>
+                          </TR>                    
+                        </thead> 
+                       
+                         <tbody id="tbody">  
+                            
+                        </tbody>
+                      </table>
+                  </td>
+                </tr>
+            </tbody>
+          </table>
+
+     </div>
+            </div>
+
+            <!-- <div id="page_contents" class="changePage">
+                <div  class="page" style="float: right;padding-right: 20px;">
+                    <div class="changePage_div1"><span style="color: #fff;font-size: 12px;padding-top: 5px;padding-left: 10px;"> <span class="ho">第<span id="a2"></span>/<span id="a1"></span>页</span></span></div>
+                    <div class="changePage_div2"><img src="img/左.png" onclick="change1(--pageno)" style="width: 10px;height:10px;padding-top: 5px;" /></div>
+                    <div class="changePage_div5" style="line-height: 12px;padding-left: 5px;"><span id="a3"  style="width: 30px;border: 0px #0c41b1 solid;color: #1662ad;width: 90px;"></span></div> 
+                    <div class="changePage_div6" style="padding-left: 5px;"><img src="img/右.png" onclick="change1(++pageno)"  style="width: 10px;height:10px;padding-top: 5px;" /></div>
+                </div>
+        </div>
+        <div style="display:none" id="p"></div> -->
+
+        <!-- <input type="hidden" id="aa" value="0"> -->
+
+
+
+
+        <div id="pageChild" class="pageChild">
+            <template>
+                <div class="block">
+                  <!-- <span class="demonstration">完整功能</span> -->
+                  <el-pagination
+                    @size-change="handleSizeChange"
+                    @current-change="handleCurrentChange"
+                    :current-page="currentPage"
+                   
+                    :page-size="15"
+                    layout="total, prev, pager, next, jumper"
+                    :total="totalnum">
+                  </el-pagination>
+                </div>
+            </template>
+        </div>
+    
+        <input type="hidden" id="Jump1" value="">
+        <input type="hidden" id="Jump2" value="">
+        <input type="hidden" id="Jump3" value="">
+        <input type="hidden" id="Jump4" value="">
+
+</body>
+
+</html>

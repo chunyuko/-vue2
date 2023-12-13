@@ -1,0 +1,185 @@
+@font-face {
+  font-family: 'iconfont';
+  src: url('../../../../fonts/iconfont.woff2') format('woff2'),
+    url('../../../../fonts/iconfont.woff') format('woff'),
+    url('../../../../fonts/iconfont.ttf') format('truetype');
+}
+.specilSize {
+  margin-left: -1.2rem;
+}
+.specilSizeTwo {
+  // margin-right: -3rem;
+  // width: 40rem;
+  .iconfont,.iconfontm{
+    top:0rem;
+  }
+}
+.specilDate {
+  margin-left: -1.2rem;
+}
+.specilBr {
+  :deep(.el-form-item__label){
+   line-height: 2rem;
+  }
+}
+//计划状态特殊样式
+.specilPlan{
+    margin-left:-0.2rem;
+}
+.innerDia {
+  :deep(.el-dialog) {
+    .el-dialog__header {
+      background-color: #0d60ae;
+      line-height: 2.4rem;
+      .el-dialog__title {
+        color: #fff;
+      }
+    }
+    .el-dialog__body {
+      .delSpan {
+        display: inline-block;
+        margin-top: 6rem;
+        margin-left: 2rem;
+        font-size: large;
+      }
+      background-color: #06255d;
+      padding: 0;
+      height: 15rem;
+      font-size: medium;
+      color: #fff;
+      .el-radio {
+        margin-top: 6rem;
+        margin-left: 2rem;
+        .el-radio__label {
+          font-size: medium;
+          color: #fff;
+        }
+      }
+    }
+    .el-dialog__footer {
+      background-color: #06255d;
+      height: 6rem;
+      margin-top: -2rem;
+    }
+  }
+}
+
+.iconfont {
+  font-family: 'iconfont' !important;
+  font-size: 2rem;
+  font-style: normal;
+  color: #687f97;
+  position: absolute;
+  left: 17rem;
+}
+.iconfonts,
+.iconfontse {
+  font-family: 'iconfont' !important;
+  font-size: 2rem;
+  font-style: normal;
+  color: #687f97;
+  position: absolute;
+  left: 16rem;
+}
+.iconfontse {
+  top: 0.2rem;
+  color: #738a9d;
+}
+.iconfontm {
+  font-family: 'iconfont' !important;
+  font-size: 2rem;
+  font-style: normal;
+  color: #687f97;
+  position: absolute;
+  left: 44rem;
+}
+.bigIpt :deep(.el-input__inner) {
+  width: 103rem !important;
+}
+.doubleIpt :deep(.el-input__inner) {
+  width: 51.4rem !important;
+}
+.brIpt :deep(.el-form-item__content) {
+  margin-right: 35rem;
+}
+.brsIpt :deep(.el-form-item__content) {
+  margin-right: 77rem;
+}
+:deep(.el-form-item) {
+  margin-bottom: 1.2rem;
+}
+.bigsIpt :deep(.el-input__inner) {
+  width: 113rem !important;
+  min-height: 8rem !important;
+}
+.mulDate {
+  background-color: #14357b;
+  border: 0;
+  padding-left: -1rem;
+}
+:deep(.el-date-editor--daterange.el-input),
+:deep(.el-date-editor--daterange.el-input__inner),
+:deep(.el-date-editor--timerange.el-input),
+:deep(.el-date-editor--timerange.el-input__inner) {
+  width: 49rem;
+}
+:deep(.el-input__inner) {
+  background-color: #14357b !important;
+  // height: 4.3rem;
+  // color: #687f97 !important;
+  color:#fff;
+  margin-left: .8rem;
+}
+:deep(.el-range-input) {
+  background-color: transparent !important;
+  margin-left: -7rem;
+  width: 30rem;
+}
+:deep(.el-range-separator) {
+  color: #fff !important;
+  margin-left: 5rem;
+  background-color: transparent !important;
+}
+:deep(.el-input__icon) {
+  display: none;
+}
+:deep(.dl-range-editor .el-range-input) {
+  background-color: #14357b;
+  color: #fff;
+  font-size: 1.4rem;
+  line-height: 1rem;
+  appearance: none;
+  border: none;
+  outline: none;
+  display: inline-block;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 39%;
+  text-align: center;
+}
+.sigDate :deep(.el-input__inner) {
+  line-height: 1rem;
+}
+.litTabs > a {
+  /* display: -webkit-box;
+  display: -ms-flexbox; */
+  display: flex;
+  padding: 1.5rem 2rem;
+  font-size: 1.4rem;
+  color: #82c3ff;
+  border-radius: 0.2rem;
+  line-height: 0.1rem;
+  border: 0.1rem solid #0a437c;
+  margin-left: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+.miniBtn {
+  height: 5rem;
+  width: 18rem;
+  display: flex;
+  margin-right: 1rem;
+  float: right;
+  margin-top: -1rem;
+}

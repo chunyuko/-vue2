@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <!--  <LINK rel=stylesheet type=text/css href="css/stylecommon.css"> -->
+  <LINK rel=stylesheet type=text/css href="css/stylewrap.css">
+  <link rel="stylesheet" href="css/fontSizeGlobalStyle.css">
+  <LINK rel=stylesheet type=text/css href="css/taskpath.css">
+      <!-- <script type="text/javascript" src="js/jquery.min.js"></script> -->
+  <SCRIPT type=text/javascript src="js/sys.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/controlparam.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/select.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/radio.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/checkbox.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/calendar.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/controlmain.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/table.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/xmlhttp.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/obj.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/json.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="js/zh-cn.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="js/checkbox.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="js/jquery-3.6.1.min.js"></SCRIPT>
+  <link rel="stylesheet" href="./static/element-ui/lib/theme-chalk/index.css">
+  <script src="./static/vue.min.js"></script>
+  <script src="./static/element-ui/lib/index.js"></script>
+  <script type="text/javascript" src="js/taskpath.js"></script>
+</head>
+<style>
+   
+
+    
+.scroll_piotable_head {
+    width: 100%;
+    text-align: center;
+    table-layout: fixed;
+    margin-top: -2px;
+    font-size: 13px;
+    height: 35px;
+    border-spacing: 0;
+    color: #c2dffb;
+    border-collapse: collapse;
+}
+
+.scroll_piotable_head td {
+    padding: 0;
+    height: 35px;
+    font-size: 12px;
+    border: 1px #1662ad solid;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.scroll_piotable_head th {
+    color: #3ab7dc;
+    background: #0c41b1;
+    height: 35px;
+    font-size: 12px;
+}
+
+
+/* 页码样式 */
+
+.pageChild{
+    display: flex;
+}
+.block{
+    flex: 1;
+    text-align: right;
+}
+
+
+
+.el-pagination__total,   /* 页码文字颜色设置 */
+.el-pagination__jump{
+    color: #fff;
+}
+
+.el-pagination .btn-next, .el-pagination .btn-prev,
+.el-pagination button:disabled,
+.el-pagination .btn-next{
+    background-color: transparent;
+}
+.el-dialog, .el-pager li{
+    background-color: transparent;
+    color: #fff;
+}
+.el-pagination .btn-next, .el-pagination .btn-prev{
+    color: #fff;
+}
+
+.el-pagination__editor.el-input .el-input__inner{
+    background-color:#409eff ;
+    color: #fff;
+    border: 0px;
+}
+
+.el-pager li.active{
+    background-color:#409eff ;
+    color: #fff;
+    border-radius: 4px;
+}
+.el-pager li.btn-quicknext, .el-pager li.btn-quickprev{
+    color: #fff;
+}
+
+
+.tmp{
+    flex: left;
+  white-space:nowrap;/*强制单行显示*/
+  text-overflow:ellipsis;/*超出部分省略号表示*/
+  overflow:hidden;/*超出部分隐藏*/
+  width: 150px;/*设置显示的最大宽度*/
+  vertical-align: top;
+}
+</style>
+<body>
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+  <div id="paramwrapGrid" class="postion_l101" style="display:none;background-color:#073a7d ;height: 35rem;">
+   
+    </div>
+
+
+
+    <div id="Alert" class="postion_l101" style="display:none;background-color:#073a7d ;height: 35rem;">
+        <div id="changeColor3" class="postion_l1 size1 paramhead" style="background-color: #1662ad;"><span style="padding-left: 10px;">对应事件弹窗</span></div>
+       <div>此处暂存对应事件弹窗</div>
+          <div align=center class="yesOrNo"> 
+             <input type="button" class="input-button" id="button4" value="取消" onclick="hiddenparam();"
+              style="cursor:pointer;" />
+            <input type="button" class="input-button" id="button3" value="确定" onclick="AddOrModifyTaskPath();"
+              style="cursor:pointer;" />
+          
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    
+
+
+
+  <div class="underTable">
+    <div class="topMenu">
+      <table id="tableChange">
+        <tbody>
+            
+            <tr>
+                <div class="dividingLines" style="display: inline-block;"></div>
+                <div id="patrolSta" style="padding-left: 0.5rem;width: 14rem;display: inline-block; background: transparent;padding-top:0.2rem"><!-- <b>任务类型选择</b>  -->    
+                  </div> 
+            </tr>
+          <tr>
+            <td id="changeColor1" style="padding-top: 0rem;">
+               
+                <div style="float: left;color: #FFF;padding-left: 0.5rem;font-size: 1.4rem;" id="text">任务名称：
+                    <input autocomplete="off" style="height:2rem;width: 20rem;border-radius:0.5rem;border: 0.1rem #0b8be6 solid;background-color: transparent;color: #fff;" type="text" class="TaskName" height=2rem id="TaskName1" maxlength="40"/>
+                    </div>
+
+
+
+                <div style="padding-top: 0.3rem;">          
+
+                          <div class="changeColor1_div2"   id="selectFunction" onclick="selectFunction();"   style=" cursor:pointer;margin-left: 1rem;background-color: #0b8be6;width: 6.5rem;height:1.5rem;border:0rem #fff solid ;border-radius:0.2rem;text-align: center;font-size: 1rem;line-height:1rem;"><span style="padding-left: 1rem;">查询</span><div><img src="img/查询.png"  style="margin-top: -1.1rem;  margin-left: 1rem;float:left;width: 1.2rem;height: 1.2rem;"></div></div>
+                          <div class="changeColor1_div2"    id="clearFunction" onclick="clearFunction();"   style=" cursor:pointer;background-color: #0b8be6;width: 6.5rem;height:1.5rem;border:0rem #fff solid ;border-radius:0.2rem;text-align: center;font-size: 1rem;line-height:1rem;"><span style="padding-left: 1rem;">重置</span><div><img src="img/重置2.png" style="margin-top: -1.1rem;margin-left: 1rem;float:left;width: 1.2rem;height: 1.2rem;"></div></div>         
+
+                          <div class="changeColor1_div2" id="addpath"  onclick="AddPath();"       style=" cursor:pointer;background-color: #0b8be6;width: 4.5rem;height:1.5rem;border:0rem #fff solid ;border-radius:0.2rem;text-align: center;font-size: 1rem;line-height:1rem;">新建</div>            
+
+                          <div class="changeColor1_div2" onclick="Modify();"  id="Modify"       style=" cursor:pointer;background-color: #0b8be6;width: 4.5rem;height:1.5rem;border:0rem #fff solid ;border-radius:0.2rem;text-align: center;font-size: 1rem;line-height:1rem;">修改</div>          
+
+                          <div class="changeColor1_div2" onclick="deletePathAjax();"     style=" cursor:pointer;background-color: #0b8be6;width: 4.5rem;height:1.5rem;border:0rem #fff solid ;border-radius:0.2rem;text-align: center;font-size: 1rem;line-height:1rem;">删除</div>         
+
+                          <div class="changeColor1_div2" onclick=""                  style=" cursor:pointer;background-color: #0b8be6;width: 6.5rem;height:1.5rem;border:0rem #fff solid ;border-radius:0.2rem;text-align: center;font-size: 1rem;line-height:1rem;">巡检监控</div>         
+        
+                            <div onclick="ViewSet();" style=" cursor:pointer;float:right;margin-left:0.8rem;background-color: #0b8be6;color:#fff;width: 6.5rem;height: 2rem;text-align: center;line-height:2rem;border-radius: 0.2rem;"><span>显示设置</span></div><!-- onclick="ViewSet();" -->
+                            <div onclick="toExcel();" id="toExcel" style=" cursor:pointer;float:right;margin-left:0.8rem;background-color: #0b8be6;color:#fff;width: 6.5rem;height: 2rem;text-align: center;line-height:2rem;border-radius: 0.2rem;"><span style="padding-left: 1rem;">导出</span><div><img src="img/导出.png" style="margin-top: -1.5rem;margin-left:1rem;float:left;width: 1.2rem;height: 1.2rem;"></div></div>
+                            <!-- <div onclick="GetExcel();" style=" cursor:pointer;float:right;margin-left:0.8rem;background-color: #0b8be6;color:#fff;width: 6.5rem;height: 2rem;text-align: center;line-height:2rem;border-radius: 0.2rem;"><span style="padding-left: 1rem;">导入</span><div><img src="img/导入.png" style="margin-top: -1.5rem;margin-left:1rem;float:left;width: 1.2rem;height: 1.2rem;"></div></div> -->
+<input  id="articleImageFile" name="excelFile" type="file" class="x-file" onchange="importExcel(this)" style="display: none;">
+                            
+                            <div onclick="document.getElementById('articleImageFile').click();"  style=" cursor:pointer;float:right;margin-left:0.8rem;background-color: #0b8be6;color:#fff;width: 6.5rem;height: 2rem;text-align: center;line-height:2rem;border-radius: 0.2rem;"><span style="padding-left: 1rem;">导入</span><div><img src="img/导入.png" style="margin-top: -1.5rem;margin-left:1rem;float:left;width: 1.2rem;height: 1.2rem;"></div></div>
+                </div>           
+             </td>
+          </tr>
+
+          <tr>
+            <td style="padding-top: 0.5rem;">
+              <div id="Divcontents"  >
+                <table id="DataTable" name="DataTable" class="scroll_table_head" style="border-collapse: collapse;border-bottom:1px #0c41b1 solid ;">
+                    <caption style="text-align: center;display:none"><h3>汇总表</h3></caption>
+                    <thead style="color: #3ab7dc;border-left: 0.1rem #0c41b1 solid;" id="tt">
+                        <th  width="5%">序号     </th>
+                        <th name="cow1" width="15%">运维班  </th>
+                        <th name="cow2" width="15%">变电站  </th>
+                        <th name="cow3" width="15%">任务名称</th>
+                        <th name="cow4" width="15%">巡视类型</th>
+                        <th name="cow5" width="15%">执行类型</th>
+                        <th name="cow6" width="25%">执行方式</th>
+                        <th name="cow7" width="15%">状态    </th>
+                        <th name="cow8" width="15%">运维周期</th>
+                        <th name="cow9" width="15%">任务详情</th>
+                    </thead>
+                    <tbody id="tbody">
+                       
+                </tbody>
+                </table>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div id="page_contents" class="changePage" style="display: none;">
+        <div  class="page" style="float: right;">
+            <div class="changePage_div1"><span style="color: #fff;font-size: 12px;padding-top: 5px;padding-left: 10px;"> <span class="ho">第<span id="a2"></span>/<span id="a1"></span>页</span></span></div>
+            <div class="changePage_div2"><img src="img/左.png" onclick="change1(--pageno)" style="width: 10px;height:10px;padding-top: 5px;" /></div>
+            <div class="changePage_div5" id="changePage_div5" style="line-height: 12px;padding-left: 5px;"><span id="a3"  style="width: 30px;border: 0px #0c41b1 solid;color: #1662ad;width: 90px;"></span></div> 
+            <div class="changePage_div6" style="padding-left: 5px;"><img src="img/右.png" onclick="change1(++pageno)"  style="width: 10px;height:10px;padding-top: 5px;" /></div>
+        </div>
+      </div>
+    
+      <div style="display:none" id="p"></div><!-- //分页功能这句话别忘了加了 -->
+    </div> 
+  </div>
+
+  
+
+  <input type="hidden" id="task" value="">
+  <input type="hidden" id="Task_Rule" value="">
+
+  <input type="hidden" id="Task_Rule_index_hidden" value="">
+
+  <input type="hidden" id="Modify_path_id" value="0">
+
+  <!-- <input type="hidden" id="data" value="" /> -->
+
+
+
+<ul id="TreeIdchild" style="display: none;">
+</ul>
+
+<!-- <div id="ModStation" type="hidden" >12</div> -->
+
+<input type="hidden" id="ModStation" value="" />
+<!-- <input type="hidden" id="Not_id" value="1" /> -->
+
+
+
+
+<!-- 页码组件 -->
+<div id="pageChild" class="pageChild">
+    <template>
+        <div class="block">
+          <!-- <span class="demonstration">完整功能</span> -->
+          <el-pagination
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage"
+           
+            :page-size="10"
+            layout="total, prev, pager, next, jumper"
+            :total="totalnum">
+          </el-pagination>
+        </div>
+    </template>
+</div>
+
+
+<!-- 导入功能测试 -->
+<!-- <button  id="saveZipButton" type="button" class="btn" onclick="document.getElementById('articleImageFile').click();"  style="display: none;"><i class="fa fa-download"></i>  导入</button>这里如果要测试使用的话，这里的 style="display: none;"要删除 -->
+
+
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+body {
+  margin: 5px;
+  background-color: #f5f7f8;
+  scrollbar-face-color: #cccccc;
+  scrollbar-highlight-color: #cccccc;
+  scrollbar-shadow-color: #cccccc;
+  scrollbar-3dlight-color: #cccccc;
+  scrollbar-arrow-color: #f3f3f3;
+  scrollbar-track-color: #f3f3f3;
+  scrollbar-darkshadow-color: #999999;
+}
+
+.dtree {
+  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #666;
+  white-space: nowrap;
+  /*
+	使用white-space: nowrap;
+	在myie下，右键菜单消失的时候，会导致整个页面消失，原因不明
+	*/
+  /*
+	white-space: nowrap;
+	text-overflow:ellipsis; 
+	overflow:hidden; 
+	display:block;
+	*/
+}
+.dtree img {
+  border: 0px;
+  vertical-align: top;
+}
+.dtree a {
+  vertical-align: top;
+  color: #333;
+  text-decoration: none;
+  line-height: 16px;
+}
+th a {
+  color: #333;
+  text-decoration: none;
+}
+td a {
+  color: #333;
+  text-decoration: none;
+}
+.dtree a.node,
+.dtree a.nodeSel {
+  white-space: nowrap;
+  padding: 1px 2px 1px 2px;
+}
+.dtree a.node:hover,
+.dtree a.nodeSel:hover {
+  color: #333;
+  text-decoration: underline;
+}
+.dtree a.nodeSel {
+  background-color: #c0d2ec;
+}
+.dtree .clip {
+  overflow: hidden;
+}
+td,
+th {
+  font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+  font-size: 12px;
+  color: #666;
+  padding-top: 0px;
+  justify-content: center;
+}
+.input1 {
+  margin: 0px;
+  padding: 0px;
+  height: 16px;
+  width: 14px;
+}
+.input-button3 {
+  border-width: 1px;
+  border-style: solid;
+  border-color: #fff #aaa #aaa #fff;
+  height: 19px;
+  background: #bedfdf;
+  line-height: 18px;
+  margin: 0px;
+  padding: 0px;
+  color: #aaaaaa;
+  cursor: hand;
+  color: #353535;
+}
+
+.AlarmImg {
+  display: none;
+  font-size: 10px;
+  /*	text-indent:3px;*/
+  text-align: center;
+  color: #0033cc;
+  line-height: 20px;
+  position: absolute;
+  right: 5px;
+  top: 1px;
+  width: 23px;
+  height: 20px;
+  background: url(images/alarm.png);
+}
+
+.AlarmIco {
+  cursor: pointer;
+  display: ;
+  width: 16px;
+  height: 16px;
+}
+
+.dTN {
+  height: 18px;
+}
+.dTN img {
+  cursor: pointer;
+  margin-right: 5px;
+  max-width: 16px;
+  max-height: 18px;
+}
+
+.dTN input {
+  margin: 0px;
+  padding: 0px;
+  line-height: 16px;
+}

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+<META HTTP-EQUIV="Expires" CONTENT="0">
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<!--<meta http-equiv="refresh" content="2; ,URL=http://localhost/cms/new/index.php">-->
+<title></title>
+
+<LINK rel=stylesheet type=text/css href="css/blueThemeGlobalStyle.css">
+<LINK rel=stylesheet type=text/css href="css/stylecommon.css">
+<LINK rel=stylesheet type=text/css href="css/stylewrap.css">
+<link rel="StyleSheet" type="text/css"  href="css/dtree.css"/>
+
+<SCRIPT type=text/javascript src="js/sys.js"></SCRIPT>
+<SCRIPT type=text/javascript src="js/controlparam.js"></SCRIPT>
+<SCRIPT type=text/javascript src="js/checkbox.js"></SCRIPT>
+<SCRIPT type=text/javascript src="js/controlmain.js"></SCRIPT>
+<script type="text/javascript" src="js/select.js"></script>
+<SCRIPT type=text/javascript src="js/json.js"></SCRIPT>
+<script type="text/javascript" src="js/obj.js"></script>
+<script type="text/javascript" src="js/devf.js"></script>
+<!--<script type="text/javascript" src="js/devffordevice.js"></script>-->
+<SCRIPT type=text/javascript src="js/xmlhttp.js"></SCRIPT>
+<script type="text/javascript" src="js/dtree_back.js"></script>
+<!--<script type="text/javascript" src="js/dtree_backforDevice.js"></script>-->
+<SCRIPT type=text/javascript src="js/rightkeymenu.js"></SCRIPT>
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/devicetree.js"></script>
+</head>
+<style>
+    html ,body
+    {
+        overflow-y:auto;
+        CURSOR:pointer;
+        height: 98%;
+        background: #0c2c65;   /* // */
+        scrollbar-face-color: #2b4a81;
+        scrollbar-track-color: #5b73a1;
+        color: #fff;
+    }
+    
+    BODY {
+     FONT-SIZE: 12px;
+     overflow-y: auto; 
+    }
+   
+    
+    td,th{ 
+        font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+        font-size:12px; 
+        color: #666;
+        background: #efefef;
+    
+        }
+    
+      /*   input 中placeholder的颜色不同浏览器中的显示 */
+    /* input:-moz-placeholder,
+    textarea:-moz-placeholder { 
+        color: #fff;
+    }
+    input:-ms-input-placeholder,
+    textarea:-ms-input-placeholder { 
+        color: #fff;
+    } */
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder { 
+        color: rgba(255, 255, 255, 0.705) ;
+        font-size: 12px;
+    } 
+    
+    </style>
+
+
+
+<body onload="init();" onresize="resizepage();">
+<!-- <div style="height: 27px;width: 220px;padding: 5px;" id="StationID">     //抬头的变电站选择
+
+</div> -->
+<div style="position:relative;border:0px solid #666666;" id=altlayer>
+
+	<input id="DeviceSearch"  type="text" placeholder="请输入查询内容"  autocomplete="off" style="width: 200px;height: 27px;border-radius: 2px;background:#1662ad;color: #c2dffb;margin-left: 0px;">
+	
+	<img src="img/查询.png" valign=middle style="width:16px;height:16px;CURSOR: pointer;margin-bottom:-3px; margin-left: 5px;" onclick="btnDeviceSearchClick();">
+
+	
+</div>
+
+
+<div class="dtree" style="margin-top: 8px; ">
+<p  style="color: #fff;"> <a href="javascript: d.openAll();" style="color: #fff;">展开</a> | <a href="javascript: d.closeAll();"  style="color: #fff;">收缩</a> | <a href="javascript:window.location.reload();"  style="color: #fff;">刷新</a>
+<br>
+
+<div id="TreeContent" style="width:100%;height:100%;overflow-y: auto;overflow-x: hidden;"></div>
+
+</div>
+</body>
+</html>

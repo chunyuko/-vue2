@@ -1,0 +1,70 @@
+// 字体颜色
+$blueTheme-color: #fff;
+// 字体颜色(蓝色亮色)
+$blueTheme-color-blueLight: #1af2ff;
+// layout menu菜单背景色
+$blueTheme-menuBgColor: #07265d;
+// layout menu菜单高亮
+$blueTheme-menuBgColor-highLight: #005dd5;
+// 组件模块背景色
+$blueTheme-contentBgColor: #032263;
+// loading 背景色
+$blueTheme-loadingBgColor: rgba(13, 47, 108, 0.5);
+// 强调主色
+$blueTheme-emphasisColor: #3ddeec;
+// 文字标题主色
+$blueTheme-textTitleColor: #5afeec;
+// 文字选中色
+$blueTheme-textChooseColor: #062c76;
+// 警告警示用色(warn)
+$blueTheme-textWarnColor: #ffd739;
+// 告警警示用色(error)
+$blueTheme-textErrorColor: #ff3c3c;
+
+// 滚动条样式优化
+// 滚动条整体宽度
+::-webkit-scrollbar {
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: transparent;
+}
+// 滚动条样式
+::-webkit-scrollbar-thumb {
+  background-color: $blueTheme-emphasisColor;
+  background-clip: content-box;
+  border-radius: 0.3rem;
+}
+// 滚动条滑槽样式
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+
+body {
+  // ie 下滚动条样式
+  scrollbar-base-color: $blueTheme-emphasisColor;
+}
+
+@font-face {
+  font-family: 'BigruixianBlackGBV1.0';
+  src: url('@/assets/font/BigruixianBlackGBV1.0.eot');
+  src: url('@/assets/font/BigruixianBlackGBV1.0.eot?#iefix') format('embedded-opentype'),
+    url('@/assets/font/BigruixianBlackGBV1.0.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MicrosoftYaHei-Bold';
+  src: url('@/assets/font/microsoft-yahei-bold.eot');
+  src: url('@/assets/font/microsoft-yahei-bold.eot?#iefix') format('embedded-opentype'),
+    url('@/assets/font/microsoft-yahei-bold.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'MFYiHei_Noncommercial-Regular';
+  src: url('@/assets/font/MFYiHei_Noncommercial-Regular.otf');
+  font-weight: normal;
+  font-style: normal;
+}

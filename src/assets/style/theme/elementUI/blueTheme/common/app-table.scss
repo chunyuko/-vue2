@@ -1,0 +1,33 @@
+table相关 默认样式 若需调整 局部调整 不要修改这里的 #app {
+  .el-table--striped .el-table__body tr.el-table__row--striped td {
+    background-color: #0f2a62;
+  }
+  .el-table::before {
+    background-color: '';
+    z-index: 0;
+    height: 0;
+  }
+  .el-table__body tr.el-table__row {
+    color: #fff;
+  }
+  .el-table__body tr.el-table__row td {
+    background-color: #08193d;
+  }
+  .el-table th {
+    background-color: #193b82;
+    border: 0;
+  }
+  .el-style {
+    width: '50rem';
+  }
+  .el-table thead {
+    color: #82c3ff;
+  }
+  .el-table td,
+  .building-top .el-table th.is-leaf {
+    border: 0rem;
+  }
+  .el-table__body-wrapper {
+    background-color: #08193d;
+  }
+}

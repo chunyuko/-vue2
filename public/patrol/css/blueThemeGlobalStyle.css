@@ -1,0 +1,522 @@
+/* 
+此文件放置一些页面能通用的 css
+命名方式：.blueTheme_xxx
+前缀需添加上 blueTheme_
+这样做的好处是：
+  1. 与页面的 css 做区分，看前缀就知道是属于蓝色主题 global 的 css，便于后续开发和修改。
+  2. 不会与页面中的 css 重名造成 class 被覆盖。 
+*/
+
+body {
+  font-family: '微软雅黑';
+}
+html,
+body {
+  font-family: '微软雅黑';
+  overflow: hidden;
+  /* background: #060e34; */
+  scrollbar-face-color: #2b4a81;
+  scrollbar-track-color: #5b73a1;
+
+  padding-bottom: 0px;
+  margin: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+}
+UL {
+  list-style-type: none;
+}
+
+OL {
+  list-style-type: none;
+}
+input,
+select {
+  outline: none;
+  border: none;
+  text-indent: 10px;
+}
+table {
+  border: 0px;
+  width: 100%;
+  border-width: 0px 0px 0px 0px;
+  margin: 0;
+  border-collapse: collapse;
+}
+#BeginTime {
+  width: 200px;
+  height: 30px;
+  border-radius: 2px;
+  background: rgba(44, 53, 89, 1);
+  color: #c2dffb;
+}
+#EndTime {
+  width: 200px;
+  height: 30px;
+  border-radius: 2px;
+  background: rgba(44, 53, 89, 1);
+  color: #c2dffb;
+}
+.param_select {
+  width: 200px;
+  height: 30px;
+  border-radius: 2px;
+  background: rgba(44, 53, 89, 1);
+  color: #c2dffb;
+}
+input[type='checkbox']::before {
+  width: 12px;
+  height: 12px;
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  background: #060e34;
+}
+#UpDownTR {
+  width: 100%;
+  height: 12px;
+  border-top: 1px solid #57729d;
+}
+.Device_checkbox {
+  position: relative;
+  float: left;
+  width: 200px;
+  font-size: 12px;
+  color: #fff;
+  line-height: 22px;
+  height: 22px;
+  text-align: left;
+  border: 0px #ff0000 solid;
+  overflow: hidden;
+}
+.scroll_table_head {
+  width: 100%;
+  text-align: center;
+  border-collapse: separate;
+  border-spacing: 1px;
+  word-wrap: break-word;
+  table-layout: fixed;
+  background: #04234f;
+  color: #fff;
+  /*border: 1px solid #57729d;*/
+  table-layout: fixed;
+
+  margin-top: -2px;
+  overflow: auto;
+
+  font-size: 13px;
+  height: 35px;
+}
+.scroll_table {
+  width: 100%;
+  text-align: center;
+  /*border-collapse: separate;*/
+  border-spacing: 1px;
+  word-wrap: break-word;
+  table-layout: fixed;
+  /*background: #cccccc;*/
+  border: 0px solid #000000;
+  margin-top: -2px;
+  overflow: auto;
+  font-size: 12px;
+  color: #c2dffb;
+}
+.scroll_table tr {
+  border-bottom: 1px solid #57729d;
+}
+.scroll_table tr:hover {
+  color: red;
+  font-size: 12px;
+}
+.scroll_table td {
+  font-size: 12px;
+  height: 35px;
+}
+
+.scroll_table_head td {
+  padding: 0;
+  /*background: #FFFFFF;*/
+  height: 35px;
+  font-size: 12px;
+}
+
+.scroll_table_head th {
+  /*background: #F0F1F3;*/
+  height: 35px;
+  font-size: 12px;
+}
+#CurPage {
+  border: 1px solid #fff;
+  box-shadow: #ffffff 1px inset;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+#TotalPage {
+  border: 1px solid #fff;
+  box-shadow: #ffffff 1px inset;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.3);
+}
+#DataTable a {
+  color: #10e2ff;
+}
+
+.ResultImgWap {
+  float: left;
+  width: calc((100% - 10px) / 5);
+  height: calc((100% - 10px) / 2);
+  border: 1px #57729d solid;
+}
+
+.ResultImgWapCurrent {
+  float: left;
+  width: calc((100% - 10px) / 5);
+  height: calc((100% - 10px) / 2);
+  border: 1px #ff0000 solid;
+}
+.ResultImgDiv {
+  position: relative;
+  /*float:left;*/
+  left: 0px;
+  top: 0px;
+  /*width:244px;*/
+  width: 100%;
+  /*height:270px;*/
+  height: 100%;
+  border: 0px #00ff00 solid;
+}
+
+.cantemp {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 14;
+  border: 0px #ff0000 solid;
+}
+.ResultImg {
+  /*width:244px;*/
+  width: 100%;
+  /*height:250px;*/
+  height: calc(100% - 20px);
+  border: 0px #ff0000 solid;
+}
+.ResultTxt {
+  width: 244px;
+  height: 20px;
+  border: 0px #ff0000 solid;
+  color: #fff;
+  font-size: 12px;
+}
+#page_contents {
+  line-height: 30px;
+  height: 30px;
+  overflow: hidden;
+  width: 100%;
+  border-bottom: 0px;
+  background: #2b4a81;
+}
+
+table.data_table3 {
+  width: 100%;
+  border-top: 0px solid #57729d;
+}
+
+table.data_table3 th {
+  padding: 0px 0 0px;
+  color: #fff;
+  font-size: 12px;
+  text-align: center;
+  border: 1px solid #57729d;
+}
+
+table.data_table3 tbody td {
+  padding: 0px 0 0px;
+  padding-left: 10px;
+  border: 1px solid #57729d;
+  background-color: rgba(87, 114, 157, 0.3);
+  color: #fff;
+  text-align: left;
+}
+.postion_l101 {
+  position: absolute;
+  z-index: 101;
+}
+.postion_r0 {
+  position: relative;
+  z-index: 0;
+}
+.postion_l1 {
+  position: absolute;
+  z-index: 1;
+}
+.paramhead {
+  top: 0px;
+  left: 0px;
+  height: 30px;
+  background: #d9ecea;
+  font-weight: bold;
+  color: #c2dffb;
+  line-height: 30px;
+  font-size: 12px;
+  text-align: center;
+}
+.param_input {
+  width: 98%;
+  border: 0px;
+  /*line-height: 30px;*/
+  /*height: 30px;*/
+  margin-left: 3px;
+  background: #060e34;
+  color: #bed5ef;
+}
+.input-button {
+  display: inline-block;
+  width: 105px;
+  height: 27px;
+
+  margin-top: 1px;
+  padding-top: 2px;
+  background: #1b2029;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+  *+margin-top: 2px;
+  border: 0px;
+
+  font-family: Verdana, Arial, sans-serif;
+  font-size: 14px;
+
+  line-height: 14px;
+}
+.input-button:hover {
+  background: #0b76d5;
+  text-decoration: none;
+}
+
+.remote_param_main {
+  margin: 0px auto;
+  width: 96%;
+  height: 95%;
+  margin-bottom: 0px;
+  border: 1px #060e34 solid;
+}
+.head_div {
+  width: 100%;
+  color: #a4c4cb;
+  background: url(../images/puerhead.png) no-repeat left top;
+
+  height: 30px;
+  margin-top: 25px;
+  margin-left: -3px;
+  line-height: 30px;
+  border: solid 1px #060e34;
+  _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/puerhead.png');
+  _background-image: none;
+  /*IE6*/
+}
+.lable_type8 {
+  font-size: 12px;
+  line-height: 24px;
+  text-align: left;
+  text-indent: 5px;
+}
+.lable_type9 {
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+  color: #ffffff;
+  text-indent: 5px;
+  cursor: pointer;
+}
+.saveparam {
+  bottom: 3px;
+  width: 56px;
+  height: 23px;
+}
+.main_table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border-left: 1px solid #605f64;
+  border-top: 1px solid #888;
+  border-right: 1px solid #605f64;
+  border-bottom: 1px solid #605f64;
+  border-color: #605f64 #605f64 #605f64 #605f64;
+  word-wrap: break-word;
+  table-layout: fixed;
+}
+.param_lable {
+  background: #04234f;
+  color: #bed5ef;
+  text-indent: 6px;
+  font-weight: bold;
+  height: 30px;
+}
+.calendar_main {
+  background-color: #699212;
+}
+
+.calendar_title {
+  color: #fff;
+  font-weight: bold;
+}
+
+.calendar_nav {
+  font-family: 'Georgia';
+  cursor: pointer;
+  color: #ffffff;
+  background-color: #699212;
+}
+
+.calendar_grid {
+  font-family: 'Georgia';
+  background-color: #cee887;
+}
+
+.calendar_dayname {
+  font-weight: bold;
+}
+
+.calendar_today {
+  background-color: #cccccc;
+  font-weight: bold;
+  color: #ff6600;
+}
+
+.calendar_posttext {
+  background-color: #ccd5d7;
+}
+
+.calendar_daytext {
+}
+
+.calendar_daybg {
+  background-color: #cee887;
+}
+.dayDiv {
+  position: relative;
+  border: 0px #ff0000 solid;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0px 5px;
+}
+.dayDiv::-webkit-scrollbar {
+  width: 0 !important;
+}
+.dayDiv {
+  -ms-overflow-style: none;
+}
+.dayDiv::-webkit-scrollbar {
+  overflow: -moz-scrollbars-none;
+}
+.param_input {
+  width: 98%;
+  border: 0px;
+  line-height: 30px;
+  height: 30px;
+  margin-left: 3px;
+}
+.param_span {
+  width: 100%;
+  height: 30px;
+  text-indent: 3px;
+  vertical-align: middle;
+}
+
+.param_div {
+  width: 100%;
+  height: 30px;
+  text-indent: 3px;
+  vertical-align: middle;
+}
+
+.param_checkbox {
+  width: 100%;
+  text-indent: 3px;
+  border: 0px #ff0000 solid;
+}
+.channel_checkbox {
+  position: relative;
+  float: left;
+  width: 100px;
+  line-height: 25px;
+  height: 25px;
+  text-align: left;
+  border: 0px #ff0000 solid;
+}
+
+.size1 {
+  width: 100%;
+  height: 100%;
+}
+
+.blankif {
+  position: absolute;
+  visibility: inherit;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+}
+
+#paramwrap {
+  display: ;
+  padding-bottom: 0px;
+  overflow: hidden;
+  background: #0d1a43;
+}
+
+.paramhead {
+  top: 0px;
+  left: 0px;
+  height: 30px;
+  background: #57729d;
+  font-weight: bold;
+  color: #fff;
+  line-height: 30px;
+  font-size: 12px;
+  text-align: center;
+}
+
+#paramdiv {
+  top: 30px;
+  left: 0px;
+  width: 100%;
+  height: 90px;
+}
+.input-button {
+  width: 105px;
+  height: 27px;
+  margin-top: 1px;
+  padding-top: 2px;
+  background: linear-gradient(#071139, #295daf);
+  border: 1px solid #57729d;
+  cursor: pointer;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 27px;
+}
+.week_checkbox {
+  position: relative;
+  float: left;
+  width: 80px;
+  line-height: 25px;
+  height: 25px;
+  text-align: left;
+  border: 0px #ff0000 solid;
+}
+
+.day_checkbox {
+  position: relative;
+  float: left;
+  width: 50px;
+  line-height: 25px;
+  height: 25px;
+  text-align: left;
+  border: 0px #ff0000 solid;
+}

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <LINK rel=stylesheet type=text/css href="css/blueThemeGlobalStyle.css"> -->
+    <LINK rel=stylesheet type=text/css href="css/stylewrap.css">
+    <link rel="stylesheet" href="css/fontSizeGlobalStyle.css">
+    <link rel="StyleSheet" href="css/pointIframe.css" type="text/css" />
+
+
+
+    <SCRIPT type=text/javascript src="js/sys.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/controlparam.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/select.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/radio.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/checkbox.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/calendar.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/controlmain.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/table.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/xmlhttp.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/obj.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/json.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/zh-cn.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/jquery.min.js"></SCRIPT>
+    <script type="text/javascript" src="js/devicesearch.js"></script>
+
+    <link rel="stylesheet" href="./static/element-ui/lib/theme-chalk/index.css">
+    <script src="./static/vue.min.js"></script>
+    <script src="./static/element-ui/lib/index.js"></script>
+
+    <script type="text/javascript" src="js/index.full.js"></script>
+    <script type="text/javascript" src="js/general.js"></script>
+    <SCRIPT type=text/javascript src="js/taskQuery.js"></SCRIPT>
+</head>
+<style>
+    .channel_checkbox {
+        display: inline;
+        padding-left: 20px;
+    }
+
+    .patrolSta_checkbox {
+        background-color: #0c2c65;
+        color: #fff;
+        width: 250px;
+        height: 23px;
+        border-radius: 2px;
+        border: 1px #a7bfdb solid;
+    }
+
+    input:focus {
+        outline: none;
+        /*  input输入框的黑色边框去除 */
+    }
+
+    input::-webkit-input-placeholder {
+        color: #a7bfdb;
+        font-size: 12px;
+    }
+
+    #BeginTime {
+        background-image: url('img/选择日期.png');
+        background-position: 1px;
+        background-repeat: no-repeat;
+    }
+
+    #EndTime {
+        background-image: url('img/选择日期.png');
+        background-position: 1px;
+        background-repeat: no-repeat;
+    }
+
+    .el-input--prefix .el-input__inner  {
+        width: 250px;
+        height: 22px;
+        background-color: #0c2c65;
+        border: 1px #a7bfdb solid;
+        line-height: 22px;
+       
+    }
+
+    .el-input--prefix .el-input__inner {
+        padding-left: 40px;
+        font-size: 10px;
+    }
+
+    .el-date-editor .el-range-input {
+        color: #a7bfdb;
+        background-color: #0c2c65;
+
+    }
+
+    .el-date-editor .el-range-separator {
+        color: #a7bfdb;
+        line-height: 21px
+    }
+    .el-input__icon{
+        line-height: 22px;
+    }
+    .el-icon-date:before {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+        content: "";
+        background: url("img/选择日期.png") no-repeat 0 0;
+        background-size: 100%;
+        padding-top: 8px;
+
+    }
+
+    .el-input__inner {
+        color: #a7bfdb;
+    }
+
+
+    #leftSide {
+        float:left;
+  /* flex: 0 0 3rem; */
+height:100%;
+  width: 30rem;
+  /* background-color: #a7bfdb34; */
+  background-color: #0c2c65;
+
+}
+
+.el-tree-node__content{
+    color: #fff;
+  background-color: #0c2c65;
+
+}
+
+.inpTree .el-input__inner{
+    height: 30px;
+  background-color: #0c2c65;
+  color: #fff;
+  border-radius: 20px;
+
+}
+.inpTree .el-input__inner:hover{
+
+  background-color: #0c2c65;
+
+}
+
+
+.el-tree{
+  background-color: #0c2c65;
+  padding-top: 5px;
+
+}
+.el-tree-node__content:hover{   /* 鼠标划过 */
+    background-color: #2863a6 ;
+}
+
+ /* 改变被点击节点背景颜色，字体颜色 */
+ .el-tree-node:focus > .el-tree-node__content {
+    background-color: #4a9de7 !important;
+    color: #fff !important;
+  }
+  /*节点失焦时的背景颜色*/
+  .el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content{
+    background-color: #4a9de7 !important;
+    color: #fff !important;
+  }
+  .inpTree{
+    width: 80%;
+    left: 8%;
+    padding-top: 15px;
+    
+ 
+  }
+  .el-tree-node__content>label.el-checkbox{
+    margin-right: -8px;
+}
+  /* #tree{
+    padding-top: 15px;
+  }  */
+</style>
+
+<body onload="Init();" onresize="resizepage();">
+    <div id="leftSide" class="leftSide module_container">
+        <div id="app" class="tree">
+            <div id="tree">   
+                 
+                <el-input
+                class="inpTree"
+                placeholder="输入关键字进行过滤"
+                v-model="query"
+                @input="onQueryChanged">
+                </el-input>
+                <div style="border: 0px red solid;height: 25px;margin-top: -22px;padding-left: 212px;">
+                    <img src="img/查询.png" style=" cursor:pointer;width: 13px;height:13px;position: relative;"/>
+               </div>
+               
+               <ul class="box"  id="TreeId" style="display: none;">
+                <li  v-model="arrId"  value="arrId" v-for='value in arrId'>{{value}}</li>  <!--循环数组-->
+                </ul>
+
+             
+                <ul class="box"  id="TreeIdAll" style="display: none;">
+                    <li  v-model="arrIdAll"  value="arrIdAll" v-for='value in arrIdAll'>{{value}}</li>  <!--循环数组-->
+                </ul>
+                
+               <el-tree
+               :data="treeData"
+               :default-expand-all="false"
+               :filter-node-method="filterNode"
+               show-checkbox
+               node-key="id"
+               @check-change="handleCheckChange"
+               :props="treeProps"
+               ref="tree"   
+               :default-checked-keys="treearrid"
+               :default-expanded-keys="treearrid">
+                </el-tree>
+
+                <el-button id="cleanCheck" style="display: none;" @click="resetChecked">清空</el-button>
+
+
+            </div>
+        </div>
+    </div>
+<h3 id="name" class='yuan' style="display: none;"></h3>
+    
+    <div style="margin-left: 310px;width: (100%-300px); height: 100%;">
+        <!-- 模块2 和 模块3 -->
+        <div id="divtb" class="taskDiv">
+            <div class="topSide"
+                style="border: 0px #ca0fc1 solid;background-color: #0c2c65;border-radius: 5px;margin-top: 5px;height:15%;border: 0px #1662ad solid;width: 100%;">
+                <div
+                    style="width: 100%;height: 30px;font-size:18px;float: left;padding-left: 10px;background-color:#1662ad ;color: #fff;border-radius: 0px;padding-top: 3px;">
+                    <b>查询选项</b>
+                </div>
+
+                <table style="width:100%;height:20%;border:0px #ff0000 solid;padding-top:7px">
+                    <tr>
+                        <td style="height:30px;width:345px;border: 0px red solid; padding-left: 20px;">
+                            <div style="display: inline;color: #FFF;">起始时间：</div>
+                            <div id="begin" style="display: inline-block;">
+                                <el-date-picker 
+                                id="BEGIN"
+                                v-model="value" 
+                                type="datetime" 
+                                placeholder="选择日期时间"
+                                default-time="12:00:00"
+                               
+                                @change="selectTime"
+                                value-format="yyyy-MM-dd HH:mm:ss">
+                                </el-date-picker>
+                            </div>
+                         </td>
+
+ <!-- default-value="2021-02-12 10:11:22" -->
+                        <td style="height:30px;width:345px;border: 0px red solid; padding-left: 20px;">
+                            <div style="display: inline;color: #FFF;">结束时间：</div>
+                            <!-- <div style="width: 250px;height: 20px;background-color: ;"></div> -->
+                            <div id="end" style="display: inline-block;">
+                                <el-date-picker 
+                                id="END"
+                                v-model="value1" 
+                                type="datetime"
+                                placeholder="选择日期时间"
+                                default-time="12:00:00"
+                                @change="selectTime1"
+                                value-format="yyyy-MM-dd HH:mm:ss">
+                                </el-date-picker>
+                            </div>
+                        </td>
+
+                        <td style="height:30px;width:400px;border: 0px red solid; text-align: center;">
+                            <div style="display: inline;text-align: center;color: #FFF;">任务名称：</div>
+                            <div style="display: inline;padding-left: 10px;"><input autocomplete="off" style="height: 20px;width: 250px;border-radius:2px;border: 1px #a7bfdb solid;background-color: transparent;color: #fff;"
+                                    type="text" class="TaskName" height=20px id="TaskName" maxlength="40" /></div>
+                        </td>
+
+                        <td style="height:30px;width:400px;border: 0px red solid; text-align: center;">
+                            <div style="display: inline-block;text-align: center;color: #FFF;">巡视类型：</div>
+                            <div id="InspectionType" style="display: inline-block;padding-left: 10px;color: #FFF;width: 250px;height: 20px;border: 0px red solid;">
+                           </div>
+                        </td>
+                        <td>
+                            <div alt="" title="" id="selFunQuery" style=" cursor:pointer;float:right;margin-right:7px;background-color: #049eff;color:#fff;width: 65px;height: 20px;text-align: center;line-height:21px;border-radius: 2px;">
+                                <span style="padding-left: 12px;">查询</span>
+                                <div><img src="img/查询.png"
+                                        style="margin-top:-17px ;margin-left: 7px;float:left;width:13px;height:13px;"
+                                        onclick=";"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <table style="width:100%;height:20%;border:0px #ff0000 solid;padding-top:1rem;">
+                    <tr>
+
+                        <td style="height:30px;width:400px;border: 0px red solid;float:left ;padding-left: 20px;">
+                            <div style="display: inline-block;color: #FFF;border: 0px green solid;padding-top: 5px;">
+                                确认状态：
+                            </div>
+
+                            <div type="checkbox" class="param_checkbox" id="SureState" style="color: #FFF;display: inline-block;border: 0px rgb(205, 228, 5) solid;vertical-align: top;">
+                            </div>
+
+                        </td>
+
+                        <td style="height:30px;width:800px;border: 0px red solid;float:left ;padding-left: 10px;">
+                            <div
+                                style="display: inline-block;text-align: center;color: #FFF;display: inline-block;border: 0px green solid;padding-top: 2px;">
+                                任务状态：
+                            </div>
+                            <div type="checkbox" class="param_checkbox" id="TaskStation" style="color: #FFF;display: inline-block;border: 0px rgb(205, 228, 5) solid;vertical-align: top;">
+                            </div>
+                        </td>
+
+                        <td>
+                            <div  onclick="purge()" id="purge" alt="" title="" style=" cursor:pointer;float:right;margin-right:7px;background-color: #70707e;color:#fff;width: 65px;height: 20px;text-align: center;line-height:21px;border-radius: 2px;">
+                                <span style="padding-left: 12px;">重置</span>
+                                <div><img src="img/重置2.png"
+                                        style="margin-top:-17px ;margin-left: 7px;float:left;width:13px;height:13px;"
+                                        onclick=";"></div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+
+
+
+            <div class="bottom_div"
+                style="border: 0px #ca630f solid;margin-top:10px;background-color: #0c2c65;border-radius: 5px;">
+                <!-- 模块3 -->
+                <div id="changeColor3" style="margin-left: 0px;">
+                    <div class="bottom_treeAndtable">
+                        <div class="bottom_rightTable" style="margin: 0px;">
+                            <IFRAME height=100% marginHeight=0 src="Queryiframe.html" frameBorder=0 width="100%"
+                                allowTransparency name="Queryiframeifr" id="Queryiframeifr" marginWidth=0
+                                scrolling=auto></IFRAME>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+  
+
+</body>
+
+</html>

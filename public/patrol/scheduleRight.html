@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <LINK rel=stylesheet type=text/css href="css/stylewrap.css">
+    <link rel="stylesheet" href="css/fontSizeGlobalStyle.css">
+    <SCRIPT type=text/javascript src="js/sys.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/controlparam.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/select.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/radio.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/checkbox.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/calendar.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/controlmain.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/table.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/xmlhttp.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/obj.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/json.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/zh-cn.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="js/jquery.min.js"></SCRIPT>
+
+    <link rel="stylesheet" href="./static/element-ui/lib/theme-chalk/index.css">
+    <script src="./static/vue.min.js"></script>
+    <script src="./static/element-ui/lib/index.js"></script>
+
+    <script type="text/javascript" src="js/scheduleRight.js"></script>
+</head>
+<style>
+    html,
+    body {
+        overflow: hidden;
+        font-size: 12px;
+        /* background-color: #0c2c65; */
+
+    }
+
+    .postion_l1 {
+        position: absolute;
+        z-index: 1;
+    }
+
+    .size1 {
+        width: 401px;
+        height: 100%;
+    }
+
+    .paramhead {
+        top: 0px;
+        left: 0px;
+        height: 40px;
+        width: 410px;
+        background: #57729d;
+        font-weight: bold;
+        color: #fff;
+        line-height: 38px;
+        font-size: 18px;
+       padding-left:10px ;
+    }
+
+    .TaskName {
+        width: 215px;
+        height: 30px;
+        border-radius: 5px;
+        border: 1px #fff solid;
+        background: #073a7d;
+        color: #d7e7f7;
+        /* border:1px red solid; */
+        margin: 0px;
+        text-indent: 0px;
+
+    }
+
+    #TaskBeginTime,
+    #RepeatInterval {
+        margin-left: 10px;
+    }
+
+    .taskDiv {
+        margin-top: 20px;
+        width: 100%;
+        height: 30px;
+        line-height: 30px;
+
+        /* border:1px yellow solid; */
+    }
+
+    .taskTit {
+        float: left;
+        padding-left: 65px;
+        width: 50px;
+        height: 30px;
+        color: #fff;
+        text-align: left;
+        /* border:1px red solid; */
+        margin: 0px;
+        /* background-color: #073a7d; */
+
+    }
+
+    #button3,
+    #button4 {
+        text-indent: 0px;
+        padding-top: 0px;
+    }
+
+
+    .scroll_table_head {
+        width: 100%;
+        text-align: center;
+        table-layout: fixed;
+        /* border: 1px solid #57729d; */
+        margin-top: -2px;
+        font-size: 13px;
+        height: 35px;
+        border-spacing: 0;
+        color: #c2dffb;
+    }
+
+    .scroll_table_head td {
+        padding: 0;
+        height: 36px;
+        font-size: 12px;
+        /* border: 1px #1662ad solid; */
+        /* background-color: #0c2c65; */
+        border-bottom: 1px solid #0c41b1;
+        border-right: 1px solid #0c41b1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .scroll_table_head th {
+        color: #3ab7dc;
+        background: #0c41b1;
+        height: 38px;
+        font-size: 12px;
+    }
+
+    /* //偶数行换色【odd表示奇数 */
+    .scroll_table_head  tr:nth-child(even) {  
+    background-color: #092758;
+    }
+
+
+    .changePage {
+        /* line-height:3rem; */
+        height: 3rem;
+        overflow: hidden;
+        width: 700px;
+        border-bottom: 0px;
+        background: transparent;
+        border: 0px #073a7d solid;
+        border-top: none;
+    }
+
+    #page_contents {
+       
+        /* margin-left: 535px; */
+    }
+
+    .changePage>div {
+        margin-top: 0.6rem;
+        /* line-height:3rem; */
+    }
+
+    .changePage_div1 {
+        float: left;
+    }
+
+    .changePage_div1>img {
+        width: 2.1rem;
+        height: 1.6rem;
+    }
+
+    .changePage_div2,
+    .changePage_div6,
+    .changePage_div7 {
+        float: left;
+        margin-left: 0.3rem;
+    }
+
+    .changePage_div3,
+    .changePage_div4,
+    .changePage_div5 {
+        float: left;
+        margin-left: 0.3rem;
+        margin-top: 0.1rem;
+    }
+
+    .changePage_div3 input,
+    .changePage_div5 input {
+        border: 1px solid #fff;
+        box-shadow: #ffffff 1px inset;
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        text-indent: 1rem;
+        font-size: 1.2rem;
+        outline: none;
+        /* margin-top:0.6rem; */
+    }
+
+    .changePage_div2>img {
+        width: 4.1rem;
+        height: 1.6rem;
+    }
+
+    .changePage_div6>img {
+        width: 4.1rem;
+        height: 1.6rem;
+    }
+
+    .changePage_div7>img {
+        width: 2.1rem;
+        height: 1.6rem;
+    }
+
+    /* .el-input__inner {
+        height: 30px;
+        background-color: #0c2c65;
+        border: 1px #a7bfdb solid;
+    } */
+
+    .el-date-editor .el-range-input {
+        color: #a7bfdb;
+        background-color: #0c2c65;
+
+    }
+    .el-range-editor.el-input__inner{
+        height: 30px;
+        background-color: #0c2c65;
+    }
+    .el-date-editor .el-range-separator {
+        color: #a7bfdb;
+        line-height: 21px
+    }
+
+
+    .el-icon-date:before {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+        content: "";
+        background: url("img/选择日期.png") no-repeat 0 0;
+        background-size: 100%;
+        /* padding-top: 8px; */
+
+    }
+
+    .el-date-editor .el-range__icon {
+        line-height: 22px;
+    }
+
+    /* .el-input__icon {
+        width: 15px;
+        height: 15px;
+        padding-left: 10px;
+    } */
+    /* .el-picker-panel{  //选择器大小
+        width: 510px;
+        line-height: 0;
+    } */
+    .el-picker-panel {
+left: 35;
+    }
+
+    
+.patrolSta_checkbox {
+  background-color: #14357c; /*  选项选中显示颜色 */
+  color: #f0f0f0;
+  width: 215px;
+  height: 30px;
+  border-radius: 0.5rem;
+  border: 0rem #fff solid;
+  outline: none; /* 选择框选择时的黑色边框去除 */
+  font-size: 1.4rem;
+}
+/* .patrolSta_checkbox :hover {
+  background-color: red;
+} */
+/* option内容背景色改变不了（当鼠标划过去的时候） */
+.patrolSta_checkbox option {
+  background-color: #0c2c65; /*  选项颜色 */
+}
+
+.yesOrNo {
+  margin-top: 1rem;
+}
+
+.input-button {
+  display: inline-block;
+  width: 8.5rem;
+  height: 2.5rem;
+
+  margin-top: 0.1rem;
+  padding-top: 0.2rem;
+  background: #023672;
+  border-radius: 0.2rem;
+  border: 0.1rem solid #0c41b1;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: bold;
+  margin-top: 0.2rem;
+  /* border: 0px; */
+
+  font-family: 'Microsoft YaHei';
+  font-size: 1.2rem;
+
+  line-height: 1.4rem;
+
+  /*text-decoration: underline;*/
+}
+
+.input-button:hover {
+  background: #0b76d5;
+  text-decoration: none;
+}
+
+
+    
+.scroll_piotable_head {
+    
+    width: 100%;
+    text-align: center;
+    table-layout: fixed;
+    /* border: 1px solid #57729d; */
+    margin-top: -2px;
+    font-size: 13px;
+    height: 35px;
+    border-spacing: 0;
+    color: #c2dffb;
+    border-collapse: collapse;
+}
+
+.scroll_piotable_head td{
+    padding: 0;
+    height: 35px;
+    font-size: 14px;
+    border: 1px #1662ad solid;
+    
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+ 
+}
+
+
+.tmp{
+    flex: left;
+  white-space:nowrap;/*强制单行显示*/
+  text-overflow:ellipsis;/*超出部分省略号表示*/
+  overflow:hidden;/*超出部分隐藏*/
+  /* width: 100px;设置显示的最大宽度 */
+  vertical-align: top;
+}
+
+.tmptime{
+    flex: left;
+  white-space:nowrap;/*强制单行显示*/
+  text-overflow:ellipsis;/*超出部分省略号表示*/
+  overflow:hidden;/*超出部分隐藏*/
+  /* width: 100px;设置显示的最大宽度 */
+  vertical-align: top;
+}
+
+
+.scroll_piotable_head th {
+    color: #3ab7dc;
+    background: #0c41b1;
+    height: 35px;
+    font-size: 14px;
+}
+
+#TabPoint{
+    border: none;
+    border-collapse: collapse;
+}
+#TabPoint th{
+    height:30px;
+width: 57%;
+    background-color: #1662ad;
+    border: 1px #1662ad solid;
+    border-collapse: collapse;
+    
+}
+#TabPoint td{
+    height:30px;
+    width: 43%;
+    background-color: #073a7d;
+    border: 1px #1662ad solid;
+    border-collapse: collapse;
+}
+
+
+
+/* 滑动条 */
+/* 滚动条所在容器 */
+#slide {
+    background-color:#073a7d;
+    /* width: 50rem; */
+    height: 29rem;
+    overflow: auto;
+
+    white-space: nowrap;
+    margin-top: 48px;
+}
+
+/* 滚动条整体 */
+#LookAt ::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+    /* background-color: #06326b; */
+}
+/* 两个滚动条交接处 -- x轴和y轴 */
+#LookAt ::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+/* 滚动条滑块 */
+#LookAt ::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+    background: #3ddeec;
+}
+
+/* 滚动条轨道 */
+#LookAt ::-webkit-scrollbar-track {
+    /* -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2); */
+    /* border-radius: 10px;
+    background: #073a7d; */
+}
+
+/* 滚动条两端按钮 */
+/* #LookAt ::-webkit-scrollbar-button {
+} */
+
+
+
+
+
+
+/* 页码样式 */
+
+.pageChild{
+    display: flex;
+    margin-right:15px;
+}
+.block{
+    flex: 1;
+    text-align: right;  
+}
+
+
+
+.el-pagination__total,   /* 页码文字颜色设置 */
+.el-pagination__jump{
+    color: #fff;
+}
+
+.el-pagination .btn-next, .el-pagination .btn-prev,
+.el-pagination button:disabled,
+.el-pagination .btn-next{
+    background-color: transparent;
+}
+.el-dialog, .el-pager li{
+    background-color: transparent;
+    color: #fff;
+}
+.el-pagination .btn-next, .el-pagination .btn-prev{
+    color: #fff;
+}
+
+.el-pagination__editor.el-input .el-input__inner{
+    background-color:#409eff ;
+    color: #fff;
+    border: 0px;
+}
+
+.el-pager li.active{
+    background-color:#409eff ;
+    color: #fff;
+    border-radius: 4px;
+}
+.el-pager li.btn-quicknext, .el-pager li.btn-quickprev{
+    color: #fff;
+}
+
+
+
+
+
+</style>
+
+<body>
+    <div id="app">
+        
+        <!-- <div id="LookAt" class="postion_l101" style="display:none;background-color:#073a7d ;height: auto;;width: 50rem;left:30%">
+            <div id="changeColor3" class="postion_l1 size1 paramhead" style="background-color: #1662ad;"><span style="padding-left: 10px;">详情查看</span></div>
+
+        
+           <table id="TabPoint" class="scroll_piotable_head" style="border: 0px red solid;color: #fff;font-size: 14px;width: 300px;margin-top: 100px;margin-left: 100px;text-align: center;">
+            <thead>
+                <tr>
+                    <td width="20%">序号</td>
+                    <td width="80%">点位名称</td>
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+           </table>
+
+              <div align=center class="yesOrNo" style="margin-left: 30rem;margin-top: 5rem;">
+  
+                <input type="button" class="input-button" id="button4" value="退出" onclick="hiddenparam();"
+                  style="cursor:pointer;" />
+              </div>
+         </div> -->
+
+         
+        
+
+
+        <div id="wrapDiv"
+            style="overflow:hidden;position:relative;left:0px;top:0px;border:0px #ffff00 solid;width:100%;height:100%;">
+            <table style="width:100%;height:90%;border:0px #ff0000 solid;">
+  
+                <tr>
+                    <td height=35px width=60px style="text-align: left;color: #FFF;">时间范围：</td>
+                    <td>
+                        <div style="margin-top: 2px; height: 100%;">
+                            <div style="height: 100%">
+                                <el-date-picker
+                                 v-model="value1" 
+                                 type="datetimerange" 
+                                 range-separator="至"
+                                start-placeholder="开始日期" 
+                                end-placeholder="结束日期" 
+                                format="yyyy-MM-dd HH:mm:ss" 
+                                value-format="yyyy-MM-dd HH:mm:ss"
+                                @change="selectTime">
+                                </el-date-picker>
+                            </div>
+                            
+                        </div>
+
+                        <div style="margin-top: -28px;">
+                            <div  onclick="toExcel();" alt="" title=""  style=" cursor:pointer;float: right;margin-left:15px;background-color: #409eff;color:#fff;width: 65px;height: 20px;text-align: center;line-height:21px;border-radius: 2px;margin-right: 20px;">
+                                <span style="padding-left: 10px;">导出</span>
+                                <div><img src="img/导出.png" style="margin-top:-17px ;margin-left: 8px;float:left;width:12px;height:12px;"></div>  <!-- //暂时借用一下导出功能 -->
+                            </div>
+                            <div onclick="jumpAdd()" alt="" title="" style=" cursor:pointer;float: right;margin-left:10px;background-color: #4cac29;color:#fff;width: 65px;height: 20px;text-align: center;line-height:21px;border-radius: 2px;">
+                                添加任务
+                            </div>  <!--  原本的弹窗点击事件 onclick="ShowParam()" 【ShowParam用错函数名了吧？】   现在改为跳转到任务管理页面的新增 onclick="jumpAdd()" -->
+
+                        </div>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td colspan=2 valign=top>
+                        <div id="divHeader"
+                            style="height:593px;overflow-y:hidden;overflow-x:hidden;width:698px;border:0px #A9C8C1 solid;margin-top: 10px;border: 1px #0c41b1 solid;">
+                            <!-- 巡检列表 -->
+                            <table  id='DataTable' class="scroll_table_head">
+                                <thead>
+
+                                    <th width="5%" style="border: 0px #7d16ad solid;">选择</th>
+                                    <th width="5%" style="border: 0px #1662ad solid;">序号</th>
+                                    <th width="15%" style="border: 0px #ad6b16 solid;">任务名称</th>
+                                    <th width="15%" style="border: 0px #1662ad solid;">执行时间</th>
+                                    <th width="18%" style="border: 0px #ad1669 solid;">任务状态</th>
+                                    <th width="12%" style="border: 0px #5333e2 solid;">巡检类型</th>
+                                    <th width="7%" style="border: 0px #ad1680 solid;">任务结果</th>
+                                    <th width="15%" style="border: 0px #2be052 solid;">操作</th>
+                                </thead>
+                                <tbody id="tbody">
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <!-- <div id="page_contents" class="changePage">
+                <div  class="page" style="float: right;">
+                    <div class="changePage_div1"><span style="color: #fff;font-size: 12px;padding-top: 5px;padding-left: 10px;"> <span class="ho">第<span id="a2"></span>/<span id="a1"></span>页</span></span></div>
+                    <div class="changePage_div2"><img src="img/左.png" onclick="change1(--pageno)" style="width: 10px;height:10px;padding-top: 5px;" /></div>
+                    <div class="changePage_div5" style="line-height: 12px;padding-left: 5px;"><span id="a3"  style="width: 30px;border: 0px #0c41b1 solid;color: #1662ad;width: 90px;"></span></div> 
+                    <div class="changePage_div6" style="padding-left: 5px;"><img src="img/右.png" onclick="change1(++pageno)"  style="width: 10px;height:10px;padding-top: 5px;" /></div>
+                </div>
+
+
+
+
+        </div> -->
+            
+	<div style="display:none" id="p"></div><!-- //分页功能这句话别忘了加了 -->
+
+        </div>
+    </div>
+    </div>
+
+    <input type="hidden" id="Task_Rule_index_hidden" value="">
+    </div>
+
+
+
+
+    
+    <div id="pageChild" class="pageChild">
+        <template>
+            <div class="block">
+              <!-- <span class="demonstration">完整功能</span> -->
+              <el-pagination
+                @size-change="handleSizeChange"
+                @current-change="handleCurrentChange"
+                :current-page="currentPage"
+               
+                :page-size="15"
+                layout="total, prev, pager, next, jumper"
+                :total="totalnum">
+              </el-pagination>
+            </div>
+        </template>
+    </div>
+
+
+    <input type="hidden" id="Jump1" value="">
+    <input type="hidden" id="Jump2" value="">
+    <input type="hidden" id="Jump3" value="">
+    <input type="hidden" id="Jump4" value="">
+
+    <input type="hidden" id="Jumptask" value="">
+
+</body>
+
+</html>

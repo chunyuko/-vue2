@@ -1,0 +1,157 @@
+.d_wrap {BACKGROUND: #ffffff;padding-bottom:20px;}
+.d_wrap .dt {}
+.d_wrap .dt STRONG {LINE-HEIGHT: 25px;PADDING-LEFT: 10px;PADDING-RIGHT: 4px;DISPLAY: block;FLOAT: left;LETTER-SPACING: 1px;HEIGHT: 25px;COLOR: #431D12;}
+.d_wrap .dt STRONG A {COLOR: #431D12;FONT-SIZE: 12px;}
+/*
+.d_wrap .dt STRONG A:hover {COLOR: red;FONT-SIZE: 12px;}
+*/
+.d_wrap .dc {BORDER-top: #c6d0f4 1px solid;WIDTH: 100%;BACKGROUND: #f1f3fc;HEIGHT: 25px;CLEAR: both;OVERFLOW: hidden;}
+.d_wrap .dc STRONG {LINE-HEIGHT: 25px;DISPLAY: block;margin:0px auto;LETTER-SPACING: 1px;HEIGHT: 25px;COLOR: #431D12;}
+.d_wrap .dc STRONG A {COLOR: #431D12;FONT-SIZE: 12px;}
+/*
+.d_wrap .dc STRONG A:hover {COLOR: red;FONT-SIZE: 12px;}
+*/
+.d_wrap .dt SPAN.more {FLOAT: right;LINE-HEIGHT: 25px;PADDING-RIGHT: 8px;font-weight : bold;text-align:right;margin-right:0px;}
+.d_wrap .des {BACKGROUND:#ffffff;LINE-HEIGHT:25px;width:50%;margin:5px auto;text-align :center;}
+.d_wrap .des em {}
+.d_wrap .des A {}
+/*
+.d_wrap .des A:hover {COLOR: blue;}
+*/
+.d_wrap .dd {PADDING-BOTTOM: 3px;PADDING-LEFT: 10px;WIDTH: 100%;PADDING-RIGHT: 4px;CLEAR: both;PADDING-TOP: 5px;}
+/*
+.d_wrap .dd A:hover {COLOR: red;}
+*/
+.d_wrap .de {PADDING-top: 10px;}
+.d_wrap .de A {/*COLOR: #003399; */color:#1111CC;FONT-SIZE: 14px;TEXT-DECORATION: underline;}
+/*
+.d_wrap .de A:hover {COLOR: red;FONT-SIZE: 14px;}
+*/
+.d_wrap INPUT {MARGIN: 2px 0px;}
+
+.d_wrap .rl {
+	width:10%;
+	LINE-HEIGHT: 25px;
+	PADDING-LEFT: 10px;
+	DISPLAY: block;
+	FLOAT: left;
+	LETTER-SPACING: 1px;
+	HEIGHT: 25px;
+	COLOR: #ffffff;
+	border:0px #00ff00 solid;
+	
+	BACKGROUND:#000000;
+	FILTER: Alpha( style=1,opacity=0,finishOpacity=100,startX=100,finishX=0,startY=100,finishY=0);
+	BACKGROUND-COLOR: 1
+	
+	
+	}
+.d_wrap .rr {
+	FLOAT: right;
+	LINE-HEIGHT: 25px;
+	PADDING-RIGHT: 8px;
+	font-weight : bold;
+	width:85%;
+	height:25px;
+	white-space:nowrap;
+	border:0px #ff0000 solid;
+	
+
+	}
+
+/*
+.d_wrap .rr A :hover {
+	BACKGROUND-COLOR: #b0d2eb; COLOR: #fff !important
+}
+*/
+
+.d_wrap .rll {
+	width:10%;
+	LINE-HEIGHT: 25px;
+	PADDING-LEFT: 10px;
+	DISPLAY: block;
+	FLOAT: left;
+	LETTER-SPACING: 1px;
+	HEIGHT: 25px;
+	COLOR: #ffffff;
+	border:0px #00ff00 solid;
+	
+	BACKGROUND-COLOR: 1
+	
+	
+	}
+
+.verybigd_wrap{width:100%; MARGIN: 0px auto;}
+.bigd_wrap{width:98%; MARGIN: 8px auto;}
+.normald_wrap{width:90%;MARGIN: 8px auto;}
+.commond_wrap{width:80%;MARGIN: 8px auto;}
+.class_wrap{MARGIN-TOP: 8px;PADDING: 1px;FLOAT: left;OVERFLOW: hidden;MARGIN-RIGHT: 1%;MARGIN-left: 1%;}
+
+.picd_wrap{WIDTH: 100px;	MARGIN-TOP: 8px;PADDING: 1px;OVERFLOW: hidden;MARGIN-RIGHT: 1%;MARGIN-left: 1%;height:125px;}
+
+.onkeyadd_wrap{	POSITION: relative;WIDTH: 820px;OVERFLOW: hidden;}
+.commodity_wrap {POSITION: relative;WIDTH: 1000px;MARGIN: 8px auto;OVERFLOW: hidden;}
+.com_big_wrap {POSITION: relative;WIDTH: 97%;MARGIN: 8px auto;height:100%;OVERFLOW: hidden;PADDING-BOTTOM: 20px;}
+
+.taobaoke_wrap{WIDTH: 18%;	MARGIN-TOP: 8px;PADDING: 1px;OVERFLOW: hidden;MARGIN-left: 1%;height:208px;}
+
+.app_wrap{WIDTH: 13%;	MARGIN-TOP: 8px;PADDING: 1px;OVERFLOW: hidden;MARGIN-left: 1%;height:90px;}
+
+
+
+
+.noborder{BORDER: #c6d0f4 0px solid;}
+
+
+
+.class_wrap .dt strong{	
+	width:60%;
+
+	FILTER: Alpha( style=1,opacity=0,finishOpacity=100,startX=100,finishX=0,startY=100,finishY=0);
+}
+.class_wrap .dt span{	
+	width:30%;
+
+	FILTER: Alpha( style=1,opacity=0,finishOpacity=100,startX=0,finishX=100,startY=0,finishY=100);
+}
+
+
+
+.d_wrap .hh
+{
+	BACKGROUND:#ffffff;
+	FILTER: Alpha( style=1,opacity=20,finishOpacity=100,startX=0,finishX=0,startY=0,finishY=100);
+	TEXT-ALIGN: center;
+	margin:0px auto;
+	width:100%;
+}
+.d_wrap .hs
+{
+	color:#000000;
+	font-size:12px;
+	margin:0px auto;LINE-HEIGHT: 25px;text-align :center;
+	width:100%;
+}
+
+
+.sbody {position:absolute;margin:0px auto;padding:0px;width:195px;OVERFLOW: hidden;BORDER: #c6d0f4 1px solid;PADDING: 1px;BACKGROUND: #ffffff;}
+.sbody .ddt {BORDER-BOTTOM: #c6d0f4 1px solid;WIDTH: 100%;BACKGROUND: #f1f3fc;HEIGHT: 25px;CLEAR: both;OVERFLOW: hidden;}
+.sbody .ddt STRONG {LINE-HEIGHT: 25px;PADDING-LEFT: 10px;PADDING-RIGHT: 4px;DISPLAY: block;BACKGROUND: #f1f3fc;FLOAT: left;LETTER-SPACING: 1px;HEIGHT: 25px;COLOR: #431D12;}
+.sbody .ddt STRONG A {COLOR: #431D12;FONT-SIZE: 12px;}
+/*
+.sbody .ddt STRONG A:hover {COLOR: red;FONT-SIZE: 12px;}
+*/
+.sbody .ddt SPAN.more {POSITION: relative;LINE-HEIGHT: 25px;PADDING-RIGHT: 8px;FLOAT: right;COLOR: #647ce0;}
+
+.bigsbody{height:95px;}
+.smallsbody{height:22px;}
+
+.distop{PADDING-BOTTOM: 3px;PADDING-LEFT: 20px;PADDING-RIGHT: 3px;PADDING-TOP: 3px;FLOAT: left;HEIGHT: 20px;OVERFLOW: hidden;}
+.distop A {COLOR: #000000; TEXT-DECORATION: none}
+/*
+.distop A:hover {COLOR: #f33; TEXT-DECORATION: underline}
+*/
+.distop img {PADDING-LEFT: 0px;PADDING-top: 0px;border:0px;height:14px;width:14px;}
+.bigdistop{WIDTH: 230px;}
+.smalldistop{WIDTH: 145px;}
+.distop .smallimg{PADDING-LEFT: 0px;PADDING-top: 0px;border:0px;height:9px;width:8px;}

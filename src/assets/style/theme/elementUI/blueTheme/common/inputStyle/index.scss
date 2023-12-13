@@ -1,0 +1,27 @@
+// 右侧带搜索按钮的 input 框体
+@mixin inputStyle1($border-color: #dcdfe6, $btn-border: 0, $btn-bgColor: #005dd5) {
+  :deep(.el-input__inner) {
+    width: 100% !important;
+    height: 3.3rem;
+    line-height: 3rem;
+    color: rgb(56, 55, 55) !important;
+    background-color: transparent !important;
+    border: 0.1rem solid $border-color !important;
+    // border-right: 0 !important;
+  }
+  :deep(.el-input-group__append) {
+    text-align: center;
+    border: $btn-border;
+    background-color: $btn-bgColor !important;
+
+    button {
+      padding: 0.5rem 1rem !important;
+      // color: black !important;
+      background-color: $btn-bgColor !important;
+      border: 0 !important;
+    }
+  }
+  :deep(.el-tree-node:focus > .el-tree-node__content) {
+    background-color: $btn-bgColor;
+  }
+}

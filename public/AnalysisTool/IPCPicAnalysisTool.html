@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <SCRIPT type=text/javascript src="../patrol/js/sys.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/controlparam.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/select.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/radio.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/checkbox.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/calendar.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/controlmain.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/table.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/xmlhttp.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/obj.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/json.js"></SCRIPT>
+    <SCRIPT type=text/javascript src="../patrol/js/zh-cn.js"></SCRIPT>
+    <script type="text/javascript" src="../patrol/js/devicesearch.js"></script>
+
+
+    <SCRIPT type=text/javascript src="../patrol/js/jquery.min.js"></SCRIPT>
+    <!-- 关于树的构成所需文件 -->
+    <link rel="stylesheet" href="../patrol/static/element-ui/lib/theme-chalk/index.css" />
+    <script src="../patrol/static/vue.min.js"></script>
+    <script src="../patrol/static/element-ui/lib/index.js"></script>
+    <script src="../patrol/static/axios-0.19.2/dist/axios.min.js"></script>
+    <script type="text/javascript" src="../patrol/js/index.full.js"></script>
+    <script type="text/javascript" src="../patrol/js/general.js"></script>
+    <!-- 本身文件 -->
+    <script type="text/javascript" src="js/IPCPicAnalysisTool.js"></script>
+
+    <!-- <script type="text/javascript" src="../../src/views/dataTools/hooks/common/useApi.js"></script> -->
+
+  </head>
+  <style>
+ 
+#leftPage{
+  height:780px;
+  width:300px;
+  background: #00176d;
+  display: inline-block;
+  /* overflow: auto; */
+}
+#TreeDiv{
+  height:100%;
+  width:100%;
+  padding-top: 10px;
+}
+#treeD{/* 树滚动条的关键 */
+  overflow: auto;/* 树滚动条的关键 */
+    width: 300px;/* 树滚动条的关键 */
+    height: 697px;/* 树滚动条的关键 */
+    position: relative;/* 树滚动条的关键 */
+}
+.el-tree{/* 树 */
+      margin-top: 10px;
+background: transparent;
+color: #fff;
+position: absolute; /* 树滚动条的关键 */
+    }
+.el-tree-node__content:hover{   /* 鼠标划过 */
+    background-color: #2863a6 ;
+}
+ /* 改变被点击节点背景颜色，字体颜色 */
+ .el-tree-node:focus > .el-tree-node__content {
+    background-color: #4a9de7 !important;
+    color: #fff !important;
+  }
+/* 滚动条整体 */
+#treeD::-webkit-scrollbar {
+    height: 7px;
+    width: 7px;
+}
+/* 两个滚动条交接处 -- x轴和y轴 */
+#treeD::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+/* 滚动条滑块 */
+#treeD::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #3ddeec;
+}
+ .el-input__inner{/* 时间以及筛选 */
+      height: 30px;
+      background-color: transparent;
+     border: 1px #2454a0 solid;
+     cursor: default;
+     COLOR: #C0C4CC;
+    }
+    .el-input{/* 筛选 */
+      width: 90%;
+      padding-left: 10px;
+    }
+
+    .el-icon-time:before{
+      content: "\e78e"
+    }
+.serchSure{
+  background: #2b6ceb;
+    border: 0px;
+    border-radius: 2px;
+    height: 30px;
+    width: 85px;
+    color: #fff;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
+
+
+#rightPage{
+
+    display: inline-block;
+    /* background: rgba(140, 204, 241, 0.178); */
+    height:788px;
+    /* width: 600px; */
+    /* margin-top: 75px; */
+    position: absolute;
+    color: #fff;
+}
+
+#TimePicnum{
+  display: flex;
+}
+#Picnum{
+  padding-left: 950px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+#Time{
+  padding-left: 30px;
+}
+.el-date-editor .el-range-input {
+  color: #fff;
+    background-color: #14357b;
+   
+    }
+    .el-range-editor.el-input__inner{
+        height: 40px;
+        background-color: #14357b;
+        border: 0px;
+
+    }
+    .el-date-editor .el-range-separator {
+        color: #a7bfdb;
+        line-height: 30px
+    }
+
+
+    .el-icon-date:before {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        margin-right: 5px;
+        content: "";
+        background: url("img/选择日期.png") no-repeat 0 0;
+        background-size: 100%;
+    }
+
+    .el-date-editor .el-range__icon {
+        line-height: 22px;
+    }
+    .el-picker-panel {
+          left: 35;
+    }
+
+    #TimePicnum{
+      padding-top:10px
+    }
+
+
+    #Pic{
+      height: 620px;
+    width: 100%;
+    /* background: #a7bfdb; */
+    margin-top: 10px;
+    }
+    #pagenum{
+      padding-top: 19px;
+    text-align: center;
+    color: #fff;
+    CURSOR: default;
+    }
+    .pageclick{
+      height: 30px;
+    background: #0c337a;
+    width: 80px;
+    line-height: 30px;
+    border-radius: 2px;
+    cursor: default;
+    }
+
+/* 6 */
+    #row2{
+      padding-top: 10px;
+    }
+    #row1,
+    #row2{
+      padding-left: 10px;
+    }
+    .rowpic{
+      width: 400px;
+    height: 300px;
+    background: #0b3079;
+    display: inline-block;
+    margin-left: 70px;
+    }
+    .rowpicture6{
+      width: 360px;
+    height: calc(9/16*360px);
+    /* background: #dba7d2; */
+    margin-left: 20px;
+    margin-top: 15px;
+    }
+
+    .rowpicture6 img{
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
+    .Picpointname6,
+    .Surestatus6,
+    .Picstatus6,
+    .Pictime6,
+    .Picbutton6{
+      display: inline-block;
+      cursor: default;
+    }
+    .Picpointname6{
+      margin-top: 10px;
+    color: #fff;
+    margin-left: 15px;
+    }
+    .Surestatus6{
+      float: right;
+    margin-right: 20px;
+    width: 60px;
+    background: #065c6f;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    margin-top: 10px;
+    border-radius: 2px;
+    }
+    .Picstatus6{
+      margin-top: 13px;
+    margin-left: 15px;
+    color: #fff;
+    }
+    .Pictime6{
+      margin-left: 20px;
+    color: #fff;
+    }
+    .Picbutton6{
+      float: right;
+    margin-right: 20px;
+    width: 60px;
+    background: #256cf6;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    margin-top: 13px;
+    border-radius: 2px;
+    }
+
+    /* 9 */
+    #row29,
+    #row39{
+      padding-top: 10px;
+    }
+    #row19,
+    #row29,
+    #row39{
+      padding-left: 10px;
+    }
+    .rowpic9{
+      width: 290px;
+    height: 200px;
+    background: #0b3079;
+    display: inline-block;
+    margin-left: 150px;
+    }
+    .rowpicture9{
+      width: 250px;
+    height: calc(9/16*250px);
+    /* background: #dba7d2; */
+    margin-left: 20px;
+    margin-top: 5px;
+    }
+
+    .rowpicture9 img{
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
+    .Picpointname9,
+    .Surestatus9,
+    .Picstatus9,
+    .Pictime9,
+    .Picbutton9{
+      display: inline-block;
+      cursor: default;
+    }
+    .Picpointname9{
+      margin-top: 4px;
+    color: #fff;
+    margin-left: 15px;
+    font-size: 13px;
+    }
+    .Surestatus9{
+      float: right;
+    margin-right: 20px;
+    width: 50px;
+    background: #065c6f;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    margin-top: 5px;
+    border-radius: 2px;
+    font-size: 13px;
+    }
+    .Picstatus9{
+      margin-top: 5px;
+    margin-left: 15px;
+    color: #fff;
+    font-size: 13px;
+    }
+    .Pictime9{
+      margin-left: 20px;
+    color: #fff;
+    font-size: 13px;
+    }
+    .Picbutton9{
+      float: right;
+    margin-right: 20px;
+    width: 50px;
+    background: #256cf6;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    margin-top: 5px;
+    border-radius: 2px;
+    font-size: 13px;
+    }
+
+
+   /*  4 */
+   
+   #row24{
+      padding-top: 10px;
+    }
+    #row14,
+    #row24{
+      padding-left: 10px;
+    }
+    .rowpic4{
+      width: 400px;
+    height: 300px;
+    background: #0b3079;
+    display: inline-block;
+    margin-left: 200px;
+    }
+    .rowpicture4{
+      width: 360px;
+    height: calc(9/16*360px);
+    /* background: #dba7d2; */
+    margin-left: 20px;
+    margin-top: 15px;
+    }
+
+    .rowpicture4 img{
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
+    .Picpointname4,
+    .Surestatus4,
+    .Picstatus4,
+    .Pictime4,
+    .Picbutton4{
+      display: inline-block;
+      cursor: default;
+    }
+    .Picpointname4{
+      margin-top: 10px;
+    color: #fff;
+    margin-left: 15px;
+    }
+    .Surestatus4{
+      float: right;
+    margin-right: 20px;
+    width: 60px;
+    background: #065c6f;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    margin-top: 10px;
+    border-radius: 2px;
+    }
+    .Picstatus4{
+      margin-top: 13px;
+    margin-left: 15px;
+    color: #fff;
+    }
+    .Pictime4{
+      margin-left: 20px;
+    color: #fff;
+    }
+    .Picbutton4{
+      float: right;
+    margin-right: 20px;
+    width: 60px;
+    background: #256cf6;
+    height: 25px;
+    text-align: center;
+    line-height: 25px;
+    margin-top: 13px;
+    border-radius: 2px;
+    }
+
+input[type='radio']:after {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 1.4rem;
+  top: -0.2rem;
+  left: -0.1rem;
+  position: relative;
+  background-color: #fff;
+  content: '';
+  display: inline-block;
+  visibility: visible;
+  border: 0.1rem solid #a7bfdb;
+}
+
+    input[type='radio']:checked:after {
+background-color: #055dbd;
+}
+
+input[type='radio']:checked  + span  {
+  color: #0b8be6;
+  /* background-color: #0b8be6; */
+  /* font-weight: bold; */
+}
+
+/* 禁用节点不显示图标 */
+.el-tree .el-checkbox__input.is-disabled{
+    display: none;
+  }
+  
+ /*  图标位置 */
+.is-disabled{
+  margin-left: -6px;
+ }
+
+.WindPicDiv{
+  width: 100%;
+  height: 100%;
+  /* background-color: #00176d; */
+}
+.WindPicDivTitle{
+  width: 100%;
+  height: 8%;
+  background-color: #1662ad;
+  line-height: 35px;
+
+}
+ #WindPicbutton{
+  height: 500px;
+    width: 800px;
+    position: relative;
+    margin-top: -650px;
+    margin-left: 400px;
+    display: none;
+ }
+
+ .butt{
+  width: 160px;
+    height: 40px;
+    background-color: #14357b;
+    color: #C0C4CC;
+    border-radius: 2px;
+    border: 0px #fff solid;
+    font-size: 18px;
+    letter-spacing:1.2px;
+ }
+ /* .butt:focus {
+   background:#2b6ceb;
+   color: #fff;
+    border: 1px #fff solid;
+} */
+  </style>
+  <body>
+    <!-- 0整体页面 -->
+    <div id="IPCPic">
+      <!--1右侧树 -->
+      <div id="leftPage">
+        <div id="BackTree">
+          <button class="serchSure" onclick="serchSure()">确定</button>
+          <!-- 1.2.2 树-->
+          <div id="TreeDiv">
+            <el-input placeholder="请输入搜索文本" v-model="filterText"> </el-input>
+            <div style="border: 0px solid red;height: 25px;margin-top: -35px;padding-left: 240px;">
+              <div style="width: 30px;height: 30px; background: rgb(11, 96, 171); margin-top: 5px;line-height: 30px;border-bottom-right-radius: 5px;border-top-right-radius: 5px;padding-left: 10px;">
+                <img src="../patrol/img/查询.png" style="width: 13px;height:13px;position: relative;"/>
+              </div>
+            </div>
+            <div id="treeD">
+            <el-tree
+              class="filter-tree"
+              :data="treeData"
+              show-checkbox
+              node-key="id"
+              :props="defaultProps"
+              @check='getCheckedNode'
+              
+              :filter-node-method="filterNode"
+              ref="tree"
+            >
+          </div><!--   default-expand-all -->
+            </el-tree>
+          </div>   
+       </div>
+      </div>
+      <!-- 2图片显示 -->
+      <div id="rightPage">
+        <div id="FunButton" style="text-align: center; height: 60px;"><!-- visibility: hidden; -->
+          <div style="padding-top:10px">
+              <button class="butt" id="butt1">历史图片分析</button>
+              <button class="butt" id="butt2" onclick="" style="margin-left: 20px;">图片横向对比</button>
+              <!-- <button class="butt" onclick="echartsLine()" style="margin-left: 20px;">历史数据曲线</button> -->
+          </div>
+       
+        </div>
+        <div id="TimePicnum">
+          <div id="Time">
+            <el-date-picker
+            v-model="value1" 
+            type="datetimerange" 
+            range-separator="至"
+           start-placeholder="开始日期" 
+           end-placeholder="结束日期" 
+           format="yyyy-MM-dd HH:mm:ss" 
+           value-format="yyyy-MM-dd HH:mm:ss"
+           @change="selectTime">
+           </el-date-picker>
+          </div>
+          <div id="Picnum">
+            <input type="radio" name="selectNum" value="4" onclick="radioFun()"><span style="padding-left:5px">4</span>
+            <input type="radio" name="selectNum" value="6" onclick="radioFun()" checked="checked" style="margin-left:15px"><span style="padding-left:5px">6</span>
+            <input type="radio" name="selectNum" value="9" onclick="radioFun()" style="margin-left:15px"><span style="padding-left:5px">9</span>
+
+          </div>
+        </div>
+        <div id="Pic">
+          <div id="4Pic" style="width: 100%;height: 100%;display: none;">
+            <div id="row14">
+      
+              <div  class="rowpic4" id="4rowpic_0"> 
+                <div class="Picpointname4" ><input type="radio" checked="checked"><div id="4Picpointname_0" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus4" id="4Surestatus_0"></div>
+                <div  class="rowpicture4" id="4displayPic_0"></div>
+                <div class="Picstatus4"  id="4Picstatus_0"></div>
+                <div class="Pictime4"  id="4Pictime_0"  ></div>
+                <div class="Picbutton4"  name="Picbutton" value="" id="4Picbutton_0" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+              <div class="rowpic4" id="4rowpic_1"> 
+                <div class="Picpointname4" ><input type="radio" checked="checked"><div id="4Picpointname_1" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus4" id="4Surestatus_1"></div>
+                <div  class="rowpicture4" id="4displayPic_1"></div>
+                <div class="Picstatus4"   id="4Picstatus_1"></div>
+                <div class="Pictime4"  id="4Pictime_1" ></div>
+                <div class="Picbutton4"  name="Picbutton" value="" id="4Picbutton_1" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+            </div>
+            <div  id="row24">
+              <div  class="rowpic4" id="4rowpic_2"> 
+                <div class="Picpointname4"><input type="radio" checked="checked"><div id="4Picpointname_2" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus4" id="4Surestatus_2"></div>
+                <div  class="rowpicture4" id="4displayPic_2"></div>
+                <div class="Picstatus4"  id="4Picstatus_2"></div>
+                <div class="Pictime4"  id="4Pictime_2"></div>
+                <div class="Picbutton4"  name="Picbutton" value="" id="4Picbutton_2" onclick="PicbuttonClick(event)">详情</div>
+
+              </div>
+              <div  class="rowpic4" id="4rowpic_3"> 
+                <div class="Picpointname4"><input type="radio" checked="checked"><div id="4Picpointname_3" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus4" id="4Surestatus_3"></div>
+                <div  class="rowpicture4" id="4displayPic_3"></div>
+                <div class="Picstatus4"   id="4Picstatus_3"></div>
+                <div class="Pictime4"  id="4Pictime_3"></div>
+                <div class="Picbutton4"  name="Picbutton" value="" id="4Picbutton_3" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+             
+            </div>
+          </div>
+          <div id="6Pic" style="width: 100%;height: 100%;">
+            <div id="row1">
+              <div class="rowpic" id="6rowpic_0"> 
+                <div class="Picpointname6"><input type="radio" checked="checked"><div id="6Picpointname_0" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus6" id="6Surestatus_0"></div>
+                <div  class="rowpicture6" id="6displayPic_0"></div>
+                <div class="Picstatus6"   id="6Picstatus_0"></div>
+                <div class="Pictime6"  id="6Pictime_0"></div>
+                <div class="Picbutton6"  name="Picbutton"  value="" id="6Picbutton_0" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+              <div  class="rowpic" id="6rowpic_1"> 
+                <div class="Picpointname6"><input type="radio" checked="checked"><div id="6Picpointname_1" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus6" id="6Surestatus_1"></div>
+                <div  class="rowpicture6" id="6displayPic_1"></div>
+                <div class="Picstatus6"   id="6Picstatus_1"></div>
+                <div class="Pictime6"  id="6Pictime_1"></div>
+                <div class="Picbutton6"  name="Picbutton"  value="" id="6Picbutton_1" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+              <div class="rowpic" id="6rowpic_2"> 
+                <div class="Picpointname6"><input type="radio" checked="checked"><div id="6Picpointname_2" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus6" id="6Surestatus_2"></div>
+                <div  class="rowpicture6" id="6displayPic_2"></div>
+                <div class="Picstatus6"   id="6Picstatus_2"></div>
+                <div class="Pictime6"  id="6Pictime_2"></div>
+                <div class="Picbutton6"  name="Picbutton"  value="" id="6Picbutton_2" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+            </div>
+            <div  id="row2">
+              <div  class="rowpic" id="6rowpic_3"> 
+                <div class="Picpointname6"><input type="radio" checked="checked"><div id="6Picpointname_3" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus6" id="6Surestatus_3"></div>
+                <div  class="rowpicture6" id="6displayPic_3"></div>
+                <div class="Picstatus6"   id="6Picstatus_3"></div>
+                <div class="Pictime6"  id="6Pictime_3"></div>
+                <div class="Picbutton6"  name="Picbutton"  value=""  id="6Picbutton_3" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+
+      
+              <div  class="rowpic" id="6rowpic_4"> 
+                <div class="Picpointname6"><input type="radio" checked="checked"><div id="6Picpointname_4" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus6" id="6Surestatus_4"></div>
+                <div  class="rowpicture6" id="6displayPic_4"></div>
+                <div class="Picstatus6"   id="6Picstatus_4"></div>
+                <div class="Pictime6"  id="6Pictime_4"></div>
+                <div class="Picbutton6"  name="Picbutton"  value=""  id="6Picbutton_4" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+         
+              <div  class="rowpic" id="6rowpic_5"> 
+                <div class="Picpointname6"><input type="radio" checked="checked"><div id="6Picpointname_5" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus6" id="6Surestatus_5"></div>
+                <div  class="rowpicture6" id="6displayPic_5"></div>
+                <div class="Picstatus6"   id="6Picstatus_5"></div>
+                <div class="Pictime6"  id="6Pictime_5"></div>
+                <div class="Picbutton6"  name="Picbutton"  value="" id="6Picbutton_5" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+
+              </div>
+        
+          </div>
+          <div id="9Pic" style="width: 100%;height: 100%;display: none;">
+            <div id="row19">
+              <div class="rowpic9" id="9rowpic_0"> 
+                <div class="Picpointname9"><input type="radio" checked="checked"><div id="9Picpointname_0" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus9" id="9Surestatus_0"></div>
+                <div  class="rowpicture9" id="9displayPic_0"></div>
+                <div class="Picstatus9"   id="9Picstatus_0"></div>
+                <div class="Pictime9"  id="9Pictime_0"></div>
+                <div class="Picbutton9"  name="Picbutton"  value="" id="9Picbutton_0" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+             
+              <div  class="rowpic9"  id="9rowpic_1"> 
+                <div class="Picpointname9"><input type="radio" checked="checked"><div id="9Picpointname_1" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus9" id="9Surestatus_1"></div>
+                <div  class="rowpicture9" id="9displayPic_1"></div>
+                <div class="Picstatus9"   id="9Picstatus_1"></div>
+                <div class="Pictime9"  id="9Pictime_1"></div>
+                <div class="Picbutton9"  name="Picbutton"  value="" id="9Picbutton_1" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+              <div class="rowpic9"  id="9rowpic_2"> 
+                <div class="Picpointname9"><input type="radio" checked="checked"><div id="9Picpointname_2" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus9" id="9Surestatus_2"></div>
+                <div  class="rowpicture9" id="9displayPic_2"></div>
+                <div class="Picstatus9"   id="9Picstatus_2"></div>
+                <div class="Pictime9"  id="9Pictime_2"></div>
+                <div class="Picbutton9"  name="Picbutton"  value="" id="9Picbutton_2" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+            </div>
+            <div  id="row29">
+              <div  class="rowpic9" id="9rowpic_3"> 
+                <div class="Picpointname9"><input type="radio" checked="checked"><div id="9Picpointname_3" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus9" id="9Surestatus_3"></div>
+                <div  class="rowpicture9" id="9displayPic_3"></div>
+                <div class="Picstatus9"   id="9Picstatus_3"></div>
+                <div class="Pictime9"  id="9Pictime_3"></div>
+                <div class="Picbutton9"  name="Picbutton" value="" id="9Picbutton_3" onclick="PicbuttonClick(event)">详情</div>
+
+              </div>
+              <div  class="rowpic9" id="9rowpic_4"> 
+                <div class="Picpointname9"><input type="radio" checked="checked"><div id="9Picpointname_4" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus9" id="9Surestatus_4"></div>
+                <div  class="rowpicture9" id="9displayPic_4"></div>
+                <div class="Picstatus9"   id="9Picstatus_4"></div>
+                <div class="Pictime9"  id="9Pictime_4"></div>
+                <div class="Picbutton9"  name="Picbutton" value="" id="9Picbutton_4" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+              <div  class="rowpic9" id="9rowpic_5"> 
+                <div class="Picpointname9"><input type="radio" checked="checked"><div id="9Picpointname_5" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus9" id="9Surestatus_5"></div>
+                <div  class="rowpicture9" id="9displayPic_5"></div>
+                <div class="Picstatus9"   id="9Picstatus_5"></div>
+                <div class="Pictime9"  id="9Pictime_5"></div>
+                <div class="Picbutton9"  name="Picbutton"  value="" id="9Picbutton_5" onclick="PicbuttonClick(event)">详情</div>
+
+              </div>
+            </div>
+            <div  id="row39">
+              <div  class="rowpic9" id="9rowpic_6"> 
+                <div class="Picpointname9"><input type="radio" checked="checked"><div id="9Picpointname_6" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus9" id="9Surestatus_6"></div>
+                <div  class="rowpicture9" id="9displayPic_6"></div>
+                <div class="Picstatus9"   id="9Picstatus_6"></div>
+                <div class="Pictime9"  id="9Pictime_6"></div>
+                <div class="Picbutton9"  name="Picbutton"  value="" id="9Picbutton_6" onclick="PicbuttonClick(event)">详情</div>
+
+              </div>
+              <div  class="rowpic9" id="9rowpic_7"> 
+                <div class="Picpointname9"><input type="radio" checked="checked"><div id="9Picpointname_7" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus9" id="9Surestatus_7"></div>
+                <div  class="rowpicture9" id="9displayPic_7"></div>
+                <div class="Picstatus9"   id="9Picstatus_7"></div>
+                <div class="Pictime9"  id="9Pictime_7"></div>
+                <div class="Picbutton9"  name="Picbutton"  value="" id="9Picbutton_7" onclick="PicbuttonClick(event)">详情</div>
+              </div>
+              <div  class="rowpic9" id="9rowpic_8"> 
+                <div class="Picpointname9"><input type="radio" checked="checked"><div id="9Picpointname_8" style="display: inline-block;margin-left: 5px;"></div></div>
+                <div class="Surestatus9" id="9Surestatus_8"></div>
+                <div  class="rowpicture9" id="9displayPic_8"></div>
+                <div class="Picstatus9"   id="9Picstatus_8"></div>
+                <div class="Pictime9"  id="9Pictime_8"></div>
+                <div class="Picbutton9"  name="Picbutton"  value="" id="9Picbutton_8" onclick="PicbuttonClick(event)">详情</div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="pagenum">
+          <div style="display: inline-block;">共<span id="totalpage"></span>页</div>
+          <div style="display: inline-block;padding-left: 10px;">第<span id="nowpage"></span>/<span id="total"></span>页</div>
+          <div class="pageclick" style="display: inline-block;margin-left: 30px;" onclick="prePage()">上一页</div>
+          <div class="pageclick" style="display: inline-block;margin-left: 10px;" onclick="nextPage()">下一页</div>
+
+        </div>
+
+        <!-- 详情弹窗 -->
+        <div id="WindPicbutton">
+          <div class="WindPicDiv">
+          <div class="WindPicDivTitle"><span style="font-size: 20px;padding-left: 10px;"><b>图片详情</b></span>
+          <img src="../patrol/img/02.png" id="imgId" alt="" onclick="videoStop(event)" style="float: right;padding-right: 20px;padding-top: 10px;" ></div>
+          <!-- <div class='item_' id='o0_layer'  onclick='setoi(0,1)' style="width: 100%;height: 100%;"> -->
+            <iframe src='' name='video0' id='o0' frameborder='1' scrolling='no' style='width: 99.5%;height: 92%;'></iframe>
+            <!-- </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <input type="hidden" id="once" value="0">
+
+  </body>
+</html>

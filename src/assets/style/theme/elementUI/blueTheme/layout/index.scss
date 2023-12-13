@@ -1,0 +1,104 @@
+@import './variables.scss';
+
+/* 横向菜单 */
+.menuBox {
+  padding: 1rem 0;
+
+  .el-menu--horizontal {
+    background-color: transparent;
+    border-bottom: none;
+
+    .sidebarItem {
+      // margin-left: 2rem;
+      background-color: transparent;
+
+      .is-active {
+        color: $blueTheme-color !important;
+        // background-image: $sidebar-active-image !important;
+      }
+
+      .el-submenu {
+        width: 16.3rem;
+        height: 3.8rem;
+        // background-image: $siderbar-bgImage;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+
+        .el-submenu__title {
+          font-size: 14px;
+          text-align: center;
+          color: $blueTheme-color;
+          height: 100%;
+          // font-size: 1rem;
+          display: flex;
+          justify-content: center;
+          line-height: normal;
+          align-items: center;
+          background-color: transparent !important;
+          font-family: 'MicrosoftYaHeiLight';
+
+          &:hover {
+            background-color: transparent !important;
+          }
+
+          i {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* 菜单的浮框 */
+.el-menu--horizontal {
+  .el-menu--popup {
+    background-color: #00367a;
+    min-width: 140px !important;
+    margin: 8px 10px;
+    width: 140px;
+    text-align: center;
+    font-size: 14px;
+    .el-submenu {
+      .el-submenu__title {
+        background-color: #00367a;
+        color: $blueTheme-color;
+      }
+    }
+
+    .el-menu-item {
+      height: 40px;
+      line-height: 40px;
+      background-color: #00367a;
+      color: $blueTheme-color;
+
+      &:not(.is-disabled):hover {
+        height: 40px;
+        line-height: 40px;
+        color: $blueTheme-color;
+        background-color: $blueTheme-menuBgColor-highLight;
+      }
+    }
+
+    .el-menu-item.is-active {
+      line-height: 40px;
+      color: $blueTheme-color;
+      background-color: $blueTheme-menuBgColor-highLight;
+
+      & > .el-submenu__title {
+        color: $blueTheme-color !important;
+        background-color: $blueTheme-menuBgColor-highLight;
+      }
+    }
+
+    .el-menu-item.is-active > .el-submenu__title {
+      color: $blueTheme-color !important;
+      background-color: $blueTheme-menuBgColor-highLight;
+    }
+  }
+}
+.el-menu--horizontal .el-menu .el-menu-item.is-active,
+.el-menu--horizontal .el-menu .el-submenu.is-active > .el-submenu__title {
+  color: $blueTheme-color !important;
+  background-color: $blueTheme-menuBgColor-highLight;
+}

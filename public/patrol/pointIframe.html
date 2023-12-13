@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>任务添加</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <LINK rel=stylesheet type=text/css href="css/stylecommon.css">
+  <LINK rel=stylesheet type=text/css href="css/stylewrap.css">
+  <link rel="StyleSheet" href="css/dtree.css" type="text/css" />
+  <link rel="stylesheet" href="css/fontSizeGlobalStyle.css">
+  <link rel="StyleSheet" href="css/pointIframe.css" type="text/css" />
+  <link rel="StyleSheet" href="css/taskpath.css" type="text/css" />
+  <!-- <link rel="StyleSheet" href="css/multiple-select.min.css" type="text/css" /> -->
+
+  
+  <SCRIPT type="text/javascript" src="js/sys.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="js/controlparam.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/select.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="js/checkbox.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="js/controlmain.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="js/zh-cn.js"></SCRIPT>
+  <SCRIPT type="text/javascript" src="js/radio.js"></SCRIPT>
+  <script type="text/javascript" src="js/obj.js"></script>
+  <SCRIPT type=text/javascript src="js/xmlhttp.js"></SCRIPT>
+  <SCRIPT type=text/javascript src="js/json.js"></SCRIPT>
+  <script type="text/javascript" src="js/devicesearch.js"></script>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <link rel="stylesheet" href="./static/element-ui/lib/theme-chalk/index.css">
+  <script src="./static/vue.min.js"></script>
+  <script src="./static/element-ui/lib/index.js"></script>
+  <script src="./static/axios-0.19.2/dist/axios.min.js"></script>
+
+  <script type="text/javascript" src="js/index.full.js"></script>
+  <script type="text/javascript" src="js/general.js"></script>
+  <script type="text/javascript" src="js/pointIframe.js"></script>
+  <!-- <script type="text/javascript" src="js/multiple-select.min.js"></script> -->
+
+
+
+</head>
+<style>
+#leftSide {
+    float:left;
+    height:100%;
+    width: 30rem;
+    background-color: #0c2c65;
+}
+#app{
+    height:100%;
+    width: 300px;
+    overflow: auto;
+}
+#tree{
+    width: 300px;
+}
+/* 滚动条整体 */
+#app::-webkit-scrollbar {
+    height: 7px;
+    width: 7px;
+}
+/* 两个滚动条交接处 -- x轴和y轴 */
+#app::-webkit-scrollbar-corner {
+    background-color: transparent;
+}
+
+/* 滚动条滑块 */
+#app::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: #3ddeec;
+}
+
+/* 滚动条轨道 滑动块所在轨道 */
+#app::-webkit-scrollbar-track {
+    /* border-radius: 10px; */
+    /* background: #073a7d; */
+}
+
+/* 滚动条两端按钮 */
+#app::-webkit-scrollbar-button {
+}
+
+
+.el-tree-node__content{
+  color: #fff;
+  background-color: #0c2c65;
+
+}
+.el-input__inner{
+  height: 30px;
+  background-color: #0c2c65;
+  color: #fff;
+  border-radius: 20px;
+
+}
+.el-input__inner:hover{
+  background-color: #0c2c65;
+
+}
+.el-tree{
+  background-color: #0c2c65;
+  padding-top: 20px;
+
+}
+.el-tree-node__content:hover{   /* 鼠标划过 */
+    background-color: #2863a6 ;
+}
+
+ /* 改变被点击节点背景颜色，字体颜色 */
+ .el-tree-node:focus > .el-tree-node__content {
+    background-color: #4a9de7 !important;
+    color: #fff !important;
+  }
+  /*节点失焦时的背景颜色*/
+  .el-tree--highlight-current .el-tree-node.is-current > .el-tree-node__content{
+    background-color: #4a9de7 !important;
+    color: #fff !important;
+  }
+  .el-input{
+    width: 80%;
+    /* left: 8%; */
+    /* padding-top: 15px; */
+  }
+
+
+#paramwrap{
+    margin-top:170px
+}
+.el-tree-node__content>label.el-checkbox{
+    margin-right: -8px;
+}
+
+
+.el-tree-node.is-expanded > .el-tree-node__children {
+    display: inline;
+  }
+
+
+
+
+   
+.scroll_piotable_head {
+    width: 100%;
+    text-align: center;
+    table-layout: fixed;
+    margin-top: -2px;
+    font-size: 13px;
+    height: 35px;
+    border-spacing: 0;
+    color: #c2dffb;
+    border-collapse: collapse;
+}
+
+.scroll_piotable_head thead td {
+    padding: 0;
+    height: 35px;
+    font-size: 12px;
+    border: 1px #1662ad solid;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+}
+
+.scroll_piotable_head thead th {
+    color: #3ab7dc;
+    background: #0c41b1;
+    height: 35px;
+    font-size: 12px;
+}
+
+
+
+/* 禁用节点不显示图标 */
+.tree .el-checkbox__input.is-disabled{
+    display: none;
+   
+  }
+
+ /*  图标位置 */
+  .el-tree-node__content>.el-tree-node__expand-icon{
+    padding: 13px;
+  }
+  .el-checkbox__inner{
+    margin-left: -10px;
+  }
+
+
+
+#TabPoint tbody td{
+  padding: 0;
+    height: 35px;
+    font-size: 12px;
+    border: 1px #1662ad solid;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #fff;
+}
+#tdd{
+  text-align: left;
+  padding-left: 5px !important;
+}
+
+/* 
+.ms-parent{
+  width: 100% !important;
+}
+.ms-choice{
+  background-color: transparent;
+    border: 0px;
+}
+.ms-choice>span.placeholder{
+  color: #fff;
+}
+.ms-drop span{
+  padding-left: 10px;
+}
+.ms-drop{
+  background: #073a7d;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 2px;
+}
+.ms-drop ul{
+  overflow: visible;
+  max-height: 400px;
+    padding-bottom: 10px;
+}
+.ms-choice>span{color: #fff;} */
+
+.el-input__inner{
+  background: transparent;
+}
+.el-input__inner:hover{
+  background: transparent;
+
+}
+.param_select option{
+  background-color: #0c2c65;
+}
+
+#CyRuntable td,
+#Runtable td{
+    height:40px !important;
+}
+
+.MandWDiv{
+  padding-left: 10px;
+    /* background-color: rgb(58, 183, 220); */
+    width: 100%;
+    height: 100%;
+    /* position: absolute; */
+    line-height: 40px;
+    /* display: inline-block; */
+    color: #a7bfdb;
+    font-size: 13px;
+}
+#hiddmoth{
+  width: 355px;
+    height: 100px;
+    background-color: #0c2c65;
+    position: absolute;
+    padding-top: 10px;
+    z-index: 1;
+    border: 1px #fff solid;
+    color: #fff;
+    /* display: inline-block; */
+
+    
+}
+.MandW_Div{
+  padding-left: 10px;
+    /* background-color: rgb(58, 183, 220); */
+    width: 100%;
+    height: 100%;
+    /* position: absolute; */
+    line-height: 40px;
+    /* display: inline-block; */
+    color: #a7bfdb;
+    font-size: 13px;
+}
+#hiddweek{
+  width: 355px;
+    height: 100px;
+    background-color: #0c2c65;
+    position: absolute;
+    padding-top: 10px;
+    z-index: 1;
+    border: 1px #fff solid;
+    color: #fff;
+    /* display: inline-block; */
+
+    
+}
+
+
+
+
+</style>
+<body onload="Init();" onresize="resizepage();">
+<!-- 模块1 -->    
+<!-- <div style="float:left;width: 30rem; height: 100%; background-color: #0c2c65;border-radius: 0.5rem;">
+    <div id="changeColor4" class="bottom_leftTree">
+      <IFRAME height=100% marginHeight=0 src="about:blank" frameBorder=0 width="100%" allowTransparency
+        name="devicetreeifr" id="devicetreeifr" marginWidth=0 scrolling=auto></IFRAME>
+    </div>
+</div> -->
+
+<!-- 新建弹窗 -->
+<div id="paramwrap" class="postion_l101" style="display:none;background-color:#07265d ;">
+    <div id="changeColor2" class="postion_l1 size1 paramhead" style="background-color: #1662ad;"><span style="padding-left: 10px;">任务新建</span></div>
+   
+      <table class="data_table3">
+        <tbody>
+        <tr>
+            <div style="text-align: center; color: #FFF;padding-top: 8rem; padding-left: 8.5rem; display: inline-block;"><span style="padding-left:4rem;font-size: 1.4rem;">巡检类型：</span>  <!-- //1 -->
+            <div style=" border-radius:0.5rem;border: 0rem #fff solid;width: 17rem;height: 2.5rem; display: inline-block;background-color: transparent;" id="InspectionType1" ></div></div>
+          </tr>
+        <tr>
+        <div style="text-align: center;color: #FFF;padding-top: 2rem;font-size: 1.4rem;">任务名称：
+        <input autocomplete="off" placeholder="请输入任务名称" style="height: 2.5rem;border-radius:0.5rem;border: 0.1rem transparent solid;background-color: #14357c;color: #fff;" type="text" class="TaskName" height=2rem id="TaskName" maxlength="40"/>
+        </div>
+    </tr>
+    <tr>
+        <div id="TaskSta"  style="text-align: center;color: #FFF;padding-top: 2rem;font-size: 1.4rem;"></div>
+    </tr>
+        </tbody>
+      </table>
+      <div align=right class="yesOrNo" style="padding-top:3rem;padding-right: 20px;">
+         <input type="button" class="input-button" id="button4" value="取消" onclick="AddHidden();"
+          style="cursor:pointer;margin-right: 10px;" />
+        <input type="button" class="input-button" id="button3" value="确定" onclick="AddAjax();"
+          style="cursor:pointer;background-color: #1d5ed1;" />
+       
+      </div>
+    </div>
+
+
+<!-- 显示设置 -->
+<div id="viewset" class="postion_l101" style="display:none;flex-wrap: wrap;align-items: baseline;background-color:#073a7d ;left: 42%;width: 35rem;margin-top: 130px;"> 
+    <div id="changeColor2" class="postion_l1 size1 paramhead" style="background-color: #1662ad;"><span style="padding-left: 10px;">显示设置</span></div>       
+    <details>
+        <summary style="padding-top: 65px;padding-left: 15px;">
+                <input type="checkbox"  id="all" checked="checked"  onclick="aallPar()"/>
+                <label>全选</label><br>
+        </summary>
+        <div style="padding-left: 45px;">
+                <input type="checkbox" name="lover[]" id="cow1" checked="checked" value="1" onclick="setAllPar()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow1')" -->
+                <label for="cow1">运维班</label><br>
+                
+                <input type="checkbox" name="lover[]" id="cow2" checked="checked" value="1" onclick="setAllPar()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow2')" -->
+                <label for="cow2">变电站</label><br>
+                
+                <input type="checkbox" name="lover[]" id="cow3" checked="checked" value="1" onclick="setAllPar()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow3')" -->
+                <label for="cow3">任务名称</label><br>
+                
+                <input type="checkbox" name="lover[]" id="cow4" checked="checked" value="1" onclick="setAllPar()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow4')" -->
+                <label for="cow4">巡视类型</label><br>
+                
+                <input type="checkbox" name="lover[]" id="cow5" checked="checked" value="1" onclick="setAllPar()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow5')" -->
+                <label for="cow5">执行类型</label><br>
+                
+                <input type="checkbox" name="lover[]" id="cow6" checked="checked" value="1" onclick="setAllPar()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow6')" -->
+                 <label for="cow6">执行方式</label><br>
+                
+                <input type="checkbox" name="lover[]" id="cow7" checked="checked" value="1" onclick="setAllPar()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow7')" -->
+                 <label for="cow7">状态</label><br>
+                
+                <input type="checkbox" name="lover[]" id="cow8" checked="checked" value="1" onclick="setAllPar()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow8')" -->
+                 <label for="cow8">运维周期</label><br>
+                
+                <input type="checkbox" name="lover[]" id="cow9" checked="checked" value="1" onclick="setAllPar()" style="margin-top: 10px;"/><!-- onchange="cowselect('cow9')" -->
+                  <label for="cow9">任务详情</label>
+        </div>
+    </details>
+    <div align=center class="yesOrNo">  
+          <input type="button" class="input-button" id="button4" value="取消" onclick="HiddenPar();"
+          style="cursor:pointer;margin-left: 100px;" />
+        <input type="button" class="input-button" id="button3" value="确定" onclick="verifyPar();"
+          style="cursor:pointer;" />
+    
+    </div>
+</div>
+
+<!-- 详情查看 -->
+<div id="LookAt" class="postion_l101" style="display:none;background-color:#073a7d ;;width: 85rem;height: 45.5rem ;left:35%;margin-top: 170px;";>
+    <div class="postion_l1 size1 paramhead" style="background-color: #1662ad;"><span style="padding-left: 10px;">详情查看</span></div>
+
+ <div id="slide" style="width: 85rem; height: 33rem;">
+   <table id="TabPoint" class="scroll_piotable_head" style="border: 0px red solid;color: #fff;font-size: 14px;width: 735px;margin-top: 20px;margin-left: 60px;text-align: center;">
+    <thead>
+        <tr>
+            <td width="10%">序号</td>
+            <td width="90%">点位名称</td>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+   </table>
+</div>
+      <div align=center class="yesOrNo" style="margin-left: 50rem;margin-top: 3rem;">
+        <input type="button" class="input-button" id="button4" value="退出" onclick="HiddenPar();"
+          style="cursor:pointer;margin-left: 17rem;" />
+      </div>
+    </div>
+
+
+<!-- 定期执行  周期执行 -->
+<div id="appChild">
+    <div id="RuleRun" class="postion_l101" style="display:none;background-color:#073a7d ;height: 48.5rem;width: 60rem;left:42%;margin-top: 130px;">
+        <div id="" class="postion_l1 size1 paramhead" style="background-color: #1662ad;"><span style="padding-left: 10px;">定期执行</span></div>
+      
+        <table id="Runtable" class="Runtable" style="border: 0px red solid;color: #fff;font-size: 14px;width: 500px;margin-top: 100px;margin-left: 50px;">
+            <tr>
+                <th>定期执行方式</th>
+                <td> <div id="hourRule" style="padding-left: 10px;"></div></td>
+              </tr>  
+
+              <tr>
+                <th>间隔数量</th>
+                <td><input type="text" autocomplete="off" id="Time" style="background-color: #073a7d;color: #fff;border: 0px;padding-left: 10px;"/></td>
+              </tr>
+
+              <tr>
+                <th>执行时间</th>
+                <td>
+                
+                    <div id="RunTime" style="display: inline-block;">
+                        <el-date-picker 
+                        v-model="form.value"
+                        type="datetime"
+                        placeholder="选择执行时间"
+                        default-time="12:00:00"
+                        @change="selectTime"
+                        value-format="yyyy-MM-dd HH:mm:ss"
+                        >
+                        </el-date-picker>
+                    </div>
+                </td>
+              </tr>
+
+              <tr>
+                <th>开始时间</th>
+                <td>
+                    <div id="RunTime" style="display: inline-block;">
+                        <el-date-picker 
+                        v-model="value1"
+                        type="datetime"
+                        placeholder="选择开始时间"
+                        default-time="12:00:00"
+                        @change="selectTime1"
+                        value-format="yyyy-MM-dd HH:mm:ss">
+                        </el-date-picker>
+                    </div>
+                </td>
+              </tr>
+
+              <tr>
+                <th>结束时间</th>
+                <td>
+                    <div id="RunTime" style="display: inline-block;">
+                        <el-date-picker 
+                        v-model="value2"
+                        type="datetime"
+                        placeholder="选择结束时间"
+                        default-time="12:00:00"
+                        @change="selectTime2"
+                        value-format="yyyy-MM-dd HH:mm:ss">
+                        </el-date-picker>
+                    </div>
+                </td>
+              </tr>
+
+              <tr>
+                <th>不可用开始时间</th>
+                <td>
+                    <div id="RunTime" style="display: inline-block;">
+                        <el-date-picker 
+                        v-model="value3"
+                        type="datetime"
+                        placeholder="选择不可用开始时间"
+                        default-time="12:00:00"
+                        @change="selectTime3"
+                        value-format="yyyy-MM-dd HH:mm:ss">
+                        </el-date-picker>
+                    </div>
+                </td>
+              </tr>
+              <tr>
+                <th>不可用结束时间</th>
+                <td>
+                    <div id="RunTime" style="display: inline-block;">
+                        <el-date-picker 
+                        v-model="value4"
+                        type="datetime"
+                        placeholder="选择不可用结束时间"
+                        default-time="12:00:00"
+                        @change="selectTime4"
+                        value-format="yyyy-MM-dd HH:mm:ss">
+                        </el-date-picker>
+                    </div>
+                </td>
+              </tr>
+    
+           </table>
+
+
+          <div align=center class="yesOrNo" style="margin-top: 3rem;margin-left: 25rem;"> 
+            <input type="button" class="input-button" id="button4" value="取消" onclick="HiddenPar();"
+              style="cursor:pointer;margin-right: 10px;" />
+            <input type="button" class="input-button" id="button3" value="确定" onclick="RuleRunAjaxPar();"
+              style="cursor:pointer;" />
+           
+          </div>
+        </div>
+
+
+
+        <div id="CycleRun" class="postion_l101" style="display:none;background-color:#073a7d ;height: 48.5rem;width: 60rem;left:42%;margin-top: 130px;">
+            <div id="" class="postion_l1 size1 paramhead" style="background-color: #1662ad;"><span style="padding-left: 10px;">周期执行</span></div>
+          
+            <table id="CyRuntable" class="CyRuntable" style="border: 0px red solid;color: #fff;font-size: 14px;width: 500px;margin-top: 100px;margin-left: 50px;">
+                <tr>
+                    <th>周期(月)</th>
+                    <!-- <td> <div id="Month" style="padding-left: 10px;"></div></td> -->
+                    <td>
+                  
+                      <div onclick="MothClick()" id="MandWDiv" class="MandWDiv">请选择月份</div>
+                      <img id="imgIMG" src="img/箭头-左1.png" alt="" style="width: 13px;height: 13px;display: inline-block;right: 10%; margin-top: -27px;position: absolute;">
+                          <div id="hiddmoth" class="hiddmoth" style="  display: none;">
+                            <input type="checkbox" name="moth[]" id="moth1" value="1" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth1">1月</label>
+                            <input type="checkbox" name="moth[]" id="moth2" value="2" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth2">2月</label>
+                            <input type="checkbox" name="moth[]" id="moth3" value="3" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth3">3月</label>
+                            <input type="checkbox" name="moth[]" id="moth4" value="4" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth4">4月</label>
+                            <input type="checkbox" name="moth[]" id="moth5" value="5" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth5">5月</label>
+                            <input type="checkbox" name="moth[]" id="moth6" value="6" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth6">6月</label>
+                            <input type="checkbox" name="moth[]" id="moth7" value="7" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth7">7月</label>
+                            <input type="checkbox" name="moth[]" id="moth8" value="8" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth8">8月</label>
+                            <input type="checkbox" name="moth[]" id="moth9" value="9" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth9">9月</label>
+                            <input type="checkbox" name="moth[]" id="moth10" value="10" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth10">10月</label>
+                            <input type="checkbox" name="moth[]" id="moth11" value="11" onclick="setmoth()" style="margin-top: 10px;margin-left: 20px;"/>
+                            <label id="labelmoth11">11月</label>
+                            <input type="checkbox" name="moth[]" id="moth12" value="12" onclick="setmoth()" style="margin-top: 10px;margin-left: 12px;"/>
+                            <label id="labelmoth12">12月</label>
+                          
+                        </div>
+                     
+                    </td>
+
+                  </tr>  
+                  <tr>
+                    <th>周期(周)</th>
+                    <!-- <td> <div id="Week" style="padding-left: 10px;"></div></td> -->
+                    <td>
+                      <div onclick="WeekClick()" id="MandW_Div" class="MandW_Div">请选择周</div>
+                      <img id="imgIMGweek" src="img/箭头-左1.png" alt="" style="width: 13px;height: 13px;display: inline-block;right: 10%; margin-top: -27px;position: absolute;">
+                      
+                      <div id="hiddweek" class="hiddweek" style="  display: none;">
+                        <input type="checkbox" name="week[]" id="week1" value="1" onclick="setweek()" style="margin-top: 10px;margin-left: 22px;"/>
+                        <label id="labelweek1">星期一</label>
+                        <input type="checkbox" name="week[]" id="week2" value="2" onclick="setweek()" style="margin-top: 10px;margin-left: 22px;"/>
+                        <label id="labelweek2">星期二</label>
+                        <input type="checkbox" name="week[]" id="week3" value="3" onclick="setweek()" style="margin-top: 10px;margin-left: 22px;"/>
+                        <label id="labelweek3">星期三</label>
+                        <input type="checkbox" name="week[]" id="week4" value="4" onclick="setweek()" style="margin-top: 10px;margin-left: 22px;"/>
+                        <label id="labelweek4">星期四</label>
+                        <input type="checkbox" name="week[]" id="week5" value="5" onclick="setweek()" style="margin-top: 10px;margin-left: 22px;"/>
+                        <label id="labelweek5">星期五</label>
+                        <input type="checkbox" name="week[]" id="week6" value="6" onclick="setweek()" style="margin-top: 10px;margin-left: 22px;"/>
+                        <label id="labelweek6">星期六</label>
+                        <input type="checkbox" name="week[]" id="week7" value="7" onclick="setweek()" style="margin-top: 10px;margin-left: 22px;"/>
+                        <label id="labelweek7">星期日</label>
+                        
+                      
+                    </div>
+
+                    </td>
+                  </tr> 
+
+                  <tr>
+                    <th>执行时间</th>
+                    <td>
+                        <div id="RunTime" style="display: inline-block;">
+                            <el-date-picker 
+                            v-model="form.value"
+                            type="datetime"
+                            placeholder="选择执行时间"
+                            default-time="12:00:00"
+                            @change="selectTime"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            >
+                            </el-date-picker>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <th>开始时间</th>
+                    <td>
+                        <div id="RunTime" style="display: inline-block;">
+                            <el-date-picker 
+                            v-model="value1"
+                            type="datetime"
+                            placeholder="选择开始时间"
+                            default-time="12:00:00"
+                            @change="selectTime1"
+                            value-format="yyyy-MM-dd HH:mm:ss">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <th>结束时间</th>
+                    <td>
+                        <div id="RunTime" style="display: inline-block;">
+                            <el-date-picker 
+                            v-model="value2"
+                            type="datetime"
+                            placeholder="选择结束时间"
+                            default-time="12:00:00"
+                            @change="selectTime2"
+                            value-format="yyyy-MM-dd HH:mm:ss">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <th>不可用开始时间</th>
+                    <td>
+                        <div id="RunTime" style="display: inline-block;">
+                            <el-date-picker 
+                            v-model="value3"
+                            type="datetime"
+                            placeholder="选择不可用开始时间"
+                            default-time="12:00:00"
+                            @change="selectTime3"
+                            value-format="yyyy-MM-dd HH:mm:ss">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>不可用结束时间</th>
+                    <td>
+                        <div id="RunTime" style="display: inline-block;">
+                            <el-date-picker 
+                            v-model="value4"
+                            type="datetime"
+                            placeholder="选择不可用结束时间"
+                            default-time="12:00:00"
+                            @change="selectTime4"
+                            value-format="yyyy-MM-dd HH:mm:ss">
+                            </el-date-picker>
+                        </div>
+                    </td>
+                  </tr>
+               </table>
+
+
+              <div align=center class="yesOrNo" style="margin-top: 3rem;margin-left: 25rem;">
+                 <input type="button" class="input-button" id="button4" value="取消" onclick="HiddenPar();"
+                  style="cursor:pointer;margin-right: 10px;" />
+                <input type="button" class="input-button" id="button3" value="确定" onclick="CycleRunAjaxPar();"
+                  style="cursor:pointer;" />
+               
+              </div>
+            </div>
+
+</div>
+
+
+
+<!-- 修改 弹窗 -->
+<div id="Modifyparamwrap" class="postion_l101" style="display:none;background-color:#07265d ;left: 42%;width: 50rem;height: 30rem;margin-top: 170px;">
+    <div id="changeColor2" class="postion_l1 size1 paramhead" style="background-color: #1662ad;"><span style="padding-left: 10px;">任务修改</span></div>
+   
+      <table class="data_table3">
+        <tbody>
+        <tr>
+            <div style="text-align: center; color: #FFF;padding-top: 8rem; padding-left: 8.5rem; display: inline-block;"><apan style="padding-left:4rem;font-size: 1.4rem;">巡检类型：</span>  <!-- //1 -->
+            <div style=" border-radius:0.5rem;border: 0rem #fff solid;width: 17rem;height: 2.5rem; display: inline-block;background-color: transparent;" id="TaskMod" name="TaskMod" ></div></div>
+          </tr>
+        <tr>
+        <div style="text-align: center;color: #FFF;padding-top: 2rem;font-size: 1.4rem;">任务名称：
+        <input autocomplete="off" placeholder="请输入任务名称" style="height: 2.5rem;border-radius:0.5rem;border: 0.1rem transparent solid;background-color: #14357c;color: #fff;" type="text" class="TaskNamee" height=2rem id="TaskNamee" maxlength="40"/>
+        </div>
+    </tr>
+    <tr>
+        <div id="TaskSta1" name="TaskSta1" style="text-align: center;color: #FFF;padding-top: 2rem;font-size: 1.4rem;"></div>
+    </tr>
+        </tbody>
+      </table>
+      <div align=right class="yesOrNo" style="padding-top:2rem;padding-right: 20px;">
+         <input type="button" class="input-button" id="button4" value="取消" onclick="AddHidden();"
+          style="cursor:pointer;margin-right: 10px;" />                                                                  <!-- 和新建同函数 -->
+        <input type="button" class="input-button" id="button3" value="确定" onclick="ModifyPathAjaxPar();"
+          style="cursor:pointer;" />
+       
+      </div>
+    </div>
+
+
+
+
+<div id="leftSide" class="leftSide module_container">
+    <div id="app" class="tree">
+        <div id="tree" >     
+          
+            <el-input
+            placeholder="输入关键字进行过滤"
+            v-model="query"
+            @input="onQueryChanged">
+         </el-input>
+
+
+
+         <ul class="box"  id="TreeId" style="display: none;">
+            <li  v-model="arrId"  value="arrId" v-for='value in arrId'>{{value}}</li>  <!--循环数组-->
+        </ul>
+
+        <ul class="box"  id="TreeIdPoint" style="display: none;">
+            <li  v-model="arrIdPoint"  value="arrIdPoint" v-for='value in arrIdPoint'>{{value}}</li>  <!--循环数组-->
+        </ul>
+
+
+            <div style="border: 0px red solid;height: 25px;margin-top: -22px;padding-left: 212px;">
+                <img src="img/查询.png" style="width: 13px;height:13px;position: relative; cursor:pointer;"/>
+           </div>
+           <el-tree
+           
+            class="filter-tree"
+       
+            :data="treeData"
+            :default-expand-all="false"
+            :filter-node-method="filterNode"
+            show-checkbox
+            node-key="id"
+            :props="treeProps"
+            @check-change="handleCheckChange"
+           
+            ref="tree"
+            :default-checked-keys="treearrid"
+            :default-expanded-keys="treearrid"
+           >
+            </el-tree>
+
+            <el-button id="cleanCheck" style="display:none ;" @click="resetChecked">清空</el-button>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div style="margin-left: 31rem;width: (100%-30rem); height: 100%; "> 
+  <div id="divtb" class="taskDiv" >
+    <div class="topSide" style="border: 0rem #ca0fc1 solid;background-color: #0c2c65;border-radius: 0.5rem;margin-top: 0.5rem;padding-top: 0.5rem;"><!-- 模块2 -->
+      
+      <div class="dividingLines"></div>
+      <div style="height:2rem;color: #f0f0f0;padding-left: 0.5rem;font-size: 1.8rem;display: inline;font-family: '造字工房力黑体';"><b>任务类型</b></div>
+      <div style="display: none;border-radius: 1rem;border: 0rem #fff solid;margin-left:1rem;text-align: center;display: inline;background-color: #0988d9;height: 8rem;"><span style="display: none;padding-left:1rem;padding-right:1rem;color:#fff;width: 15rem;height: 2rem;font-size: 1.2rem;">同步巡视方案</span></div>
+                
+      <table id="changeColor2" class="checkBoxTable" >
+        <tbody>
+            <tr style="border-bottom:0.1rem #fff solid" >
+              <td class="checkTitle_1"><span style="padding-left: 3rem;padding-top: 0.2rem;">巡检类型：</span></td>  <!-- //1 -->
+              <td style="color: #fff; padding-top: 1rem;"><div id="InspectionType" ></div></td>
+            </tr>
+            <tr style="height: 30px;">
+              <td class="checkTitle_2" ><span style="padding-left: 3rem;padding-top: 0.2rem;">巡检区域：</span></td><!-- //2设备区域 -->
+              <td  style=" color: #a7bfdb;">
+                
+                <div id="DevArea" class="DevArea1"></div>
+
+<!-- <div id="qqq">
+
+              <div id="DevArea" type_="7">
+                <div id="DevArea_CheckBoxDiv">
+                <div class="Device_checkbox">
+                  <input type="checkbox" id="DevArea_checkall" onclick="" value="0"> 全选
+                </div>
+                <div class="Device_checkbox">
+                  <input type="checkbox" onclick="CheckBox.prototype.CheckBoxOnclick(this);" name="DevArea_c" value="0"> 220kv设备区11 
+                </div>
+                  <div class="Device_checkbox" >
+                    <input type="checkbox" onclick="CheckBox.prototype.CheckBoxOnclick(this);" name="DevArea_c" value="1" id="testDevAreainput"> <span  id="testDevArea">10kv设备区</span> 
+                  </div>
+                  <div class="Device_checkbox">
+                    <input type="checkbox" onclick="CheckBox.prototype.CheckBoxOnclick(this);" name="DevArea_c" value="2"> 110kv设备区
+                  </div>
+                  <div class="Device_checkbox">
+                    <input type="checkbox" onclick="CheckBox.prototype.CheckBoxOnclick(this);" name="DevArea_c" value="3"> 主变设备区
+                  </div>
+                </div>
+                </div>
+</div> -->
+</td>
+
+
+            </tr>
+            <tr>
+              <td class="checkTitle_3"><span style="padding-left: 3rem;padding-top: 0.2rem;">设备类型：</span></td><!-- //3 -->
+              <td style=" color: #a7bfdb;"><div id="FirstDevs"></div></td>
+            </tr>
+            <tr>
+              <td class="checkTitle_4"><span style="padding-left: 3rem;padding-top: 0.2rem;">识别类型：</span></td><!-- //4 -->
+              <td style=" color: #a7bfdb;"><div id="DeviceDetialType"></div></td>
+            </tr>
+            <tr>
+              <td class="checkTitle_5"><span style="padding-left: 3rem;padding-top: 0.2rem;">表计类型：</span></td><!-- //5 -->
+              <td style=" color: #a7bfdb;"><div id="DevSelfType"></div></td>
+            </tr>
+            <!-- <tr>
+                <td class="checkTitle_6"><span style="padding-left: 3rem;padding-top: 0.2rem;">外观类型：</span></td>
+                <td style=" color: #a7bfdb;"><div id="AppearType"></div></td>
+              </tr> -->
+            <tr style="height: 30px;">
+              <td class="checkTitle_7"><span style="padding-left: 3rem;padding-top: 0.5rem;">点位来源：</span></td><!-- //7 新增-->
+              <td style=" color: #a7bfdb;"><div id="PointSourType"></div></td>
+            </tr>
+        </tbody>
+      </table>
+
+      <div style="height: 2.8rem;padding-top: 0.5rem;padding-right: 1rem;">
+        <div  onclick="purge()" style=" cursor:pointer;float:right;margin-left:1rem;background-color: #0b8be6;color:#fff;width: 6.5rem;height: 2rem;text-align: center;border-radius: 0.2rem;line-height:2rem;"><span style="padding-left: 1.3rem;">重置</span><div><img src="img/重置1.png" style="margin-top: -1.6rem;margin-left: 1rem;float:left;width: 1.2rem;height: 1.2rem;"></div></div>
+        <div id="SelectHeader" onclick="SelectHeader()"  style="  cursor:pointer; float:right;margin-left:0.8rem;background-color: #0b8be6;color:#fff;width: 6.5rem;height: 2rem;text-align: center;border-radius: 0.2rem;line-height:2rem;"><span style="padding-left: 1.3rem;">查询</span><div><img src="img/查询.png"  style="margin-top: -1.6rem;margin-left: 1rem;float:left;width: 1.2rem;height: 1.2rem;"></div></div>
+    </div>
+
+    </div>
+
+    <div class="middle_div">
+      <div id="changeColor1">
+        <div class="changeColor1_div1">
+          <input type=text id="QueryDevName">
+        </div>
+        <div class="changeColor1_div2">
+          <img src="img/focalDown.png">
+        </div>
+        <div class="changeColor1_div3" onclick="QueryDevice();">
+          <font color='#000'>查询</font>
+        </div>
+
+        <div class="changeColor1_div4">
+          <img src="img/focalDown.png">
+        </div>
+        <div class="changeColor1_div5">
+          <font color='#000'>保存</font>
+        </div>
+
+        <div class="changeColor1_div6">
+          <img src="img/focalDown.png">
+        </div>
+        <div class="changeColor1_div7">
+          <font color='#000'>重置</font>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="bottom_div" style="border: 0rem #ca630f solid;margin-top:1rem;padding-top:0.5rem;background-color: #0c2c65;border-radius: 0.5rem;">  <!-- 模块3 -->
+      <div id="changeColor3">
+        <div class="bottom_treeAndtable">
+          <div class="bottom_rightTable">
+            <IFRAME height=100% marginHeight=0 src="taskpath.html" frameBorder=0 width="100%" allowTransparency
+              name="taskpathifr" id="taskpathifr" marginWidth=0 ></IFRAME>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<input type="hidden" id="SelectKey" value="" />
+
+<input type="hidden" id="taGetTPath1" value="" />
+</body>
+</html>

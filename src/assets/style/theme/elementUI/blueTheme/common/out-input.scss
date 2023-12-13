@@ -1,0 +1,15 @@
+// input表单相关（此为默认样式  若需调整 局部调整 不要在这里改）
+.el-select-dropdown__item,.el-select-dropdown__wrap{
+  background-color:#14357b;
+  color: #fff;
+}
+.el-select-dropdown__item.hover{
+  background-color:#1890ff;
+  color: #fff;
+}
+.el-popper[x-placement^=bottom] .popper__arrow::after {
+  border-bottom-color:#14357b;
+}
+.el-select-dropdown{
+  border: 0rem;
+}

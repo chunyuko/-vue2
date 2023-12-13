@@ -1,0 +1,2064 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+  <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache">
+  <META HTTP-EQUIV="Expires" CONTENT="0">
+
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>视频监控</title>
+
+<meta name="keywords" content="">
+<meta name="description" content="">
+
+<LINK rel=stylesheet type=text/css href="css/style.css">
+<!-- <LINK rel=stylesheet type=text/css href="css/stylecommon2.css"> -->
+
+<style>
+html,body{
+	overflow:hidden;
+	background-color: #000000;
+}
+
+
+
+</style>
+
+
+<script language="javascript" type="text/javascript">
+//if(top != window){top.location = location;}
+
+
+</SCRIPT>
+<SCRIPT type=text/javascript src="js/xmlhttp.js"></SCRIPT>
+<SCRIPT type=text/javascript src="js/task.js"></SCRIPT>
+<SCRIPT type=text/javascript src="js/obj.js"></SCRIPT>
+<!-- <SCRIPT type=text/javascript src="js/vlc.js"></SCRIPT> -->
+<SCRIPT type=text/javascript src="js/sys.js"></SCRIPT>
+<SCRIPT type=text/javascript src="js/select.js"></SCRIPT>
+<SCRIPT type=text/javascript src="js/controlparam.js"></SCRIPT>
+<SCRIPT type=text/javascript src="js/controlmain.js"></SCRIPT>
+<!-- <SCRIPT type=text/javascript src="js/UnicodeToGB2312.js"></SCRIPT> -->
+<SCRIPT type=text/javascript src="js/param.js"></SCRIPT>
+<!--<SCRIPT type=text/javascript src="js/rightkeymenu2.js"></SCRIPT>-->
+<!--<SCRIPT type=text/javascript src="js/videomonitormulti.js"></SCRIPT>-->
+
+
+
+<script language="javascript" type="text/javascript">
+
+var allRequest = new Object();
+allRequest = GetRequest();
+
+var OpenUrlType=GetRequestAll('OpenUrlType');
+var OpenCameraID=GetRequestAll('OpenCameraID');
+var StationID=GetRequestAll('StationID');
+
+//var sessionActiveXValue=window.parent.sessionActiveXValue;
+
+//alert("sessionActiveXValue="+sessionActiveXValue);
+
+</SCRIPT>
+
+
+
+
+
+
+<script language="JavaScript">
+/*
+bw:浏览器宽度
+bh:浏览器高度
+msp:最大显示的通道数(区分是否登录，以及是否为多DVR用户）
+dipn:当前已经登录且正在操作的DVR IP，默认为空
+spn:当前分割数
+spp:前一次的分割数,用于双击视频窗口时记录
+sppi:前一次的分割数，用于点击分割图标时记录
+sppe:前一次的分割数，用户电子放大时记录
+si:为当前分割下，第一个窗口的ID
+poi:前一次焦点窗口的ID
+oi:当前焦点视频窗口的ID,默认在第一个窗口
+noi:下一页当前焦点视频
+opi:自动打开监视时，当前可用的窗口ID
+vwbusyflag:打开视频监视时，如果窗口处于繁忙状态，处理的方式。0表示需要弹出确认框，1表示不弹框
+dc:预览时，双击时，应该打开的通道号。
+
+*/
+
+
+MAX_SPLIT=9;//默认最大分割数
+var DEFAULT_SPLIT=9;//默认最大分割数
+
+
+//MAX_SPLIT=36;//默认最大分割数
+//var DEFAULT_SPLIT=16;//默认最大分割数
+var MAX_CHANNEL = 32;//默认的前端DVR最大通道数,这两个值如果改为32
+
+var PREVIEW_CH=255;//预览通道
+
+var quietFlag,TalkHandle,isTalking,event_lx,ismax;
+
+var spn,spp,sppi,oi,noi,opi,dc,poi,si,msp,bw,bh,vwbusyflag;
+
+
+//在红外测温前，当时的分割数
+var BeforeMeasureSplit=-1;
+
+
+var EXIST_YULAN_MENU=new Array("1","1","1","1","1","1","1","1","1","0","1","1","1","1","1","1","1","1","1","1","1");
+var EXIST_LUNXUN_MENU=new Array("1","1","1","1","1","1","1","1","1","1","1","0","1","1","1","1","1","1","1","1","1");
+var EXIST_FANGDA_MENU=new Array("1","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","1","1","1","1");
+var EXIST_MAX_MENU=new Array("1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","1","0","1","1","1","1");
+
+//所有realplay的属性
+var	vwinfo=new Array();
+//轮巡设置对象
+var LXInfo=new Array();
+
+
+////////////////////////////////////////////////////////////////////////////////轮巡设置相关
+var lxtp=0;//总的轮巡页数，为0表示无任何设置页
+var lxpn=0;//当前为轮巡设置的第几页，为0表示无任何设置页
+
+var lxdvriplists=new Array();//用于保存当前参与轮巡设置的dvr IP，包括所有已存在dvr list列表中的，以及已经登录的dvr
+var lxdvriplistn=new Array();//用于保存当前已经在轮巡设置中出现的dvr ip，主要用于初始化的时候，显示哪些dvr前的选中框处于选中状态
+//二维对象数组，记录轮巡分割画面的设置情况
+//lxlistinfo[0]:第1一个轮巡分割
+//lxlistinfo[0][0]:第1个轮巡分割中，第1个通道的信息ip+ch
+var lxlistinfo=new Array();
+
+/*
+bw:浏览器宽度
+bh:浏览器高度
+
+
+msp:最大显示的通道数(区分是否登录，以及是否为多DVR用户）
+
+
+dipn:当前已经登录且正在操作的DVR IP，默认为空
+TalkHandle:语音对讲句柄
+
+
+spn:当前分割数
+spp:前一次的分割数,用于双击视频窗口时记录
+sppi:前一次的分割数，用于点击分割图标时记录
+sppe:前一次的分割数，用户电子放大时记录
+si:为当前分割下，第一个窗口的ID
+poi:前一次焦点窗口的ID
+oi:当前焦点视频窗口的ID,默认在第一个窗口
+noi:下一页当前焦点视频
+opi:自动打开监视时，当前可用的窗口ID
+
+bv:亮度(取值为0-99)
+cv:对比度(取值为0-99)
+sv:饱和度(取值为0-99)
+hv:色度(取值为0-99)
+
+
+isTalking:对讲标志 0没有对讲 1正在对讲
+
+vwbusyflag:打开视频监视时，如果窗口处于繁忙状态，处理的方式。0表示需要弹出确认框，1表示不弹框
+islxnew:新的轮巡标识 0没有轮巡 1正在轮巡
+
+quietFlag:静音标志 0：无静音 1：已静音
+ismax:表示当前是否在全屏状态。1为全屏，0为正常
+
+
+
+event_lx:轮巡事件
+dc:预览时，双击时，应该打开的通道号。
+D_B//默认亮度值
+D_C//默认对比度值
+D_S//默认色度值
+D_H//默认灰度值
+*/
+
+/*
+realplay窗口右键菜单状况：右键菜单用一个11位的字符串表示，每位代表一个菜单项的状态（
+每个菜单项有0,1,2三种状态：
+0=正常，1=隐藏，2=灰掉
+菜单项分别为：
+菜单一
+0打开监视菜单
+1关闭监视状态
+2打开所有监视
+3关闭所有监视
+	4分隔符
+5打开音频
+6关闭音频
+	7分隔符
+8打开预览
+9关闭预览
+	10分隔符
+11关闭轮巡
+	12分隔符
+13电子放大
+
+14菜单二：
+	0放大倍数
+	1退出电子放大
+
+15添加到收藏
+16退出最大化
+menu_now:普通菜单
+*/
+//GetVideoState:1=在线监视状态
+
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////本地参数相关
+
+/*
+language://1英文 0中文
+pwn:轮巡画面数
+pit:轮巡间隔时间
+streamType:码流 0主码流 1子码流
+pp:本地图片存储地址
+rp:本地录像存储地址
+tt:tcp传输方式,0:tcp,1,udp
+sty:网页样式
+*/
+var streamType,pwn,pit,pp,rp,language,ocx_ver,tt,web_style;
+
+
+
+spn=DEFAULT_SPLIT;
+spp=DEFAULT_SPLIT;
+sppi=DEFAULT_SPLIT;
+sppi=-1;
+sppe=DEFAULT_SPLIT;
+msp=MAX_SPLIT;
+oi=0;
+si=0;
+poi=-1;
+noi=-1;
+opi=0;
+isTalking=0;
+quietFlag=0;
+islxnew=0;
+vwbusyflag=0;
+ismax=0;
+msp=MAX_SPLIT;
+dc=-1;
+event_lx=-1;
+TalkHandle=-1;
+
+
+
+//所有播放器
+var	AllVWObj=new Array();
+
+//所有低位摄像机的realplay的属性
+var	Lowvwinfo=new Array();
+
+
+//创建一个消息队列，用于在关闭监视后，处理相关的事务
+var OpenCloseVideoTask = "";
+
+
+var maxWin=0;
+
+function setoi(s,flag)
+{
+	//return false;
+	// alert("s="+s+" \r\n oi="+oi+" \r\n flag="+flag);
+	var s=vwidcheck(s);
+	if(s!=oi||s==0)
+	{
+		if(flag==1)
+		{
+			vwdrawfocus(1,s);
+			vwdrawfocus(0,oi);
+		}
+		poi=oi;//重新记录当前焦点框ID
+	}
+	oi=s;
+	
+	
+	// var DevID = AllVWObj[s].DevID;
+	// var tempArr=DevID.split("_");
+			
+	// window.parent.parent.parent.CameraIDNow=tempArr[0];
+//console.log("CameraIDNow="+tempArr[0]);
+}
+
+function maxControl(s){
+	if(ismax==0){
+		entermax(s)
+	}else{
+		exitmax(s)
+	}
+}
+
+function entermax(s)
+{
+	ismax=1;
+	vwsplit(1,2);
+
+}
+function exitmax(s)
+{
+	ismax=0;
+//	$_("o"+s).SetFullScreen(1);
+	
+	vwsplit(spp,2);
+	
+}
+
+/*画面分割
+根据c来计算画面分割为d*d，目前仅提供纵横窗口数相等的分割形态
+c可以是最大分割数，也可以是最大通道数，也可以是当前的分割画面数
+f为0表示是分割按钮点击的行为，为1表示其他分割行为,f=2表示自动切换到当前焦点窗所处的分割画面
+oi为当前焦点窗口ID，全局变量，初始值为-1
+sp为计算出来的当前分割数
+
+*/
+function vwsplit(c,f)
+{
+	// alert("c="+c);
+	//return false;
+	
+	if(c<=0){c=1;}
+	var d=Math.ceil(Math.sqrt(c));
+	//因为前面提供的c也可能是通道数，所以，这里再重新计算出当前的分割数
+
+	spn=parseInt(d*d);
+	//先隐藏所有窗口
+	//没有这个，流媒体的大小不会根据外部的div来调整
+	UnVisibleOcx();
+
+
+
+	if(f=='0')
+	{
+		if(sppi==spn){si=si+spn;}
+		
+	}
+	else if(f==1)
+	{
+		si=oi;
+	}
+	else if(f==2)
+	{
+		si=Math.floor(oi/spn)*spn;
+	}
+	
+	//if(f!=1){if(sppi==spn){si=si+spn;}}
+ 	//else{si=oi;}
+	si=(Math.ceil((si+1)/spn)-1)*spn;
+	if(maxWin>0 && maxWin>c){
+		if((spn>=maxWin || si>=maxWin)){si=0;}
+	}else{
+		if((spn>=msp || si>=msp)){si=0;}
+	}
+//	alert("si="+si);
+	
+
+	
+	var w=$_("vwdiv").offsetWidth;
+  var h=$_("vwdiv").offsetHeight;
+
+	
+
+	//单个视频窗口的宽，高,此处少一个像素，是为了在某些分辨率下，计算出来的值稍稍大了一点，后续需要再研究
+	var vww=parseInt(1/d*w-1);
+	var vwh=parseInt(1/d*h-1);
+	NignxScreenW=vww+"px";
+	NignxScreenH=vwh+"px";
+	//alert("w="+w+" \r\n h="+h);
+	
+	//先切换窗口显示
+	var s=si;
+	for(var i=0;i<spn;i++)
+	{
+		if(maxWin>0 && maxWin>c){
+			if(s >= maxWin){break;}
+		}else{
+			if(s >= msp){break;}
+		}
+		
+		//var vw=$_("o"+s);
+		var wl=$_("o"+s+"_layer");
+	  wl.style.width=vww+"px";
+	  wl.style.height=vwh+"px";
+	  wl.style.display="block";
+	  //vw.style.display="";
+
+
+	  	$_("o"+s).style.width=(vww-2)+"px";
+	  	$_("o"+s).style.height=(vwh-2)+"px";
+
+	  
+		s++;
+	}
+
+
+	sppi=spn;
+}
+
+//不显示OCX
+function UnVisibleOcx()
+{
+	//alert("a");
+	for(var i=0;i<MAX_SPLIT;i++)
+	{
+		$_("o"+i+"_layer").style.display="none";
+		//$_("o"+i).style.display="none";
+	}
+}
+
+function OpenVideoDisIcoByVWID(s)
+{
+//	if(OpenUrlType=="fullview"){return;}
+	var CameraID=AllVWObj[s].CameraID;
+	OpenVideoDisIco(CameraID);
+}
+
+
+//打开监视后，地图上的设备显示播放图标
+function OpenVideoDisIco(CameraID)
+{
+	
+//	window.parent.frames["mapifr"].DisCameraRunIco(CameraID);
+}
+
+function HiddenVideoDisIcoByVWID(s)
+{
+//	if(OpenUrlType=="fullview"){return;}
+	var CameraID=AllVWObj[s].CameraID;
+
+	if(CameraID.indexOf("-")!=-1)
+	{
+		var CameraIDArr=CameraID.split("-");
+		CameraID=CameraIDArr[0];
+		CameraType=CameraIDArr[1];
+		
+//	alert("CameraID="+CameraID+"\r\n CameraType="+CameraType);
+//		if(CameraType=='0')
+//		{
+//			window.parent.frames["TreeIfr"].$_(CameraID+"_ifr_dev").src='img/cam_0_hover.png';
+//		}
+//		else
+//		{
+//			window.parent.frames["TreeIfr"].$_(CameraID+"_ipc_dev").src='img/cam_0_hover.png';
+//		}
+		
+//		window.parent.frames["TreeIfr"].$_(CameraID+"_dev").src='img/cam_0_hover.png ';
+		
+		
+	}
+}
+
+function VideoDisIcoByVWID(CameraID,CameraType)
+{
+//	if(OpenUrlType=="fullview" || OpenUrlType=="singleview"){return;}
+	window.parent.CameraInfo.CameraID=CameraID;
+//	alert("CameraID="+CameraID+"\r\n CameraType="+CameraType);
+//	var CameraID=AllVWObj[s].CameraID;
+//	if(CameraID.indexOf("_")!=-1)
+//	{
+//		CameraID=CameraID.substr(0,CameraID.indexOf("_"));
+//	}
+//	alert("CameraID="+CameraID);
+//	if(CameraType=='0')
+//	{
+//		window.parent.frames["TreeIfr"].$_(CameraID+"_ifr_dev").src='img/dev_27_run.png';
+//	}
+//	else
+//	{
+//		window.parent.frames["TreeIfr"].$_(CameraID+"_ipc_dev").src='img/dev_27_run.png';
+//	}
+	
+	
+}
+
+
+
+	
+var CGITopAddress="";
+var MeasureJpgHeight="";
+var MeasureJpgWidth="";
+
+
+var RealJpgHeight="";
+var RealJpgWidth="";
+
+var MaxY=576;
+var MaxX=720;
+
+var ScaleY=1;
+var ScaleX=1;
+
+
+var StreamType=1;//1主码流，0子码流
+
+/*大立
+var Rtspurl="rtsp://"+ip_address+"/ONVIFMedia";
+var Rtmpurl="rtmp://"+ip_address+":1935/video/1";
+var RtspSubStream="rtsp://"+ip_address+"/ONVIFMediaS";
+var RtspJPGStream="rtsp://"+ip_address+"/ONVIFMediaM";
+
+
+
+
+//海康主码流：
+var HKRtspurl="rtsp://admin:12345@192.0.0.64:554/h264/ch1/main/av_stream";
+//	rtsp://admin:12345@192.0.0.64:554/MPEG-4/ch1/main/av_stream
+
+//海康子码流：
+//	rtsp://admin:12345@192.0.0.64/mpeg4/ch1/sub/av_stream
+//	rtsp://admin:12345@192.0.0.64/h264/ch1/sub/av_stream
+*/
+
+
+
+var VLCInstallOK=true;
+var OCXInstallOK=true;
+var videoPlayMSG = {WaH: ['100%', '100%'],
+		ip: [],
+		port: []
+	}; // 视频postMessage数据
+	
+// 视频流信息 : 区分安全模式和普通模式 判断访问信息 - 协议 和 对应端口
+//if (window.parent.SafeType == 1) {   // 1 安全模式
+//	var videoUrl = 'https://' + window.location.hostname;
+//	var nginxPort = 20443;
+//} else if (window.parent.SafeType == 2) {  // 2 普通模式
+	var videoUrl = 'http://' + window.location.hostname;
+	// var videoUrl = 'http://192.168.121.16';
+	var nginxPort = 11001;
+//}
+
+//var videoUrl = 'https://' + window.location.hostname;
+//var videoUrl = 'http://' + window.location.hostname;
+//var nginxPort = 20443;
+//var nginxPort = 10001;
+var NignxScreenW='100%';
+var NignxScreenH='100%';
+
+
+function CreateHTMLele() {
+		
+		
+}
+
+function init()
+{
+	CreateHTMLele();
+	vwInfoInit();//vwInfo初始化
+	//获取所有摄像机信息
+	//流媒体不需要获取摄像机信息
+	// GetAllCamera();
+	
+	OpenCloseVideoTask = new MsgAlignment();
+	//初始化的时候控件还没加载，调整的是假的图片的尺寸
+	resizepage(0);
+	
+	// renderOCXEvent=setInterval(function(){renderSingleOCX();},200);
+		
+
+	AddOrReleaseEvent();
+	window.onbeforeunload=function (){UnloadPage();};
+	
+		
+}
+
+
+//所有摄像机
+var AllCameraObj = new Array()
+var xmlHttpGetAllCamera = ''
+function GetAllCamera() {
+  xmlHttpGetAllCamera = createXMLHttpRequest()
+  try {
+	var q="task=GetAllCamera&StationID="+StationID
+    var url ="http://"+window.location.hostname+'/dalirobotcms/ajax/getmaindata.php'
+    // var url ='http://192.168.121.16:80/dalirobotcms/ajax/getmaindata.php'
+      
+    		// alert("url="+url);
+    xmlHttpGetAllCamera.onreadystatechange = function () {
+      GetAllCameraRes()
+    }
+    xmlHttpGetAllCamera.open('POST', url, true)
+    //post这一句必须加上
+    xmlHttpGetAllCamera.setRequestHeader(
+      'Content-Type',
+      'application/x-www-form-urlencoded;charset=utf-8'
+    )
+    xmlHttpGetAllCamera.send(q)
+  } catch (e) {
+    alert(e)
+  }
+}
+
+function GetAllCameraRes() {
+  if (xmlHttpGetAllCamera.readyState == 4) {
+    if (xmlHttpGetAllCamera.status == 200) {
+      var s = xmlHttpGetAllCamera.responseText
+      console.log(s);
+      			// alert(s);
+      if (s == '') {
+        //alert("获取地图文件失败！");
+        return false
+      }
+
+      var reg = /[\r\n]/g
+      s = s.replace(reg, '')
+      //var arr = eval(s);
+      AllCameraObj.length = 0
+      AllCameraObj = []
+      var arr = JSON.parse(s)
+      var l = arr.length
+    //   alert("l="+l);
+      for (var i = 0; i < l; i++) {
+        //	            var objtemp=new CameraObj(arr[i]['CameraID'],arr[i]['CameraName'],arr[i]['IFRCameraIP'],arr[i]['IFRCameraRemoteIP'],arr[i]['IFRCameraHttpPort'],arr[i]['IFRCameraRtspPort'],arr[i]['IFRCameraComPort'],arr[i]['IFRCameraRemoteHttpPort'],arr[i]['IFRCameraRemoteRtspPort'],arr[i]['IFRCameraRemoteComPort'],arr[i]['IFRCameraUser'],arr[i]['IFRCameraPass'],arr[i]['IFRCameraType'],arr[i]['IPCCameraIP'],arr[i]['IPCCameraRemoteIP'],arr[i]['IPCCameraHttpPort'],arr[i]['IPCCameraRtspPort'],arr[i]['IPCCameraComPort'],arr[i]['IPCCameraRemoteHttpPort'],arr[i]['IPCCameraRemoteRtspPort'],arr[i]['IPCCameraRemoteComPort'],arr[i]['IPCCameraUser'],arr[i]['IPCCameraPass'],arr[i]['IPCCameraType'],arr[i]['CameraType'],arr[i]['PTZType'],arr[i]['AreaID'],arr[i]['DevXPosInMap'],arr[i]['DevYPosInMap'],arr[i]['AutoOpenVideo'],arr[i]['IfrPowerType'],arr[i]['CameraPriority'],       VideoIPCCameraIP,          VideoIFRCameraIP,           VideoIFRCameraHttpPort,          VideoIPCCameraComPort,          VideoIFRCameraComPort,          VideoIPCCameraRtspPort,          VideoIFRCameraRtspPort,          VideoIPCCameraHttpPort);
+
+        var objtemp = new CameraObj(
+          arr[i]['CameraID'],
+          arr[i]['CameraName'],
+          arr[i]['CameraType'],
+          arr[i]['CarID'],
+          arr[i]['IFRCameraIP'],
+          arr[i]['IFRCameraHttpPort'],
+          arr[i]['IFRCameraRtspPort'],
+          arr[i]['IFRCameraComPort'],
+          arr[i]['IFRCameraUser'],
+          arr[i]['IFRCameraPass'],
+          arr[i]['IPCCameraIP'],
+          arr[i]['IPCCameraHttpPort'],
+          arr[i]['IPCCameraRtspPort'],
+          arr[i]['IPCCameraComPort'],
+          arr[i]['IPCCameraUser'],
+          arr[i]['IPCCameraPass'],
+          arr[i]['IFRVideoFrom'],
+          arr[i]['DVRIP'],
+          arr[i]['DVRHttpPort'],
+          arr[i]['DVRRtspPort'],
+          arr[i]['DVRComPort'],
+          arr[i]['DVRRemoteIP'],
+          arr[i]['DVRRemoteHttpPort'],
+          arr[i]['DVRRemoteRtspPort'],
+          arr[i]['DVRRemoteComPort'],
+          arr[i]['DVRUser'],
+          arr[i]['DVRPass'],
+          arr[i]['DVRChannel'],
+          arr[i]['DevXPosInMap'],
+          arr[i]['DevYPosInMap'],
+          arr[i]['CameraIDRobot'],
+          arr[i]['IFRCameraType'],
+          arr[i]['VideoIPCCameraIP'],
+          arr[i]['VideoIFRCameraIP'],
+          arr[i]['VideoIFRCameraHttpPort'],
+          arr[i]['VideoIPCCameraComPort'],
+          arr[i]['VideoIFRCameraComPort'],
+          arr[i]['VideoIPCCameraRtspPort'],
+          arr[i]['VideoIFRCameraRtspPort'],
+          arr[i]['VideoIPCCameraHttpPort'],
+          arr[i]['VideoDVRIP'],
+          arr[i]['VideoDVRHttpPort'],
+          arr[i]['VideoDVRRtspPort'],
+          arr[i]['VideoDVRComPort'],
+          arr[i]['IFRCameraRemoteHttpPort'],
+          arr[i]['IFRCameraRemoteRtspPort'],
+          arr[i]['IFRCameraRemoteComPort'],
+          arr[i]['IPCCameraRemoteHttpPort'],
+          arr[i]['IPCCameraRemoteRtspPort'],
+          arr[i]['IPCCameraRemoteComPort'],
+          arr[i]['IPCVideoFrom'],
+          arr[i]['IPCDVRIP'],
+          arr[i]['IPCDVRHttpPort'],
+          arr[i]['IPCDVRRtspPort'],
+          arr[i]['IPCDVRComPort'],
+          arr[i]['IPCDVRRemoteIP'],
+          arr[i]['IPCDVRRemoteHttpPort'],
+          arr[i]['IPCDVRRemoteRtspPort'],
+          arr[i]['IPCDVRRemoteComPort'],
+          arr[i]['IPCDVRUser'],
+          arr[i]['IPCDVRPass'],
+          arr[i]['IPCDVRChannel'],
+          arr[i]['VideoIPCDVRIP'],
+          arr[i]['VideoIPCDVRHttpPort'],
+          arr[i]['VideoIPCDVRRtspPort'],
+          arr[i]['VideoIPCDVRComPort'],
+          arr[i]['MapID'],
+          arr[i]['IPCCameraType'],
+          arr[i]['IFRDVRID'],
+          arr[i]['IPCDVRID'],
+          arr[i]['FullViewChannel'],
+          arr[i]['AutoOpenVideo'],
+          arr[i]['IPCDVRType'],
+          arr[i]['AppKey'],
+          arr[i]['Secret'],
+          arr[i]['MonitorCode'],
+          arr[i]['MonitorCode2'],
+          arr[i]['MonitorCode3'],
+          arr[i]['MonitorCodeIFR'],
+          arr[i]['IFRStoreFrom'],
+          arr[i]['IPCStoreFrom'],
+          arr[i]['PTZType'],
+          arr[i]['Manufacture'],
+          arr[i]['FullCameraID'],
+          arr[i]['XPosInFullView'],
+          arr[i]['YPosInFullView'],
+          arr[i]['IsRobotCamera'],
+          arr[i]['DeviceSource'],
+          arr[i]['ProductionCode'],
+          arr[i]['ProductionDate'],
+          arr[i]['PhyassetID'],          
+	  			arr[i]['RecordPeriod'],
+          arr[i]['IFRRecordPeriod'],
+          arr[i]['AcessProtocol'],
+          arr[i]['BProtocol'],
+          arr[i]['PatroldeviceCode'],
+          arr[i]['DVRType'],
+          arr[i]['SubIPCDVRType']
+        )
+        AllCameraObj.pao(objtemp, 'CameraID')
+
+      }
+
+      AllCameraObj.sort(function (x, y) {
+        if (y.CameraName < x.CameraName) {
+          return 1
+        } else if (y.CameraName > x.CameraName) {
+          return -1
+        } else {
+          return 0
+        }
+      })
+      
+
+    }
+  }
+}
+
+
+var renderOCXEvent="";
+var renderOCXNum=0;
+var imgFlag=1;
+function renderSingleOCX()
+{
+	
+	$_("o"+i).style.width="1px";
+	$_("o"+i).style.height="1px";
+	
+	renderOCXNum++;
+	// console.log("renderOCXNum="+renderOCXNum)
+	if(renderOCXNum>=MAX_SPLIT){
+		clearInterval(renderOCXEvent);
+		
+		vwdrawfocus(1,0);//焦点框默认在第一个窗口上
+				//真的ocx控件
+		imgFlag=0;
+		resizepage(0);
+		
+		
+	
+		$_("vwifr").style.display="none";
+		$_("vwblackpic").style.display="none";
+		
+		// window.setTimeout(function(){AutoOpenVideo();},500);
+
+			
+	}
+}
+
+
+//将已经开启解码的realplay控件，刷新到默认的蓝底图案
+function InvalidateWnd(){for(var i=0;i<MAX_SPLIT;i++){$_("o"+i).InvalidateWnd();}}
+
+//当前是否处于窗口最大化（即页面的设备栏、底部栏、头部栏都缩起来）
+var IsMaxScreen=0;
+//////////////////////////////////////////////////////////////////////////////////////////////realplay显示方式相关
+//f=1;表示全屏
+//f=0表示非全屏
+function resizepage(f)
+{
+	IsMaxScreen=f;
+
+	var wh=pagesize();
+	bw=parseInt(wh.w);
+	bh=parseInt(wh.h);
+
+	//alert("bw="+bw+"\r\n bh="+bh);
+	//ie9下需要加这一句
+
+
+	$_("realplay_ocx_div").style.height=parseInt(bh)+"px";
+	$_("realplay_ocx_div").style.width=parseInt(bw)+"px";
+
+
+	//用VLC，必须添加下面几行
+	$_("vwmain").style.height=parseInt(bh)+"px";
+	$_("vwmain").style.width=parseInt(bw)+"px";
+	
+	
+  
+		var d=Math.ceil(Math.sqrt(spn));
+		//alert("spn="+spn);
+		//var sp=parseInt(d*d);
+		var w=$_("vwdiv").offsetWidth;
+		var h=$_("vwdiv").offsetHeight;
+		//单个视频窗口的宽，高,此处少一个像素，是为了在某些分辨率下，计算出来的值稍稍大了一点，后续需要再研究
+		var vww=parseInt(1/d*w-1)
+		var vwh=parseInt(1/d*h-1)
+	
+	// alert("vww="+vww+" \r\n vwh="+vwh);
+		// alert("si="+si+" \r\n spn="+spn+" \r\n MAX_SPLIT="+MAX_SPLIT);
+		for(var i=si;i<spn+si;i++)
+		{
+			if(i > MAX_SPLIT-1){break;}
+	
+		  $_("o"+i+"_layer").style.width=vww+"px";
+		  $_("o"+i+"_layer").style.height=vwh+"px";
+		  //留出边框的位置
+		 
+		$_("o"+i).style.width=(vww-2)+"px";
+		$_("o"+i).style.height=(vwh-2)+"px";
+		//边框改为黑色
+		// $_("o"+i).style.border="#DCDCDC 1px solid";
+		$_("o"+i).style.border="#2c3549 1px solid";
+		  
+		}
+	
+	ResizeMeasureDiv(bw,bh);
+}
+
+
+
+
+function vwInfoInit()
+{
+	AllVWObj=new Array();
+	openVideo=new Array();
+	console.log("MAX_SPLIT="+MAX_SPLIT);
+	//将所有realplay窗口建立一个对象
+	for(var i=0;i<MAX_SPLIT;i++)
+	{
+		var objtemp=new realplayobj();
+		AllVWObj[i]=objtemp;
+		openVideo[i]="";
+	}
+}
+
+
+function vwdrawfocus(f,s)
+{
+	s=vwidcheck(s);
+	// console.log("s="+s);
+
+	if(f==1){$_("o"+s).style.border="#0000ff 1px solid";}
+	else{$_("o"+s).style.border="#2c3549 1px solid";}
+	
+
+}
+
+
+
+
+msp=MAX_SPLIT;
+//对窗口ID进行检验修正，防止出现错误ID
+function vwidcheck(i)
+{
+	var m;
+	m=msp;
+	i=parseInt(i);
+ 	if(i<0){i=0;}
+ 	if(i>=m){i=0;}
+	return i;
+}
+
+
+function InitRealPlayBG()
+{
+	for(var i=0;i<MAX_SPLIT;i++)
+	{
+		$_("o"+i).SetVideoText("画面"+eval(i+1)+":无视频");
+	}
+}
+
+function OpenCameraVideoFun(DevID,s)
+{
+	// alert("DevID="+DevID)
+    if(!DevID){return;}
+	var Infos=DevID.split("_");
+	if(Infos.length<2){return false;}
+	// var CameraID=Infos[0];
+	// var MonitorType=Infos[1];//0表示打开红外，1表示打开可见光，2表示打开DM10的融合图像,3表示DM10的可见光,4表示全景摄像机的第二通道视频
+	// alert("CameraID="+CameraID)
+	// var n=AllCameraObj.qao(CameraID,"CameraID");
+	// alert("n="+n)
+	// if(n==-1){return false;}
+	//chrome用流媒体播放
+	// if (!IsIe){
+		openVideoChrome(DevID,s);
+	// 	return;
+	// }
+	
+	
+}
+
+
+// <!--在chrome上打开视频-->
+var xmlHttpOpenVideoChrome = ''
+function openVideoChrome(DevID,s){
+	if(AllVWObj[s].st==0){var StreamType=0;}                 //主码流
+	else{var StreamType=1;}                                //子码流
+		
+	var Infos=DevID.split("_");
+	if(Infos.length<2){return false;}
+	var CameraID=Infos[0];
+	var MonitorType=Infos[1];//0表示打开红外，1表示打开可见光，2表示打开DM10的融合图像,3表示DM10的可见光,4表示全景摄像机的第二通道视频
+	
+	  xmlHttpOpenVideoChrome = createXMLHttpRequest()
+	  try {
+	    var q = 'task=GetCameraStreamUrl&CameraID='+CameraID+'&MonitorType='+MonitorType+'&StreamType='+StreamType
+	    var url = "http://"+window.location.hostname+'/dalirobotcms/ajax/getCameraStreamUrl.php'
+	    // var url = 'http://192.168.121.16/dalirobotcms/ajax/getCameraStreamUrl.php'
+	    		//  alert("url="+url);
+	    xmlHttpOpenVideoChrome.onreadystatechange = function () {
+	      openVideoChromeRes(DevID,s)
+	    }
+	    xmlHttpOpenVideoChrome.open('post', url, true)
+	    //post这一句必须加上
+	    xmlHttpOpenVideoChrome.setRequestHeader(
+	      'Content-Type',
+	      'application/x-www-form-urlencoded;charset=utf-8'
+	    )
+	
+	    xmlHttpOpenVideoChrome.send(q)
+	} catch (e) {
+	    alert(e)
+	}
+}
+
+function openVideoChromeRes(DevID,i) {
+  if (xmlHttpOpenVideoChrome.readyState == 4) {
+    if (xmlHttpOpenVideoChrome.status == 200) {
+      var s = xmlHttpOpenVideoChrome.responseText
+      console.log(s);
+       alert(s);
+      if (s == '') {
+        //alert("获取地图文件失败！");
+        return false
+      }
+
+      var reg = /[\r\n]/g
+      s = s.replace(reg, '')
+      var arr = JSON.parse(s)
+      var Result = arr.Result
+      var StreamUrl = arr.StreamUrl
+		if(Result=='OK'){
+			AllVWObj[i].DevID = DevID;
+			AllVWObj[i].i = i;
+		  AllVWObj[i].bUseing=1;
+
+//alert("s="+s);
+// alert(AllVWObj[s].MainStreamUrl);
+// alert(AllVWObj[s].SubStreamUrl);
+//			AllVWObj[s].MainStreamUrl = videoUrl + ':' + (nginxPort+ s) + '/live?port=1935&app=live&stream=stream' + MonitorType + '_' + CameraID;
+//			videoPlayMSG.port[0]=AllVWObj[s].MainStreamUrl;
+			// videoPlayMSG.port[0]=StreamUrl;
+			videoPlayMSG.port[0]=videoUrl + ':' + (nginxPort+ i) + '/live?port=1935&app=live&stream=' + StreamUrl;
+// console.log(videoPlayMSG.port[0]);
+			videoPlayMSG.WaH[0]=NignxScreenW;
+			videoPlayMSG.WaH[1]=NignxScreenH;
+			window.frames['video' + i].postMessage(videoPlayMSG, $_("o" + i).src);
+
+			var Infos=DevID.split("_");
+			if(Infos.length<2){return false;}
+			var CameraID=Infos[0];
+			var MonitorType=Infos[1];//0表示打开红外，1表示打开可见光，2表示打开DM10的融合图像,3表示DM10的可见光,4表示全景摄像机的第二通道视频
+			window.parent.CameraInfo.CameraID=CameraID;	
+			window.parent.CameraInfo.CameraType=MonitorType;	
+			gatCarIDByCameraID(CameraID);
+			// var m=AllCameraObj.qao(CameraID,"CameraID");
+			// if(m==-1){return false;}
+			// var CarID=AllCameraObj[m].CarID;
+			// window.parent.CameraInfo.CarID=CarID;	
+			setoi(i,1);
+
+		}else{
+			alert("打开视频失败！")
+		}
+		
+    }
+  }
+}
+
+// <!--根据cameraid获取carid-->
+var xmlHttpgatCarIDByCameraID = ''
+function gatCarIDByCameraID(CameraID){
+	
+	xmlHttpgatCarIDByCameraID = createXMLHttpRequest()
+	  try {
+	    var q = 'task=getCarIDByCameraID&CameraID='+CameraID
+	    var url = "http://"+window.location.hostname+'/dalirobotcms/ajax/getCameraInfo.php'
+	    // var url = 'http://192.168.121.16/dalirobotcms/ajax/getCameraStreamUrl.php'
+	    		//  alert("url="+url);
+				 xmlHttpgatCarIDByCameraID.onreadystatechange = function () {
+					gatCarIDByCameraIDRes()
+	    }
+	    xmlHttpgatCarIDByCameraID.open('post', url, true)
+	    //post这一句必须加上
+	    xmlHttpgatCarIDByCameraID.setRequestHeader(
+	      'Content-Type',
+	      'application/x-www-form-urlencoded;charset=utf-8'
+	    )
+	
+	    xmlHttpgatCarIDByCameraID.send(q)
+	} catch (e) {
+	    alert(e)
+	}
+}
+
+function gatCarIDByCameraIDRes() {
+  if (xmlHttpgatCarIDByCameraID.readyState == 4) {
+    if (xmlHttpgatCarIDByCameraID.status == 200) {
+      var s = xmlHttpgatCarIDByCameraID.responseText
+
+    //    alert(s);
+      if (s == '') {
+        //alert("获取地图文件失败！");
+        return false
+      }
+
+      var reg = /[\r\n]/g
+      s = s.replace(reg, '')
+      var arr = JSON.parse(s)
+      var code = arr.code
+      
+		if(code==200){
+			var CarID = arr.data.CarID
+			window.parent.CameraInfo.CarID=CarID;	
+
+		}
+		
+    }
+  }
+}
+
+
+
+
+//得到空闲的视频窗口，如果没有，则覆盖第一个窗口
+function GetidleVW()
+{
+	var Ret=0;
+	for(var i=0;i<MAX_SPLIT;i++)
+	{
+		if(AllVWObj[i].bUseing=='0')
+		{
+			Ret=i;
+			break;
+		}
+	}
+	return Ret;
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////音频相关
+
+
+function CloseVideoByDevID(DevID)
+{
+	// alert("DevID="+DevID);
+//	var s=AllVWObj.qao(CameraID,"CameraID");	
+	var s=AllVWObj.qao(DevID,"DevID");		
+	
+//	alert("s="+s);
+	if(s==-1){return;}	
+	stopvideobychannel(s);
+
+}
+
+//创建一个消息队列，用于在关闭监视后，处理相关的事务
+var OpenCloseVideoTask = "";
+
+function stopvideobychannel(s)
+{
+	//此处不要加GetVideoStat的判断
+	//采用这个接口，在IE8上StopAllMonitor时，会报堆栈溢出。
+	//$_("o"+s).StopMonitor();
+	//开子线程关闭监视
+	//$_("o"+s).StopMonitorByThread();
+	// alert("s="+s);
+
+//		alert("aa");
+//		HiddenVideoDisIcoByVWID(s);
+		var DevID=AllVWObj[s].DevID;
+		vwinfo_init(s);
+//		videoPlayMSG.port[0]="";
+		//不用直播的方式播放
+//		window.frames['video' + s].postMessage(videoPlayMSG, $_("o" + s).src);
+		StopVideoChrome(DevID,s)
+
+}
+
+
+// <!--在chrome上打开视频-->
+var xmlHttpStopVideoChrome = ''
+function StopVideoChrome(DevID,s){
+  console.log(">>>");
+	//直接关闭视频
+	videoPlayMSG.port[0]="";
+	window.frames['video' + s].postMessage(videoPlayMSG, $_("o" + s).src);
+
+	if(AllVWObj[s].st==0){var StreamType=0;}                 //主码流
+	else{var StreamType=1;}                                //子码流
+	var Infos=DevID.split("_");
+	if(Infos.length<2){return false;}
+	var CameraID=Infos[0];
+	var MonitorType=Infos[1];//0表示打开红外，1表示打开可见光，2表示打开DM10的融合图像,3表示DM10的可见光,4表示全景摄像机的第二通道视频
+	
+	  xmlHttpStopVideoChrome = createXMLHttpRequest()
+	  try {
+	    var q = 'task=StopCameraStream&CameraID='+CameraID+'&MonitorType='+MonitorType
+	    var url = "http://"+window.location.hostname+'/dalirobotcms/ajax/getCameraStreamUrl.php'
+	    		// alert("q="+q);
+	    xmlHttpStopVideoChrome.onreadystatechange = function () {
+	      StopVideoChromeRes(s)
+	    }
+	    xmlHttpStopVideoChrome.open('post', url, true)
+	    //post这一句必须加上
+	    xmlHttpStopVideoChrome.setRequestHeader(
+	      'Content-Type',
+	      'application/x-www-form-urlencoded;charset=utf-8'
+	    )
+	
+	    xmlHttpStopVideoChrome.send(q)
+	} catch (e) {
+	    alert(e)
+	}
+}
+
+function StopVideoChromeRes(s) {
+  if (xmlHttpStopVideoChrome.readyState == 4) {
+    if (xmlHttpStopVideoChrome.status == 200) {
+      var s = xmlHttpStopVideoChrome.responseText
+
+      
+        alert(s);
+      if (s == '') {
+        //alert("获取地图文件失败！");
+        return false
+      }
+
+      var reg = /[\r\n]/g
+      s = s.replace(reg, '')
+      var arr = JSON.parse(s)
+    //   var Result = arr.Result
+	// 	if(Result=='OK'){
+	// 		videoPlayMSG.port[0]="";
+	// 		window.frames['video' + s].postMessage(videoPlayMSG, $_("o" + s).src);
+
+	// 	}else{
+	// 		alert("关闭视频失败！")
+	// 	}
+		
+    }
+  }
+}
+
+
+
+function vwinfo_init(s)
+{
+	AllVWObj[s].CameraID="";
+	AllVWObj[s].ReContectF=0;
+	AllVWObj[s].bUseing=0;
+
+	AllVWObj[s].playurl="";
+
+	AllVWObj[s].vlc="";
+	AllVWObj[s].DevID="";
+	
+	AllVWObj[s].CGITopAddress="";
+	
+}
+
+
+
+function UnloadPage()
+{
+	
+	var n = window.event.screenX - window.screenLeft;      
+	var b = n > document.documentElement.scrollWidth-20;
+	
+	//alert("window.event.screenX="+window.event.screenX+"\r\n window.screenLeft="+window.screenLeft+"\r\n n="+n+" \r\n b="+b+" \r\n document.documentElement.scrollWidth="+document.documentElement.scrollWidth);
+	
+	if(b && window.event.clientY < 0 || window.event.altKey)      
+	{
+		
+		//UserLogOut();
+		//alert("是关闭而非刷新");
+		window.event.returnValue = ""; //这里可以放置你想做的操作代码    
+		//window.event.returnValue =function(){UserLogOut();}();
+		//window.event.returnValue =function(){Unload();}();
+	}
+	else 
+	{
+		//alert("是刷新而非关闭");
+	}
+	//Document.write("");
+	
+	for(var i=0;i<MAX_SPLIT;i++)
+	{
+		$_("o"+i).style.height="1px";
+		$_("o"+i).style.width="1px";
+	}
+	
+}
+
+function Unload()
+{
+	
+//	alert("gg");
+	//StopAllMonitor();
+	//alert("页面关闭");
+	window.close;
+}
+
+var CameraIDsToOpenVideo=new Array();
+
+
+
+//荆门项目，打开多个视频，传入的是数组
+function OpenVideoByDevIDArr(DevIDArr)
+{
+	// alert("OpenVideoByDevIDArr",DevIDArr);
+	CameraIDsToOpenVideo=[];
+	CameraIDsToOpenVideo.length=0;
+	var l=DevIDArr.length;
+	for(var i=0;i<l;i++)
+	{
+		var DevID=DevIDArr[i];
+		var CameraID=DevID.split(",")[0];
+		// var k=AllCamera.qao(CameraID,"CameraID");
+		// CameraIDsToOpenVideo.pao(AllCamera[k],'CameraID');
+		OpenVideoByDevID(DevID,'',0);
+	}
+	//alert("bb");
+	// OpenAllVideoByCameraIDs();
+	var SplitNum=l;
+	if(SplitNum>MAX_SPLIT){SplitNum=MAX_SPLIT;}
+	vwsplit(SplitNum,1);
+}
+
+var AutoOpenVideoChannel=0;
+
+
+//打开某通道视频监视，并返回
+//s:realplay的ID，从0开始
+//StreamType:0主码流，1子码流
+
+function OpenVideoByDevID(DevID,s,StreamType)
+{
+	// alert("DevID="+DevID+"\r\n s="+s+" \r\n StreamType="+StreamType);
+	//首先检查是否已经打开了该视频
+	var k=AllVWObj.qao(DevID,"DevID");
+	//表示该摄像头当前没有远程监视
+	if(k==-1)
+	{
+
+		var vwid=-1;
+		//如果指定了打开监视的窗口ID，则在该窗口打开，如果没指定，自动选择窗口
+		if(s!="" && s!="undefined" && s>=0){vwid=s;}
+		else
+		{
+			var vwbusyflag_=0;
+			var of=0;//是否有空闲窗口的标记
+			for(var i=si;i<spn+si;i++)
+			{
+				if(i >= MAX_SPLIT){break;}
+				//从当前分割画面的第一个视频窗口开始查询，找到第一个空闲的窗口
+				//if($_("o"+i).GetVideoState()!=1 && AllVWObj[i].bUseing=='0')
+				console.log(AllVWObj);
+				if(AllVWObj[i].bUseing=='0')
+				{
+					vwid=i;
+					of=1;
+					break;
+				}
+			}
+
+			console.log("of="+of);
+			//如果没有空闲窗口
+			if(!of)
+			{
+				if(opi>=si+spn){opi=si;}
+				//窗口繁忙时的处理方式
+
+				if(vwbusyflag=='0')
+				{
+					//在轮巡过程中，不弹出确认框
+					if(islxnew==1)
+					{
+						vwbusyflag_=1;
+					}
+					else
+					{
+						//IE8上有问题
+						if(IEVer<9)
+						{
+							vwbusyflag_=1;
+						}
+						else
+						{
+							var confirmret=window.showModalDialog("confirm.html", window, "dialogWidth:450px;dialogHeight:250px;toolbar:no;location:no;status:no;menubar:no;");
+							if(!confirmret){return ;}
+							vwbusyflag_=confirmret.flag;
+							var remberflag=confirmret.rember;
+							if(remberflag==1){vwbusyflag=vwbusyflag_;}
+						}
+					}
+				}
+				if(vwbusyflag==1 || vwbusyflag_==1)
+				{
+					//如果没有空闲窗口，自动寻找合适的窗口打开
+					vwid=opi;
+					opi=vwid+1;
+				}
+			}
+		}
+
+		// alert("vwid="+vwid);
+		if(vwid>=0)
+		{
+			vwid=vwidcheck(vwid);	
+			
+			//if($_("o"+vwid).GetVideoState()!=1){$_("o"+vwid).OpenMonitorByThread(c);}//这个并发多个线程有问题，原因未明，暂不用
+			//if($_("o"+vwid).GetVideoState()!=1)
+			if(AllVWObj[vwid].bUseing=='0')
+			{
+				//修改主子码流的显示方式
+				//在高带宽条件下，所有监视均为主码流
+				//在低带宽的条件下，单画面用主码流，多画面均为子码流
+				//streamType=0主码流，streamType=1子码流
+				if(streamType=='0'){var sf=0;}
+				else
+				{
+					if(spn==1){var sf=0;}
+					else{var sf=1;}
+				}
+				
+				
+
+
+//				alert("DevID="+DevID+" \r\n sf="+sf);
+				//先将该窗口的状态置为使用状态
+//				AllVWObj[vwid].bUseing=1;
+				//此处传递给OCX的DevID为该设备在自身控制服务器下的ID，在监视打开后，OCX将该DevID回传给WEB，WEB中记录该realplay播放器对应的DevID就出现问题了，web中应记录的DevID应该是该级联设备在当前控制服务器下的DevID,此处需要修改
+				//修改如下：在打开监视前就先记录该窗口的DevID
+				//vwOnPlayType2Return中，在打开失败的时候，清空该窗口的DevID.
+				AllVWObj[vwid].DevID=DevID;
+				AllVWObj[vwid].st=StreamType;
+				//如果用控件，不能直接将视频打开，速度太快，会导致OCX打开视频失败，所以，放在队列里，一个个打开
+
+				OpenCameraVideoFun(DevID,vwid);
+		
+			}
+			else
+			{
+				//先关闭视频，在关闭成功后，去任务队列中，再执行打开监视的任务
+//				alert("vwid="+vwid+" \r\n DevID="+DevID);
+				//在关闭监视成功后的任务消息
+				OpenCloseVideoTask.addMsg("OpenVideoByDevID","VideoTask",DevID,vwid,StreamType);
+				stopvideobychannel(vwid);
+
+			}
+		}
+	}
+	//视频已经处于打开状态
+	else
+	{
+		setoi(k,1);
+		vwsplit(spn,2);
+		window.setTimeout(function(){openMonitorCallBack();},200);
+	}
+
+
+}
+
+
+function openMonitorCallBack()
+{
+//	alert("openMonitorCallBack  islxnew="+islxnew);
+	
+	if(islxnew==1)
+	{
+//		alert("bbbbbbbbbbbbbbbbbbbbbbbbbbb");
+		//alert("OpenCloseVideoTask.getMsgNum()="+OpenCloseVideoTask.getMsgNum()+" \r\n LXWaitTime="+LXWaitTime);
+		//轮巡过程中，开打所有监视的任务执行完毕了，则等待LXWaitTime时间后，开始关闭所有监视
+		//alert("event_lx1="+event_lx);
+		if(OpenCloseVideoTask.getMsgNum()=='0')
+		{
+//			alert("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+//			alert("event_lx2="+event_lx);
+			//防止当前正在轮巡的监视状态，又手动点击了打开监视的按钮，不管打开成功还是失败，都会调用本回调函数
+			//这样，导致event_lx事件被重新设置
+			if(event_lx==-1)
+			{
+				
+				LXOpenWaitStat=1;
+				event_lx=window.setTimeout("StopAllVideoLXLoop()",LXWaitTime*1000);
+			}
+		}
+	}
+	//必须放在最后
+	ProcessMsg("VideoTask",OpenCloseVideoTask);
+
+	
+}
+
+
+</SCRIPT>
+<script language="JavaScript">
+	
+
+
+
+
+function AddOrReleaseEvent()
+{
+
+
+}
+
+
+
+
+var openVideo="";
+//关闭所有窗口的监视
+function StopAllMonitor()
+{
+//	alert("aa");
+	OpenCloseVideoTask.ClearMsgList();
+	for(var i=0;i<msp;i++)
+	{
+		//为了防止出现GetVideoState的状态与该窗口bUseing状态不一致（导致不一致的原因可能是：WEB调用了打开监视的接口，但没有收到OCX相应的事件）
+
+		if(AllVWObj[i].bUseing==1)
+		{
+			stopvideobychannel(i);
+		}
+		
+	}
+	
+}
+
+
+
+function SetFocusCameraByCameraID(CameraID)
+{
+	var CameraIDArr=CameraID.split("-");
+	CameraID=CameraIDArr[0];
+		
+	var n=AllCameraObj.qao(CameraID,"CameraID");
+	if(n==-1){return false;}
+	var CameraType=AllCameraObj[n].CameraType;
+	var IPCCameraType=AllCameraObj[n].IPCCameraType;
+
+	//仅红外
+	if(CameraType=='0')
+	{
+		var DevID=CameraID+"_0";
+	}
+	//仅可见光
+	else if(CameraType==1)
+	{
+		var DevID=CameraID+"_1";
+	}
+	//红外+可见光
+	else if(CameraType==2)
+	{
+		var DevID=CameraID+"_0";
+	}
+	
+	var s=AllVWObj.qao(DevID,"DevID");
+	if(s==-1){return false;}
+	
+	if(AllVWObj[s].bUseing==1)
+	{
+		vwdrawfocus(1,s);
+		vwdrawfocus(0,oi);
+		poi=oi;//重新记录当前焦点框ID
+		oi=s;
+	}
+
+}
+
+
+
+
+
+var MeasureJpgHeight="";
+var MeasureJpgWidth="";
+//用于点，区域测温时，计算实际覆盖层图片的尺寸
+var RealJpgHeight="";
+var RealJpgWidth="";
+
+var MeasureJPGEvent="";
+function EnterMeasureMode()
+{
+	var m=AllCameraObj.qao(CameraIDNow,"CameraID");
+	if(m==-1){return false;}
+	
+
+	var IFRCameraType=AllCameraObj[m].IFRCameraType;
+	var CameraType=AllCameraObj[m].CameraType;
+
+	if(CameraType==1)
+	{
+		alert("当前设备仅包含可见光摄像机，无法进行测温！");
+		return false;
+	}
+	
+	//红外图像
+	var DevID=CameraIDNow+"_0";
+	
+	var n=AllVWObj.qao(DevID,"DevID");
+	if(n==-1){alert("请先打开当前设备的红外视频监视！");return false;}
+	if(AllVWObj[n].bUseing=='0'){alert("请先打开当前设备的红外视频监视！");return false;}
+
+
+//alert("IFRCameraType="+IFRCameraType);
+	//dm63
+	if(IFRCameraType==0||IFRCameraType==10)
+	{
+		MeasureJpgWidth=320;
+		MeasureJpgHeight=240;
+
+	}
+	//dm10
+	else if(IFRCameraType==1||IFRCameraType==13)
+	{
+		MeasureJpgWidth=160;
+		MeasureJpgHeight=120;
+	}
+	//dm66
+	else if(IFRCameraType==2||IFRCameraType==8||IFRCameraType==12||IFRCameraType==15||IFRCameraType==17||IFRCameraType==18)
+	{
+		MeasureJpgWidth=640;
+		MeasureJpgHeight=480;
+	}
+	else if(IFRCameraType==3)
+	{
+		MeasureJpgWidth=640;
+		MeasureJpgHeight=512;
+	}
+	else if(IFRCameraType==4)
+	{
+		MeasureJpgWidth=696;
+		MeasureJpgHeight=480;
+	}
+	else if(IFRCameraType==5||IFRCameraType==25)
+	{
+		MeasureJpgWidth=320;
+		MeasureJpgHeight=240;
+	}
+	else if(IFRCameraType==6)
+	{
+		MeasureJpgWidth=360;
+		MeasureJpgHeight=180;
+	}
+	else if(IFRCameraType==7)
+	{
+		MeasureJpgWidth=280;
+		MeasureJpgHeight=180;
+	}
+	else if(IFRCameraType==8)
+	{
+		MeasureJpgWidth=640;
+		MeasureJpgHeight=480;
+	}
+	else if(IFRCameraType==9||IFRCameraType==14)
+	{
+		MeasureJpgWidth=384;
+		MeasureJpgHeight=288;
+	}
+	else if(IFRCameraType==11)
+	{
+		MeasureJpgWidth=1920;
+		MeasureJpgHeight=1080;
+	}
+	ScaleY=MaxY/MeasureJpgHeight;
+	ScaleX=MaxX/MeasureJpgWidth;
+
+//alert("ScaleY="+ScaleY+"\r\n ScaleX="+ScaleX);
+	BeforeMeasureSplit=spn;
+	
+	vwsplit(1,2);
+	
+	$_("measureDivWrap").style.display=DisBlock;
+	var jpg_url=AllVWObj[n].jpg_url;
+//alert("url="+jpg_url);	
+	clearInterval(MeasureJPGEvent);
+	//alert("jpg_url="+jpg_url);
+	//VD641获取图片也要带上sessionid
+	if(IFRCameraType==18){
+		GetDM641Picture();
+	}else{
+		clearInterval(MeasureJPGEvent);
+		MeasureJPGEvent=setInterval(function(){setbgimg(jpg_url);}, 500);
+	}
+}
+
+//VD641的红外摄像机获取图片
+var xmlGetDM641Picture="";
+function GetDM641Picture()
+{
+	var m=AllCameraObj.qao(window.parent.CameraInfo.CameraID,"CameraID");
+	if(m==-1){return false;}
+	
+
+	var IFRCameraType=AllCameraObj[m].IFRCameraType;
+	var IFRCameraIP=AllCameraObj[m].IFRCameraIP;
+	var IFRCameraHttpPort=AllCameraObj[m].IFRCameraHttpPort;
+	var IFRCameraUser=AllCameraObj[m].IFRCameraUser;
+	var IFRCameraPass=AllCameraObj[m].IFRCameraPass;
+	var CGITopAddress="http://"+IFRCameraIP+":"+IFRCameraHttpPort;
+
+	xmlGetDM641Picture=createXMLHttpRequest();
+	try
+	{
+		var url = "ajax/DM641cgipost.php?type=GetPicture&CGIurl="+CGITopAddress+ "&Name="+IFRCameraUser+"&Pass="+ IFRCameraPass+"&IFRCameraIP="+IFRCameraIP+"&IFRCameraHttpPort="+ IFRCameraHttpPort;
+
+//				console.log("url="+url);
+		xmlGetDM641Picture.onreadystatechange=function(){GetDM641PictureRes(IFRCameraType)};
+		xmlGetDM641Picture.open("GET", url, true);
+		xmlGetDM641Picture.send(null);
+
+	}
+	catch(e){
+		AddSystemAlarmInfo(LCameraOffline);
+	}
+
+}
+
+
+function GetDM641PictureRes(IFRCameraType)
+{
+	if(xmlGetDM641Picture.readyState == 4)
+	{
+		if(xmlGetDM641Picture.status == 200)
+		{
+			
+			var s=xmlGetDM641Picture.responseText;
+			clearInterval(MeasureJPGEvent);
+			MeasureJPGEvent = window.setTimeout(GetDM641Picture, 500);
+//			console.log("s="+s);
+			if(s =="")
+			{
+				return;
+			}
+			var httphost = this.location.href;
+            var n = httphost.indexOf("/dalirobot");
+            httphost = httphost.substring(0, n);
+			$_("measureImg").src=httphost+s+ "?randnum=" + Math.floor(Math.random() * 100000);
+
+		}
+	}
+}
+
+
+
+
+
+
+
+function setbgimg(picpath)
+{
+	//加个随机数，是为了避免浏览器缓存不刷新
+	var picpath=picpath+"&randnum="+Math.floor(Math.random()*100000);
+	
+	//WriteRemoteFile_(picpath);
+	//alert("picpath="+picpath);
+	$_("measureImg").src=picpath;
+
+}
+
+function ExitMeasureMode()
+{
+	clearInterval(MeasureJPGEvent);
+	$_("measureDivWrap").style.display="none";
+	vwsplit(BeforeMeasureSplit,1);
+	BeforeMeasureSplit=-1;
+}
+
+//红外图片上，画方框时，鼠标左边起始坐标
+var MouseDivLeftInitValue=0;
+//用于鼠标在IPC控件上滚动时，计算控件中心点的坐标
+var IPCOcxCenterX=0;
+var IPCOcxCenterY=0;
+function ResizeMeasureDiv(w,h)
+{
+	//alert("w="+w+"\r\n h="+h);
+	RealJpgHeight=h;
+	RealJpgWidth=w;
+
+	$_("measureDivWrap").style.height=h+"px";
+	$_("measureDivWrap").style.width=w+"px";
+
+	$_("measureDivWrap").style.top="0px";
+	$_("measureDivWrap").style.left="0px";
+
+	$_("measureimgdiv").style.height=h+"px";
+	$_("measureimgdiv").style.width=w+"px";
+	MouseDivLeftInitValue=0;
+	IPCOcxCenterX=w/2;
+	IPCOcxCenterY=h/2;
+	
+	
+	MaxY=h;
+	MaxX=w;
+	
+	
+}
+
+
+function CloseMeasureDiv()
+{
+	
+	ExitMeasureMode();
+
+	
+	window.parent.frames["robotcontrolifr"].CloseMeasureDiv();
+
+}
+
+//鼠标右键按下标记
+var MouseRightDownFlag=0;
+//鼠标左键按下标记
+var MouseLeftDownFlag=0;
+function MeaseurMouseDown()
+{
+	if(event.button==ButtonKeyLeft)
+	{
+		MouseLeftDownFlag=1;
+		MouseDivDown();		
+	}
+	else if(event.button==ButtonKeyRight)
+	{
+		MouseRightDownFlag=1;	
+	}	
+}
+
+
+var MotionDetectMouseResizeDiv="";
+function resizeObject()
+{
+	this.el        = null; //pointer to the object
+	this.dir    = "";      //type of current resize (n, s, e, w, ne, nw, se, sw)
+	this.grabx = null;     //Some useful values
+	this.graby = null;
+	this.width = null;
+	this.height = null;
+	this.left = null;
+	this.top = null;
+}
+
+
+var dir="";
+var MouseDragBeginX="";
+var MouseDragBeginY="";
+var MouseDragEndX="";
+var MouseDragEndY="";
+
+function MouseDivMove()
+{	
+
+
+	//Dragging starts here
+	if(MotionDetectMouseResizeDiv != null)
+	{
+
+		if(dir.indexOf("e") != -1)
+		{
+
+				var width = Math.max(1, Math.abs(MotionDetectMouseResizeDiv.width + window.event.clientX - MotionDetectMouseResizeDiv.grabx)) ;
+				var right = width + parseInt(MotionDetectMouseResizeDiv.el.style.left);
+				//if( right > $_(idstr+"_imgAreaForMotionDetect").width){MotionDetectMouseResizeDiv.el.style.width = $_(idstr+"_imgAreaForMotionDetect").width - MotionDetectMouseResizeDiv.el.style.left +"px";}
+				//else{
+				//if(width > MaxX*ScaleX){width=MaxX*ScaleX;}
+
+				//
+				//if(width > 5000){width=5000;}
+				//alert("width="+width);	
+					MotionDetectMouseResizeDiv.el.style.width = width + "px";
+
+
+			//	}
+		}
+
+		if(dir.indexOf("s") != -1)
+		{
+			var height = Math.max(1, Math.abs(MotionDetectMouseResizeDiv.height + window.event.clientY - MotionDetectMouseResizeDiv.graby)) ;
+			var bottom = height + parseInt(MotionDetectMouseResizeDiv.el.style.top);
+			//if(bottom > $_(idstr+"_imgAreaForMotionDetect").height){MotionDetectMouseResizeDiv.el.style.height = $_(idstr+"_imgAreaForMotionDetect").height - MotionDetectMouseResizeDiv.el.style.top + "px" ;}
+			//else{
+			//if(height > MaxY*ScaleY){height=MaxY*ScaleY;}
+			if(height > MaxY){height=MaxY;}
+				MotionDetectMouseResizeDiv.el.style.height = height + "px";
+				
+			//	}
+		}
+		if(dir.indexOf("w") != -1)
+		{
+			var left = Math.min(MotionDetectMouseResizeDiv.left + window.event.clientX - MotionDetectMouseResizeDiv.grabx, MotionDetectMouseResizeDiv.left + MotionDetectMouseResizeDiv.width - 1);
+			var width = Math.max(1, Math.abs(MotionDetectMouseResizeDiv.width - window.event.clientX + MotionDetectMouseResizeDiv.grabx)) ;
+			
+			left=left-MouseDivLeftInitValue;
+			if( left < 0)
+			{
+				MotionDetectMouseResizeDiv.el.style.width = width+"px";
+				MotionDetectMouseResizeDiv.el.style.left = "0px";
+			}
+			else
+			{
+				 MotionDetectMouseResizeDiv.el.style.left = left+ "px";
+				 MotionDetectMouseResizeDiv.el.style.width = width+"px";
+			}
+		}
+		if(dir.indexOf("n") != -1)
+		{
+			var top = Math.min(MotionDetectMouseResizeDiv.top + window.event.clientY - MotionDetectMouseResizeDiv.graby, MotionDetectMouseResizeDiv.top + MotionDetectMouseResizeDiv.height - 1) ;
+			var height = Math.max(1, Math.abs(MotionDetectMouseResizeDiv.height - window.event.clientY + MotionDetectMouseResizeDiv.graby)) ;
+			if( top < 0)
+			{
+				MotionDetectMouseResizeDiv.el.style.height = height+"px";
+				MotionDetectMouseResizeDiv.el.style.top = "0px";
+			}
+			else
+			{
+				MotionDetectMouseResizeDiv.el.style.top = top + "px"
+				MotionDetectMouseResizeDiv.el.style.height = height+"px";
+			}
+		}
+
+
+		//alert("left="+left+" \r\n top="+top+" \r\n width="+width+" \r\n height="+height);
+		var nowWidth= 0;
+		nowWidth = parseInt(MotionDetectMouseResizeDiv.el.style.width);
+		if(nowWidth<1){MotionDetectMouseResizeDiv.el.style.width = 1 + "px";}
+		var nowHeight = 0;
+		nowHeight = parseInt(MotionDetectMouseResizeDiv.el.style.height);
+		if(nowHeight<1){MotionDetectMouseResizeDiv.el.style.height = 1 + "px";}
+
+		window.event.returnValue = false;
+		window.event.cancelBubble = true;
+	}
+}
+
+function MouseDivDown()
+{
+	//var ev= window.event;
+	//var MouserPos=mouseCoords(ev);
+	//measureImg相对于整个页面的位置
+	var ImgPos=findPosition($_("measureImg"));
+
+	var scrollTop=Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+	var scrollLeft=Math.max(document.documentElement.scrollLeft, document.body.scrollLeft);
+
+
+	MouseDragBeginX=parseInt(event.clientX+scrollLeft-ImgPos.xlt);
+	MouseDragBeginY=parseInt(event.clientY+scrollTop-ImgPos.ylt);
+
+
+	//MouseDragBeginX=parseInt(parseInt(event.clientX+scrollLeft-ImgPos.xlt)/ScaleX);
+	//MouseDragBeginY=parseInt(parseInt(event.clientY+scrollTop-ImgPos.ylt)/ScaleY);
+
+//	alert("MouseDragBeginX="+MouseDragBeginX+"\r\n MouseDragBeginY="+MouseDragBeginY+"\r\n scrollLeft="+scrollLeft+"\r\n scrollTop="+scrollTop+"\r\n event.clientX="+event.clientX+"\r\n event.clientY="+event.clientY+"\r\n ImgPos.x="+ImgPos.xlt+"\r\n ImgPos.y="+ImgPos.ylt+" \r\n MaxX="+MaxX+" \r\n MaxY="+MaxY+" \r\n MeasureJpgHeight="+MeasureJpgHeight+" \r\n MeasureJpgWidth="+MeasureJpgWidth+" \r\n RealJpgHeight="+RealJpgHeight+" \r\n RealJpgWidth="+RealJpgWidth+" \r\n ScaleY="+ScaleY+" \r\n ScaleX="+ScaleX);
+
+
+
+
+	$_("MouseDiv").style.width="0px";
+
+	$_("MouseDiv").style.height="0px";
+
+	dir="sewn";
+
+	//alert("scrollTop="+scrollTop+" \r\n window.pageYOffset="+window.pageYOffset+" \r\n document.body.scrollLeft="+document.body.scrollLeft+" \r\n document.body.scrollTop="+document.body.scrollTop+" \r\n document.body.clientHeight="+document.body.clientHeight);
+
+
+	var Sx = event.clientX+scrollLeft;
+	var Sy = event.clientY+scrollTop;
+	if( Sx < 0 ) Sx = 0;
+	
+	if( Sy < 0 ) Sy = 0;
+
+	//鼠标框的起始位置（相对其容器来说）
+	$_("MouseDiv").style.left = Sx+"px";
+	$_("MouseDiv").style.top = Sy+"px";
+
+	MotionDetectMouseResizeDiv = new resizeObject();
+	MotionDetectMouseResizeDiv.el = $_("MouseDiv");
+	MotionDetectMouseResizeDiv.dir = dir;
+	MotionDetectMouseResizeDiv.grabx = window.event.clientX;
+	MotionDetectMouseResizeDiv.graby = window.event.clientY;
+	//MotionDetectMouseResizeDiv.width = $_("MouseDiv").offsetWidth;
+	//MotionDetectMouseResizeDiv.height = $_("MouseDiv").offsetHeight;
+	MotionDetectMouseResizeDiv.width = 0;
+	MotionDetectMouseResizeDiv.height = 0;
+	MotionDetectMouseResizeDiv.left = $_("MouseDiv").offsetLeft;
+	MotionDetectMouseResizeDiv.top = $_("MouseDiv").offsetTop;
+
+
+
+	if($_("MouseDiv").setCapture)
+	{
+		$_("MouseDiv").setCapture();
+		$_("MouseDiv").addEventListener("mousemove", MouseDivMove,true);
+
+	}
+	else if ($_("MouseDiv").addEventListener)
+	{
+		document.addEventListener("mousemove", MouseDivMove,true);
+
+	}
+	else if ($_("MouseDiv").attachEvent)
+	{
+		document.attachEvent("mousemove", MouseDivMove);
+
+	}
+	else if(window.captureEvents)
+	{
+		window.captureEvents(Event.MOUSEMOVE|Event.MOUSEUP|Event.MOUSEOVER|Event.MOUSEOUT);
+	}
+
+
+	window.event.returnValue = false;
+	window.event.cancelBubble = true;
+
+
+}
+
+function MouseDivUp()
+{
+	var ImgPos=findPosition($_("measureImg"));
+	var scrollTop=Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+	var scrollLeft=Math.max(document.documentElement.scrollLeft, document.body.scrollLeft);
+
+	//MouseDragEndX=parseInt(parseInt(event.clientX+scrollLeft-ImgPos.xlt)/ScaleX);
+	//MouseDragEndY=parseInt(parseInt(event.clientY+scrollTop-ImgPos.ylt)/ScaleY);
+
+	MouseDragEndX=parseInt(event.clientX+scrollLeft-ImgPos.xlt);
+	MouseDragEndY=parseInt(event.clientY+scrollTop-ImgPos.ylt);
+
+	if(MouseDragEndX<MouseDragBeginX)
+	{
+		var temp1=MouseDragBeginX;
+		var temp2=MouseDragBeginY;
+		MouseDragBeginX=MouseDragEndX;
+		MouseDragEndX=temp1;
+		MouseDragBeginY=MouseDragEndY;
+		MouseDragEndY=temp2;
+	}
+
+	//alert("11 MouseDragBeginX="+MouseDragBeginX+" \r\n MouseDragBeginY="+MouseDragBeginY+" \r\n MouseDragEndX="+MouseDragEndX+" \r\n MouseDragEndY="+MouseDragEndY+" \r\n ScaleX="+ScaleX+" \r\n ScaleY="+ScaleY);
+	
+	MouseDragBeginX=parseInt(MouseDragBeginX/ScaleX);
+	MouseDragEndX=parseInt(MouseDragEndX/ScaleX);
+	MouseDragBeginY=parseInt(MouseDragBeginY/ScaleY);
+	MouseDragEndY=parseInt(MouseDragEndY/ScaleY);
+	
+//	alert("22 MouseDragBeginX="+MouseDragBeginX+" \r\n MouseDragBeginY="+MouseDragBeginY+" \r\n MouseDragEndX="+MouseDragEndX+" \r\n MouseDragEndY="+MouseDragEndY+" \r\n ScaleX="+ScaleX+" \r\n ScaleY="+ScaleY);
+	
+	
+	window.parent.frames["robotcontrolifr"].MeasureExec(MouseDragBeginX,MouseDragBeginY,MouseDragEndX,MouseDragEndY);
+	MouseLeftDownFlag=0;
+
+
+
+
+	if($_("MouseDiv").releaseCapture)
+	{
+		$_("MouseDiv").releaseCapture();
+		$_("MouseDiv").removeEventListener("mousemove",MouseDivMove,true);
+
+	}
+	else if ($_("MouseDiv").removeEventListener)
+	{
+		document.removeEventListener("mousemove",MouseDivMove,true);
+
+	}
+	else if ($_("MouseDiv").detachEvent)
+	{
+
+		document.detachEvent("mousemove",MouseDivMove);
+
+	}
+	else if(window.releaseEvents)
+	{
+		window.releaseEvents(Event.MOUSEMOVE|Event.MOUSEUP|Event.MOUSEOVER|Event.MOUSEOUT);
+	}
+
+
+	//鼠标弹起
+	if (MotionDetectMouseResizeDiv != null){MotionDetectMouseResizeDiv = null;}
+	//鼠标选择框复位
+	$_("MouseDiv").style.width="0px";
+	$_("MouseDiv").style.height="0px";
+	$_("MouseDiv").style.left = 0+"px";
+	$_("MouseDiv").style.top = 0+"px";
+	
+	return;
+}
+
+
+</SCRIPT>
+</head>
+
+<body onload='init();' onresize="resizepage(0);"  onbeforeunload="UnloadPage();" onUnload="Unload();">
+
+
+<div class="downleftoutside" id="realplay_ocx_div" style="display:block;">
+<div id="vwmain" class="downleft">			
+<div id="vwdiv" class="flow_" >
+	
+	
+		
+						
+	<div id="measureDivWrap" style="position:absolute;z-index:100;left:0px;top:0px;height:110px;width:110px;border:0px #ff0000 solid;display:none;">
+		<iframe class="blankif" src="about:blank" style="height:100%;width:100%;" allowtransparency="true" style="background-color:transparent"></iframe>
+
+		<div onclick="CloseMeasureDiv();" style="z-index:103;cursor:pointer;position:absolute;height:16px;width:16px;right:10px;top:10px;background: url(img/delpreset_nor.png) no-repeat  center center;"></div>
+		<div style="position:relative;z-index:102;">
+			<div id="measureimgdiv" style="position:relative;margin:0px auto;height:480px;width:640px;border:1px #ff0000 solid;">
+				<img id="measureImg" style="height:100%;width:100%;" src="img/blank.gif" onmousedown="MeaseurMouseDown();">
+				
+				
+				</div>
+		</div>
+		
+		<div id="MouseDiv" style="background-color:#FFF5F0 ; LEFT: 0px; width:0px; height:0px;position:absolute; z-index:105; WIDTH: 0px; HEIGHT: 0px; TOP: 0px; border:1px dashed #0099FF;background-color:#C3D5ED;opacity: 0.65;" onMouseUp="MouseDivUp()"></div>
+		
+	</div>
+	
+	
+	<script language="javascript">
+	for(var i=0;i<MAX_SPLIT;i++)
+	{
+		document.write("<div class='item_' id=o"+i+"_layer  onclick='setoi("+i+",1)'  ondblclick='maxControl("+i+")'>");
+		document.write("<iframe src="+videoUrl + ":" + (nginxPort+parseInt(i/6)) + "/video0.html name='video" + i + "' id='o" + i + "' frameborder='1' scrolling='no' style='pointer-events:none'></iframe>");
+		
+		document.write("</div>\n");
+		
+	}
+	
+	
+	
+
+	</script>
+</div>
+</div>
+</div>
+
+
+</BODY></HTML>

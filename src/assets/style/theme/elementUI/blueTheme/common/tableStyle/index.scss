@@ -1,0 +1,107 @@
+// 透明背景，header 无 border，内容有 border
+@mixin table-style1($base-color, $header-font-color: #82c3ff, $row-td-border: 0) {
+  background-color: transparent;
+
+  &::before {
+    background-color: $base-color !important;
+  }
+
+  .el-table--fit {
+    border: 0.1rem solid $base-color !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+  }
+  :deep(.el-table__row) {
+    td {
+      &:first-child {
+        border-left: $row-td-border;
+      }
+    }
+    &:first-child {
+      td {
+        &:first-child {
+          border-left: 0.1rem solid $base-color !important;
+        }
+      }
+    }
+  }
+  :deep(th) {
+    background-color: $base-color !important;
+  }
+  :deep(td) {
+    border-right: 0.1rem solid $base-color !important;
+    border-bottom: 0.1rem solid $base-color !important;
+    background-color: transparent !important;
+  }
+  :deep(tr) {
+    background-color: transparent !important;
+  }
+
+  :deep(.el-table__header) {
+    .el-table__cell {
+      .cell {
+        color: $header-font-color;
+      }
+    }
+  }
+
+  :deep(.el-table__body) {
+    width: 100% !important;
+    // height: 100%;
+  }
+  :deep(.el-table__body-wrapper) {
+    background-color: transparent !important;
+  }
+}
+// 透明背景，header 无 border，内容只有底部有 border
+@mixin table-style2($base-color, $header-font-color: #82c3ff) {
+  background-color: transparent;
+
+  &::before {
+    background-color: $base-color !important;
+  }
+
+  .el-table--fit {
+    border: 0.1rem solid $base-color !important;
+    border-right: 0 !important;
+    border-bottom: 0 !important;
+    border-left: 0 !important;
+  }
+  :deep(.el-table__row) {
+    td {
+      &:first-child {
+        border-left: 0.3rem solid $base-color !important;
+      }
+      &:last-child {
+        border-right: 0.3rem solid $base-color !important;
+      }
+    }
+  }
+  :deep(th) {
+    background-color: $base-color !important;
+  }
+  :deep(td) {
+    border-bottom: 0.3rem solid $base-color !important;
+    background-color: transparent !important;
+  }
+  :deep(tr) {
+    background-color: transparent !important;
+  }
+
+  :deep(.el-table__header) {
+    .el-table__cell {
+      .cell {
+        color: $header-font-color;
+      }
+    }
+  }
+
+  :deep(.el-table__body) {
+    width: 100% !important;
+    // height: 100%;
+  }
+  :deep(.el-table__body-wrapper) {
+    background-color: transparent !important;
+  }
+}

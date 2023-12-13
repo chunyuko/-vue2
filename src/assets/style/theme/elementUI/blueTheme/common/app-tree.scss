@@ -1,0 +1,28 @@
+#app {
+  .el-tree {
+    background-color: transparent;
+    color: #606266;
+    .custom-tree-node {
+      // margin-left: 6px;
+    }
+    .el-tree-node__content {
+      &:hover {
+        // background-color: #2c4a7e;
+      }
+    }
+
+    .el-tree-node {
+      &.is-current {
+        & > .el-tree-node__content {
+          // background-color: #0f47a9;
+        }
+      }
+
+      &:focus {
+        & > .el-tree-node__content {
+          // background-color: #0f47a9;
+        }
+      }
+    }
+  }
+}

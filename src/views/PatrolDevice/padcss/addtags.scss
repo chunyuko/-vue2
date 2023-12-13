@@ -1,0 +1,114 @@
+
+.operatBtn {
+  margin-left: 80%;
+  margin-top: 0rem;
+  font-size: 1.4rem;
+}
+.uploadImg {
+  width: 16%;
+  margin: 0 3rem;
+  margin-top: 2rem;
+}
+.uploadImg span {
+  display: inline-block;
+  padding: 2.5rem 0.8rem;
+  box-sizing: border-box;
+  font-size: 1.4rem;
+}
+.el-form {
+  position: relative;
+}
+.isTittle {
+  width: 14.7rem;
+  height: 3.7rem;
+  border-radius: 1.8rem;
+  background-color: #1562ac;
+  position: absolute;
+  text-align: center;
+  padding-top: 1rem;
+  columns: #fff;
+  box-sizing: border-box;
+  left: 46%;
+  top: -4rem;
+  font-size: 1.6rem;
+  color: #fff;
+}
+.isLine {
+  border-top: 0.2rem solid #1562ac;
+  margin: 3rem 1rem;
+  margin-top: 4.2rem;
+  margin-bottom: 1.2rem;
+}
+.titleIs {
+  width: 131.5rem;
+  height: 4.8rem;
+  background-color: #1562ac;
+  color: #fff;
+  font-size: 1.4rem;
+  box-sizing: border-box;
+  padding: 1.2rem 2rem;
+}
+.demonstration {
+  width: 8.2rem;
+  color: #fff;
+  line-height: 3.6rem;
+  font-size: 1.4rem;
+  text-align: right;
+  vertical-align: middle;
+  box-sizing: border-box;
+  margin-left: 2.7rem;
+  margin-right: 1rem;
+}
+:deep(.el-button.el-button--default) {
+  margin-right: 0rem;
+  background-color: #409eff;
+  color: #fff;
+  border: 0;
+  width: 9.3rem;
+  height: 4.4rem;
+  background-color: #1890ff;
+  border-radius: 0.3rem;
+  border: solid 0.1px #0a437c;
+  margin-top: -3.8rem;
+}
+:deep(.el-button.el-button--primary) {
+  width: 8.3rem;
+  height: 4.3rem;
+  background-color: #1890ff;
+  border-radius: 0.3rem;
+  border: solid 0.1px #0a437c;
+}
+:deep(.el-input__inner) {
+  /*width: 15rem !important;*/
+  /*max-height: 3rem !important;*/
+  line-height: 1rem;
+}
+:deep(.iconfont) {
+  font-family: 'iconfont' !important;
+  font-size: 0.2rem;
+  font-style: normal;
+  color: #687f97;
+  position: absolute;
+  left: 1.2rem;
+}
+:deep(.el-input--prefix .el-input__inner) {
+  padding-left: 1.5rem;
+  margin-top: 0.1rem;
+}
+:deep(.el-form-item__content) {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 2.1rem !important;
+  margin-top: 1.7rem;
+  .el-form-item__label {
+    margin-top: 2rem;
+    line-height: 1.4rem;
+    box-sizing: border-box;
+    padding-top: 0.8rem;
+    padding-left: 0rem;
+    height: 3rem;
+  }
+}
+:deep(.el-form-item) {
+  margin-bottom: -1rem;
+}
