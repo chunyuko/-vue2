@@ -7,7 +7,7 @@ export function getUrlRequest() {
     const paraObj = {}
     const arrUrl = url.split('?')
     const para = arrUrl[1]
-    let strs = para.split('&')
+    const strs = para.split('&')
 
     for (let i = 0; i < strs.length; i++) {
       paraObj[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
@@ -16,4 +16,14 @@ export function getUrlRequest() {
     return paraObj
   }
   return {}
+}
+export function curry(fn) {
+  return function curried(...args) {
+    if (args.length >= fn.length) {
+      return fn.apply(this, args)
+    }
+    return function (...moreArgs) {
+      return curried.apply(this, args.concat(moreArgs))
+    }
+  }
 }
